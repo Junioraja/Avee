@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Avee Premium Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <script>
+        // Konfigurasi Tailwind (Sama seperti index.html)
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-blue': '#C8E6F7',
+                        'deep-blue': '#2563EB',
+                        'light-bg': '#F0F8FF',
+                        'card-bg': '#FFFFFF',
+                        'text-primary': '#1F2937',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F8FF;
+        }
+        html.dark body {
+            background-color: #111827;
+        }
+        /* Menyembunyikan view yang tidak aktif */
+        .admin-view {
+            display: none;
+        }
+        .admin-view.active {
+            display: block;
+        }
+        /* Style untuk modal */
+        .modal {
+            display: none;
+        }
+        .modal.flex {
+            display: flex;
+        }
+        /* Scrollbar kustom untuk tabel */
+        .table-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        html.dark .table-container::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+    </style>
+</head>
+
+<body class="antialiased text-text-primary dark:text-gray-200">
+
+    <div id="notification-container" class="fixed top-4 right-4 z-[100]"></div>
+
+    <div class="flex h-screen">
+        
+        <nav class="w-64 bg-white dark:bg-gray-800 shadow-lg flex flex-col z-10">
+            <div class="flex items-center justify-center h-16 border-b dark:border-gray-700 px-4">
+                <i data-lucide="shield-check" class="text-blue-600"></i>
+                <h1 class="text-xl font-bold ml-2 text-blue-700 dark:text-blue-400">Avee Admin</h1>
+            </div>
+
+            <ul class="flex-1 mt-4 space-y-2 px-4">
+                <li>
+                    <a href="#" onclick="showView('dashboard-view', this)" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 bg-blue-100 dark:bg-gray-700 font-medium">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5 mr-3"></i>
+                        Dashboard Keuangan
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showView('orders-view', this)" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 font-medium">
+                        <i data-lucide="list-ordered" class="w-5 h-5 mr-3"></i>
+                        List Pesanan
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showView('products-view', this)" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 font-medium">
+                        <i data-lucide="archive" class="w-5 h-5 mr-3"></i>
+                        Katalog Produk (CRUD)
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showView('users-view', this)" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 font-medium">
+                        <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+                        Manajemen Pengguna
+                    </a>
+                </li>
+            </ul>
+
+            <div class="p-4 border-t dark:border-gray-700">
+                <a href="index.html" class="flex items-center px-4 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium">
+                    <i data-lucide="arrow-left-circle" class="w-5 h-5 mr-2"></i>
+                    Kembali ke Toko
+                </a>
+                <button onclick="handleLogout()" class="mt-2 w-full flex items-center justify-center px-4 py-3 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-900/50 dark:text-red-400 dark:hover:bg-red-900 text-sm font-medium">
+                    <i data-lucide="log-out" class="w-5 h-5 mr-2"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-white/5 dark:bg-gray-900/50">
+
+            <div id="dashboard-view" class="admin-view active">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Dashboard Keuangan</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Pendapatan (Selesai)</span>
+                            <i data-lucide="dollar-sign" class="text-green-500"></i>
+                        </div>
+                        <p id="stat-total" class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">Rp0</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Pesanan Selesai</span>
+                            <i data-lucide="check-circle" class="text-blue-500"></i>
+                        </div>
+                        <p id="stat-completed" class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">0</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Pesanan Pending</span>
+                            <i data-lucide="loader" class="text-yellow-500"></i>
+                        </div>
+                        <p id="stat-pending" class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Grafik Pendapatan (7 Hari Terakhir)</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">(Data dummy. API backend untuk ini perlu dibuat)</p>
+                    <canvas id="finance-chart"></canvas>
+                </div>
+            </div>
+
+            <div id="orders-view" class="admin-view">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">List Pesanan</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                    <div id="orders-table-container" class="overflow-x-auto table-container">
+                        </div>
+                </div>
+            </div>
+
+            <div id="products-view" class="admin-view">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">Katalog Produk (Paket)</h2>
+                    <button onclick="openProductModal(null)" class="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+                        <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
+                        Tambah Produk Baru
+                    </button>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                    <div id="products-table-container" class="overflow-x-auto table-container">
+                        </div>
+                </div>
+            </div>
+
+            <div id="users-view" class="admin-view">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Manajemen Pengguna</h2>
+                 <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                    <div id="users-table-container" class="overflow-x-auto table-container">
+                        </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="product-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 items-center justify-center p-4 z-[70] transition-opacity duration-300 opacity-0 hidden" onclick="closeProductModal(event)">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center p-6 border-b dark:border-gray-700">
+                <h2 id="product-modal-title" class="text-2xl font-bold text-deep-blue dark:text-blue-400">Tambah Produk Baru</h2>
+                <button onclick="closeProductModal()" class="p-2 text-gray-500 hover:text-red-500 transition rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i data-lucide="x" class="w-6 h-6 dark:text-gray-400"></i>
+                </button>
+            </div>
+            
+            <form id="product-form" onsubmit="handleProductSubmit(event)" class="p-6 space-y-4">
+                <input type="hidden" id="product-id">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="product-app-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama Aplikasi (Grup)</label>
+                        <input type="text" id="product-app-name" placeholder="Contoh: Netflix, Canva" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                    <div>
+                        <label for="product-data-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori</label>
+                        <input type="text" id="product-data-category" placeholder="Contoh: Hiburan, Kreatifitas" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="product-package-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama Paket</label>
+                        <input type="text" id="product-package-name" placeholder="Contoh: Sharing 1P1U" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                    <div>
+                        <label for="product-duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Durasi</label>
+                        <input type="text" id="product-duration" placeholder="Contoh: 1 Bulan, 7 Hari" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                     <div>
+                        <label for="product-code" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kode Produk (WAJIB)</label>
+                        <input type="text" id="product-code" placeholder="Contoh: nf1b (Unique)" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label for="product-purchase-price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Harga Beli (Modal)</label>
+                        <input type="number" id="product-purchase-price" placeholder="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                     <div>
+                        <label for="product-price" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Harga Jual</label>
+                        <input type="number" id="product-price" placeholder="10000" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                    <div>
+                        <label for="product-discount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Diskon (%)</label>
+                        <input type="number" id="product-discount" placeholder="0" value="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                    <div>
+                        <label for="product-stock" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stok</label>
+                        <input type="number" id="product-stock" placeholder="10" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="product-logo-url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Logo</label>
+                        <input type="text" id="product-logo-url" placeholder="https://..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                    <div>
+                        <label for="product-banner-url" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Banner</label>
+                        <input type="text" id="product-banner-url" placeholder="https://..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="product-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi Paket (Info di Modal Beli)</label>
+                    <textarea id="product-description" rows="3" placeholder="Info detail tentang paket ini..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"></textarea>
+                </div>
+                
+                <div class="pt-4 flex justify-end space-x-3 border-t dark:border-gray-700">
+                    <button type="button" onclick="closeProductModal()" class="py-2 px-4 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition duration-200 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">
+                        Batal
+                    </button>
+                    <button type="submit" id="product-submit-btn" class="py-2 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // ====== [JAVASCRIPT LENGKAP UNTUK admin.html] ======
+
+        // URL API Backend Anda
+        const API_BASE_URL = 'http://localhost:3000/api';
+        let adminToken = null; // Token akan disimpan di sini
+        let financeChart = null; // Variabel untuk menyimpan instance Chart.js
+
+        // --- HELPER FUNCTIONS ---
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+
+        /**
+         * Wrapper Fetch API untuk otomatis menambahkan Token Auth Admin
+         */
+        async function fetchWithAuth(url, options = {}) {
+            if (!adminToken) {
+                console.error("Token admin tidak ditemukan.");
+                handleLogout(); // Paksa logout jika token hilang
+                return;
+            }
+
+            // Siapkan header
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${adminToken}`,
+                ...options.headers,
+            };
+
+            try {
+                const response = await fetch(url, { ...options, headers });
+
+                if (response.status === 401 || response.status === 403) {
+                    // Token tidak valid atau kadaluarsa
+                    alert("Sesi Anda telah berakhir. Silakan login kembali.");
+                    handleLogout();
+                    throw new Error("Token tidak valid");
+                }
+                
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || `HTTP Error: ${response.status}`);
+                }
+
+                // Cek jika respons punya konten
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return response.json();
+                } else {
+                    return response.text(); // Untuk respons non-JSON (misal: DELETE sukses)
+                }
+
+            } catch (error) {
+                console.error("Fetch API Error:", error.message);
+                showNotification(`Error API: ${error.message}`, 'error');
+                throw error; // Lempar error agar fungsi pemanggil bisa menangani
+            }
+        }
+
+        /**
+         * Menampilkan notifikasi toast
+         */
+        function showNotification(message, type = 'success') {
+            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const html = `
+                <div class="fixed top-20 right-4 z-[100] p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">
+                    ${message}
+                </div>
+            `;
+            const toast = document.createElement('div');
+            toast.innerHTML = html;
+            const toastEl = toast.firstElementChild;
+            document.body.appendChild(toastEl);
+            
+            // Animasi masuk
+            setTimeout(() => {
+                toastEl.classList.remove('translate-x-full');
+            }, 10);
+
+            // Animasi keluar
+            setTimeout(() => {
+                toastEl.classList.add('opacity-0', 'scale-90');
+                toastEl.addEventListener('transitionend', () => toastEl.remove());
+            }, 3000);
+        }
+
+        // --- 1. LOGIKA AUTENTIKASI (AUTH GUARD) ---
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('userRole');
+
+            if (!token || role !== 'admin') {
+                alert("Anda tidak memiliki akses Admin. Silakan Login.");
+                window.location.href = 'index.html'; // Redirect ke halaman utama
+                return null;
+            }
+            adminToken = token; // Simpan token di variabel global
+            return token;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+            adminToken = null;
+            window.location.href = 'index.html';
+        }
+
+        // --- 2. LOGIKA NAVIGASI VIEW ---
+        function showView(viewId, element) {
+            // Sembunyikan semua view
+            document.querySelectorAll('.admin-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            // Tampilkan view yang dipilih
+            document.getElementById(viewId).classList.add('active');
+
+            // Atur status aktif di sidebar
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-blue-100', 'dark:bg-gray-700');
+            });
+            element.classList.add('bg-blue-100', 'dark:bg-gray-700');
+
+            // Muat data untuk view yang relevan
+            if (viewId === 'orders-view') loadOrders();
+            if (viewId === 'products-view') loadProducts();
+            if (viewId === 'dashboard-view') loadDashboardData();
+            if (viewId === 'users-view') loadUsers();
+            
+            lucide.createIcons();
+        }
+
+        // --- 3. LOGIKA VIEW: DASHBOARD (KEUANGAN) ---
+        async function loadDashboardData() {
+            try {
+                const orders = await fetchWithAuth(`${API_BASE_URL}/orders`);
+                let total = 0;
+                let completed = 0;
+                let pending = 0;
+                
+                orders.forEach(order => {
+                    if (order.status === 'Selesai' || order.status === 'Paid') {
+                        total += order.total_amount;
+                        completed++;
+                    } else if (order.status === 'Pending') {
+                        pending++;
+                    }
+                });
+
+                document.getElementById('stat-total').textContent = formatRupiah(total);
+                document.getElementById('stat-completed').textContent = completed;
+                document.getElementById('stat-pending').textContent = pending;
+            } catch (err) {
+                console.error("Gagal memuat statistik", err);
+                showNotification("Gagal memuat statistik dashboard", "error");
+            }
+            
+            renderFinanceChart();
+        }
+
+        function renderFinanceChart() {
+            const ctx = document.getElementById('finance-chart').getContext('2d');
+            if (financeChart) financeChart.destroy();
+            
+            const labels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+            financeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pendapatan (Rp)',
+                        data: [150000, 250000, 180000, 300000, 450000, 220000, 500000], // Data dummy
+                        fill: true,
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
+            });
+        }
+
+        // --- 4. LOGIKA VIEW: LIST PESANAN ---
+        async function loadOrders() {
+            const container = document.getElementById('orders-table-container');
+            container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data pesanan...</div>`;
+            try {
+                const orders = await fetchWithAuth(`${API_BASE_URL}/orders`);
+                renderOrdersTable(orders);
+            } catch (error) {
+                container.innerHTML = `<div class="p-8 text-center text-red-500">Gagal memuat pesanan.</div>`;
+            }
+        }
+        
+        function renderOrdersTable(orders) {
+            const container = document.getElementById('orders-table-container');
+            if (orders.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada pesanan.</div>`;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pelanggan</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            `;
+
+            orders.forEach(order => {
+                const userName = order.user_name || 'Guest';
+                const formattedDate = new Date(order.order_date).toLocaleString('id-ID');
+                
+                tableHTML += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${order.id}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${userName} (${order.user_email || 'N/A'})</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formattedDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${formatRupiah(order.total_amount)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <select onchange="updateOrderStatus(${order.id}, this.value)" class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Proses" ${order.status === 'Proses' ? 'selected' : ''}>Proses</option>
+                                <option value="Selesai" ${order.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+                                <option value="Paid" ${order.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                            </select>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex items-center space-x-2"> <button onclick="sendWaOrder(${order.id})" class="flex items-center bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Proses Pesanan via WA">
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deleteOrder(${order.id})" class="flex items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Hapus Pesanan">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                await fetchWithAuth(`${API_BASE_URL}/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: newStatus })
+                });
+                showNotification(`Status pesanan #${orderId} diubah menjadi ${newStatus}`, 'success');
+                loadDashboardData(); // Update statistik juga
+            } catch (error) {
+                showNotification(`Gagal update status: ${error.message}`, 'error');
+                loadOrders(); // Muat ulang tabel untuk reset
+            }
+        }
+        
+        async function deleteOrder(orderId) {
+            if (!confirm(`Yakin ingin menghapus pesanan #${orderId}? Stok tidak akan dikembalikan.`)) return;
+            
+            // Catatan: API backend (DELETE /api/orders/:id) perlu dibuat
+            // try {
+            //     await fetchWithAuth(`${API_BASE_URL}/orders/${orderId}`, { method: 'DELETE' });
+            //     showNotification(`Pesanan #${orderId} berhasil dihapus.`, 'success');
+            //     loadOrders(); 
+            //     loadDashboardData();
+            // } catch (error) {
+            //     showNotification(`Gagal menghapus: ${error.message}`, 'error');
+            // }
+            showNotification(`(MOCK) Menghapus pesanan #${orderId}. API backend (DELETE /api/orders/:id) perlu dibuat.`, 'error');
+        }
+
+        async function sendWaOrder(orderId) {
+            // Fungsi ini menggunakan API detail pesanan yang baru Anda buat (GET /api/orders/:id)
+            try {
+                const order = await fetchWithAuth(`${API_BASE_URL}/orders/${orderId}`);
+                
+                if (!order.items || order.items.length === 0) {
+                    showNotification("Pesanan ini tidak memiliki item detail.", "error");
+                    return;
+                }
+                
+                // Kontruksi detail item untuk pesan WA
+                let itemDetails = order.items.map(item => 
+                    `.buy ${item.product_code} ${item.quantity} SALDO`
+                ).join('\n');
+
+
+                // Format pesan sesuai permintaan Anda
+                const waNumber = '6281359049717';
+                const templatePesan = `
+⁂ ᴋᴇᴛɪᴋ .buy<ꜱᴘᴀꜱɪ>kode produk<ꜱᴘᴀꜱɪ>kuantitas<ꜱᴘᴀꜱɪ>metode pembayaran ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴇʟɪ ᴘʀᴏᴅᴜᴋ
+
+ᴄᴏɴᴛᴏH:
+ .buy viuanlim1b 2 saldo
+
+ᴍᴇᴛᴏᴅᴇ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴛᴇʀꜱᴇᴅɪᴀ:
+SALDO, QRIS
+
+---
+*DETAIL PESANAN (Ref ID: #${orderId}):*
+${itemDetails}
+                `;
+                
+                const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(templatePesan)}`;
+                window.open(waLink, '_blank');
+                
+            } catch (error) {
+                showNotification(`Gagal mengambil detail pesanan #${orderId}: ${error.message}`, 'error');
+            }
+        }
+
+        // --- 5. LOGIKA VIEW: KATALOG PRODUK (CRUD) ---
+        async function loadProducts() {
+            const container = document.getElementById('products-table-container');
+            container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data produk...</div>`;
+
+            try {
+                const products = await fetchWithAuth(`${API_BASE_URL}/products`);
+                renderProductsTable(products);
+            } catch (error) {
+                container.innerHTML = `<div class="p-8 text-center text-red-500">Gagal memuat produk.</div>`;
+            }
+        }
+
+        function renderProductsTable(products) {
+            const container = document.getElementById('products-table-container');
+            if (products.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada produk.</div>`;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kode Produk</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aplikasi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Paket</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hrg. Beli</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hrg. Jual</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Stok</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            `;
+
+            products.forEach(product => {
+                // PERBAIKAN: Menggunakan product.product_code dan product.id (internal)
+                tableHTML += `
+                    <tr data-product='${JSON.stringify(product)}'>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-100">${product.product_code || 'N/A'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${product.app_name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${product.package_name} (${product.duration})</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formatRupiah(product.purchase_price || 0)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${formatRupiah(product.price)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${product.stock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex items-center space-x-2">
+                                <button onclick="openProductModal(this)" class="flex items-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Edit Produk">
+                                    <i data-lucide="edit-2" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deleteProduct(${product.id})" class="flex items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Hapus Produk">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        }
+        
+        // --- LOGIKA MODAL PRODUK (CRUD) ---
+        function openProductModal(buttonElement) {
+            const modal = document.getElementById('product-modal');
+            const form = document.getElementById('product-form');
+            form.reset(); // Bersihkan form
+            
+            if (buttonElement) {
+                // Mode Edit
+                document.getElementById('product-modal-title').textContent = 'Edit Produk (Paket)';
+                const productData = JSON.parse(buttonElement.closest('tr').dataset.product);
+                
+                // Isi form dengan data yang ada
+                document.getElementById('product-id').value = productData.id; // ID numerik internal
+                document.getElementById('product-app-name').value = productData.app_name || '';
+                document.getElementById('product-data-category').value = productData.data_category || '';
+                document.getElementById('product-package-name').value = productData.package_name || '';
+                document.getElementById('product-duration').value = productData.duration || '';
+                document.getElementById('product-code').value = productData.product_code || '';
+                document.getElementById('product-purchase-price').value = productData.purchase_price || 0;
+                document.getElementById('product-price').value = productData.price || 0;
+                document.getElementById('product-discount').value = productData.discount_percentage || 0;
+                document.getElementById('product-stock').value = productData.stock || 0;
+                document.getElementById('product-logo-url').value = productData.logo_url || '';
+                document.getElementById('product-banner-url').value = productData.banner_url || '';
+                document.getElementById('product-description').value = productData.description || '';
+                
+            } else {
+                // Mode Tambah Baru
+                document.getElementById('product-modal-title').textContent = 'Tambah Produk Baru';
+                document.getElementById('product-id').value = ''; // Kosongkan ID
+            }
+            
+            // Tampilkan modal
+            modal.classList.remove('opacity-0', 'hidden');
+            modal.classList.add('flex');
+            setTimeout(() => modal.firstElementChild.classList.remove('scale-95', 'opacity-0'), 10);
+            lucide.createIcons();
+        }
+
+        function closeProductModal(event = null) {
+            if (event && event.target !== document.getElementById('product-modal')) return;
+            const modal = document.getElementById('product-modal');
+            modal.firstElementChild.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('opacity-0', 'hidden'), 300);
+        }
+
+        async function handleProductSubmit(event) {
+            event.preventDefault();
+            const productId = document.getElementById('product-id').value;
+            const isEditing = !!productId;
+
+            // Kumpulkan semua data dari form
+            const productData = {
+                app_name: document.getElementById('product-app-name').value,
+                data_category: document.getElementById('product-data-category').value,
+                package_name: document.getElementById('product-package-name').value,
+                duration: document.getElementById('product-duration').value,
+                product_code: document.getElementById('product-code').value,
+                purchase_price: parseInt(document.getElementById('product-purchase-price').value) || 0,
+                price: parseInt(document.getElementById('product-price').value) || 0,
+                discount_percentage: parseInt(document.getElementById('product-discount').value) || 0,
+                stock: parseInt(document.getElementById('product-stock').value) || 0,
+                logo_url: document.getElementById('product-logo-url').value,
+                banner_url: document.getElementById('product-banner-url').value,
+                description: document.getElementById('product-description').value,
+            };
+
+            const url = isEditing ? `${API_BASE_URL}/products/${productId}` : `${API_BASE_URL}/products`;
+            const method = isEditing ? 'PUT' : 'POST';
+
+            try {
+                await fetchWithAuth(url, {
+                    method: method,
+                    body: JSON.stringify(productData)
+                });
+                showNotification(isEditing ? 'Produk berhasil diperbarui' : 'Produk berhasil ditambahkan', 'success');
+                closeProductModal();
+                loadProducts(); // Muat ulang tabel
+            } catch (error) {
+                showNotification(`Gagal menyimpan: ${error.message}`, 'error');
+            }
+        }
+        
+        async function deleteProduct(productId) {
+            if (!confirm(`Yakin ingin menghapus produk ID #${productId}?`)) return;
+            
+            try {
+                await fetchWithAuth(`${API_BASE_URL}/products/${productId}`, { method: 'DELETE' });
+                showNotification(`Produk #${productId} berhasil dihapus.`, 'success');
+                loadProducts(); 
+            } catch (error) {
+                showNotification(`Gagal menghapus: ${error.message}`, 'error');
+            }
+        }
+        
+        // --- 6. LOGIKA VIEW: MANAJEMEN PENGGUNA ---
+        async function loadUsers() {
+            const container = document.getElementById('users-table-container');
+            container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data pengguna...</div>`;
+            
+            try {
+                const users = await fetchWithAuth(`${API_BASE_URL}/users`);
+                renderUsersTable(users);
+            } catch (error) {
+                container.innerHTML = `<div class="p-8 text-center text-red-500">Gagal memuat pengguna.</div>`;
+            }
+        }
+        
+        function renderUsersTable(users) {
+            const container = document.getElementById('users-table-container');
+            if (users.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada pengguna terdaftar.</div>`;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Poin</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kode Referral</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            `;
+
+            users.forEach(user => {
+                tableHTML += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${user.id}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${user.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${user.role}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-600 dark:text-blue-400">${user.loyalty_points || 0}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${user.referral_code || 'N/A'}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        }
+
+
+        // --- INISIALISASI SAAT HALAMAN ADMIN DIMUAT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = checkAuth(); // Panggil Auth Guard (WAJIB)
+            
+            if (token) {
+                // Jika lolos, muat data default (Dashboard)
+                showView('dashboard-view', document.querySelector('.nav-link'));
+            }
+            
+            // Muat ikon
+            lucide.createIcons();
+            
+            // Atur tema (dark/light)
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // Daftarkan fungsi global
+        window.showView = showView;
+        window.handleLogout = handleLogout;
+        window.updateOrderStatus = updateOrderStatus;
+        window.deleteOrder = deleteOrder;
+        window.sendWaOrder = sendWaOrder;
+        window.openProductModal = openProductModal;
+        window.closeProductModal = closeProductModal;
+        window.handleProductSubmit = handleProductSubmit;
+        window.deleteProduct = deleteProduct;
+        window.loadUsers = loadUsers;
+
+    </script>
+</body>
+</html>

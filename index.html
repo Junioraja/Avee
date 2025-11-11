@@ -1401,224 +1401,137 @@
         // ====== [JAVASCRIPT LENGKAP UNTUK index.html] ======
 
         // URL API Backend Anda
+        // ====== [JAVASCRIPT LENGKAP UNTUK index.html] ======
+
+        // URL API Backend Anda (Pastikan /api ada di akhir)
         const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
 
-        // --- DATA GAMBAR DAN BRAND LENGKAP (Diperbarui) ---
+        // --- DATA STATIS (Biarkan ini untuk Keterangan & Ikon Fallback) ---
+        
+        // Data gambar/logo ini akan diganti oleh data dari database (logo_url, banner_url)
+        // Kita biarkan di sini sebagai fallback jika API gagal memuat gambar.
         const APP_IMAGES = {
-            "Netflix": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
-                banner: "https://flixnet.epizy.com/wp-content/uploads/2023/04/43e0db2f-fea0-4308-bfb9-09f2a88f6ee4_what_is_netflix_1_en.png",
-            },
-            "Disney+ Hotstar": {
-                logo: "https://cdn.antaranews.com/cache/1200x800/2021/03/10/share-default.png",
-                banner: "https://cdn.broadbandtvnews.com/wp-content/uploads/2024/09/23115137/Disney-Nordics.jpg",
-            },
-            "YouTube Premium": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/YouTube_social_white_square_%282024%29.svg/1200px-YouTube_social_white_square_%282024%29.svg.png",
-                banner: "https://redcomm.co.id/red-twill/medias/8e7141e3-55a2-4a0f-a893-96d851b9792a/memasarkan-brand-menggunakan-youtube.webp?w=1000&q=80",
-            },
-            "Viu": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Viu_logo.svg/1200px-Viu_logo.svg.png",
-                banner: "https://asset-2.tribunnews.com/jogja/foto/bank/images/Layanan-streaming-Viu.jpg",
-            },
-            "WeTV": {
-                logo: "https://screenscore.digitalmama.id/wp-content/uploads/2025/09/IMG_1798-1.png",
-                banner: "https://akunmu.id/storage/products/image-varian-digital/image-varian-digital-HCXO-660216.webp",
-            },
-            "IQIYI": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Iqiyi_logo.svg/1200px-Iqiyi_logo.svg.png",
-                banner: "https://u1.iqiyipic.com/intl_lang/20221018/1e/ed/intl_lang_e6c737cb4efe956740cab9ece21f_default.png",
-            },
-            "Vidio": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Vidio_logo.svg/1200px-Vidio_logo.svg.png",
-                banner: "https://ik.trn.asia/uploads/2022/10/1664929614306.jpeg", // Link baru
-            },
-            "Vision+": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Vision_plus_logo.svg/1200px-Vision_plus_logo.svg.png",
-                banner: "https://bss-assets-cdn.visionplus.id/content-assets/og_image.jpg",
-            },
-            "Amazon Prime": {
-                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFAuGMKpMzzDtqBTS18xBw7JDuN6TqyawvgQ&s",
-                banner: "https://m.media-amazon.com/images/G/01/primevideo/seo/primevideo-seo-logo.png", // Link baru
-            },
-            "HBO Go": {
-                logo: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full/catalog-image/106/MTA-161399923/no_brand_hbo_go_premium_1tahun_full_garansi_full01_fm94q9yx.jpg",
-                banner: "https://i.blogs.es/727095/hbo-go/1200_630.jpg",
-            },
-            "VSCO": {
-                logo: "https://images.seeklogo.com/logo-png/43/2/vsco-logo-png_seeklogo-432328.png", // Link baru
-                banner: "https://techcrunch.com/wp-content/uploads/2023/02/vsco-tc-header.jpg?w=1024",
-            },
-            "Picsart": {
-                logo: "https://www.cnet.com/a/img/resize/fa90cb92b6ca5e9962a935e5eb9033382092e2b2/hub/2017/01/03/d948e00f-0d9d-452f-acd5-62c8ff9d1228/picsarts-new.png?auto=webp&width=768",
-                banner: "https://miro.medium.com/1*-X-jrUTZ_nQRMTVHXCSQMg.jpeg",
-            },
-            "Lightroom": {
-                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QlSxwJl8yWlWY50n7lLhGnnmirt7N6_YGg&s",
-                banner: "https://blog.adobe.com/en/publish/2023/07/26/media_18a51281d19bf3115adc82b27c3424090f30f60e1.jpeg?width=750&format=jpeg&optimize=medium",
-            },
-            "Resso": {
-                logo: "https://pbs.twimg.com/profile_images/1549963801923305472/09V5SssV_400x400.jpg",
-                banner: "https://yangcanggih.com/wp-content/uploads/2020/03/Resso-2.jpg",
-            },
-            "Bstation": {
-                logo: "https://pic.bstarstatic.com/fe-activity/images/YoYvSHUSXE_w600_h600.jpg",
-                banner: "https://api.duniagames.co.id/api/content/upload/file/9654294091674103115.jpg",
-            },
-            "Canva": {
-                logo: "https://upload.wikimedia.org/wikipedia/en/3/36/Canva_logo.png",
-                banner: "https://cdn.medcom.id/dynamic/content/2024/10/04/1718130/OQMwWDG9Cm.jpeg?w=640",
-            },
-            "Spotify": {
-                logo: "https://i.pinimg.com/736x/f5/3c/6c/f53c6ce6f793a1e5af96dddaccb5eb14.jpg",
-                banner: "https://gizmologi.id/wp-content/uploads/2020/12/Spotify-Premium-Mini-001.jpg", // Link baru
-            },
+            "Netflix": { logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", banner: "https://flixnet.epizy.com/wp-content/uploads/2023/04/43e0db2f-fea0-4308-bfb9-09f2a88f6ee4_what_is_netflix_1_en.png" },
+            "YouTube Premium": { logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/YouTube_social_white_square_%282024%29.svg/1200px-YouTube_social_white_square_%282024%29.svg.png", banner: "https://redcomm.co.id/red-twill/medias/8e7141e3-55a2-4a0f-a893-96d851b9792a/memasarkan-brand-menggunakan-youtube.webp?w=1000&q=80" },
+            "Viu": { logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Viu_logo.svg/1200px-Viu_logo.svg.png", banner: "https://asset-2.tribunnews.com/jogja/foto/bank/images/Layanan-streaming-Viu.jpg" },
+            "Canva Pro": { logo: "https://upload.wikimedia.org/wikipedia/en/3/36/Canva_logo.png", banner: "https://cdn.medcom.id/dynamic/content/2024/10/04/1718130/OQMwWDG9Cm.jpeg?w=640" },
+            "Spotify": { logo: "https://i.pinimg.com/736x/f5/3c/6c/f53c6ce6f793a1e5af96dddaccb5eb14.jpg", banner: "https://gizmologi.id/wp-content/uploads/2020/12/Spotify-Premium-Mini-001.jpg" },
+            // ... (Anda bisa menghapus sisa APP_IMAGES karena data akan diambil dari DB)
         };
 
-
+        // Data Ikon (Fallback jika logo_url gagal)
         const PRODUCT_ICONS = {
             "Netflix": "clapperboard", "Disney+ Hotstar": "film", "YouTube Premium": "youtube", "Viu": "monitor", "WeTV": "tv",
             "IQIYI": "airplay", "Vidio": "video", "Vision+": "radio", "Amazon Prime": "package", "HBO Go": "camera",
             "VSCO": "image", "Picsart": "scissors", "Lightroom": "sun", "Resso": "music", "Bstation": "globe", "Canva": "palette",
-            "Spotify": "headphones"
+            "Spotify": "headphones", "Alight Motion": "film", "CapCut Pro": "video", "ChatGPT-4": "brain",
+            "Grammarly Premium": "book-check", "Quillbot Premium": "feather", "Quizlet Plus": "graduation-cap",
+            "Youku": "tv", "MovieBox": "film", "GagaOOLala": "tv", "Mango TV": "tv", "Fizzo": "book-open"
         };
-
+        
+        // Data Warna Statis (Tetap digunakan untuk styling)
         const BRAND_COLORS = {
             "Netflix": { main: '#E50914', text: '#FFFFFF' }, "Disney+ Hotstar": { main: '#113CCF', text: '#FFFFFF' },
             "YouTube Premium": { main: '#FF0000', text: '#FFFFFF' }, "Viu": { main: '#FF7120', text: '#FFFFFF' },
             "WeTV": { main: '#00B3FF', text: '#FFFFFF' }, "IQIYI": { main: '#409930', text: '#FFFFFF' },
-            "Vidio": { main: '#FF6600', text: '#FFFFFF' }, "Canva": { main: '#00C4CC', text: '#FFFFFF' },
+            "Vidio": { main: '#FF6600', text: '#FFFFFF' }, "Canva Pro": { main: '#00C4CC', text: '#FFFFFF' },
             "Vision+": { main: '#FF0000', text: '#FFFFFF' }, "Amazon Prime": { main: '#232F3E', text: '#FFFFFF' },
             "HBO Go": { main: '#5402F0', text: '#FFFFFF' }, "VSCO": { main: '#000000', text: '#FFFFFF' },
-            "Picsart": { main: '#FF4C68', text: '#FFFFFF' }, "Lightroom": { main: '#3D335A', text: '#FFFFFF' },
+            "Picsart Gold": { main: '#FF4C68', text: '#FFFFFF' }, "Lightroom": { main: '#3D335A', text: '#FFFFFF' },
             "Resso": { main: '#FF0050', text: '#FFFFFF' }, "Bstation": { main: '#00A1D6', text: '#FFFFFF' },
-            "Spotify": { main: '#1db954', text: '#FFFFFF' }
+            "Spotify": { main: '#1db954', text: '#FFFFFF' }, "Alight Motion": { main: '#FF4D6A', text: '#FFFFFF' },
+            "CapCut Pro": { main: '#00C4B4', text: '#FFFFFF' }, "ChatGPT-4": { main: '#74AA9C', text: '#FFFFFF' },
+            "Grammarly Premium": { main: '#1FAD66', text: '#FFFFFF' }, "Quillbot Premium": { main: '#F4B41A', text: '#FFFFFF' },
+            "Quizlet Plus": { main: '#4255FF', text: '#FFFFFF' }, "Youku": { main: '#00BFFF', text: '#FFFFFF' },
+            "MovieBox": { main: '#D92F27', text: '#FFFFFF' }, "GagaOOLala": { main: '#E7007F', text: '#FFFFFF' },
+            "Mango TV": { main: '#F8A51B', text: '#FFFFFF' }, "Fizzo": { main: '#FF5A60', text: '#FFFFFF' }
         };
-
-        let dynamicProducts = {};
-        // KETERANGAN APLIKASI UNTUK MODAL DETAIL (FAQ)
+        
+        // KETERANGAN APLIKASI UNTUK MODAL DETAIL (FAQ) - Statis
         const APP_KETERANGAN = {
-            "Netflix": `
-                <p class="font-bold">Batasan Screen dan Profile:</p>
-                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
-                    <li><strong class="text-red-500">1 Profile 1 Orang:</strong> 4 orang menonton bersamaan, 1 orang lainnya kena limit screen.</li>
-                    <li><strong class="text-red-500">1 Profile 2 Orang:</strong> 4 orang menonton bersamaan, 6 orang lainnya kena limit screen.</li>
-                    <li><strong class="text-red-500">1 Profile 4-5 Orang:</strong> 4 orang menonton bersamaan, 16-21 orang lainnya kena limit screen.</li>
-                    <li>4 adalah jumlah yang sudah ditetapkan oleh Netflix untuk batas limit screen. Semakin banyak orang dalam 1 akun = semakin tinggi resiko limit.</li>
-                    <li><strong class="text-red-500">SARAN:</strong> Bagi yang tidak sabar, silakan download filmnya! Ada harga, ada kualitas.</li>
-                </ul>
-            `,
-            "Vidio": `
-                <p class="font-bold">Perbedaan Plan Platinum & Diamond:</p>
-                <div class="grid grid-cols-2 gap-4 mt-2 text-sm">
-                    <div>
-                        <p class="font-semibold text-blue-600 dark:text-blue-400">PLAN PLATINUM</p>
-                        <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                            <li>Menonton olahraga pilihan (UCL, UEL, BRI Liga 1, dll).</li>
-                            <li>Bebas nonton video (sebelum dan selama konten diputar).</li>
-                            <li>Kualitas HD 1080p.</li>
-                            <li><strong class="text-red-500">Syarat:</strong> Hanya bisa ditonton di 1 perangkat di waktu yang sama.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-red-600 dark:text-red-400">PLAN DIAMOND</p>
-                        <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                            <li>Semua konten Platinum + Premier League.</li>
-                            <li>Termasuk nonton mobile (Paket Mobile tidak bisa di TV & Desktop).</li>
-                            <li>Bebas nonton Premier League live.</li>
-                            <li><strong class="text-red-500">Syarat:</strong> Hanya bisa ditonton di 1 perangkat di waktu yang sama.</li>
-                        </ul>
-                    </div>
-                </div>
-            `,
-            "Viu": `
-                <p class="font-bold">Fitur Paket Premium Viu:</p>
-                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
-                    <li>Watch all our titles.</li>
-                    <li>Available on Phone/Tablet/Laptop/TV.</li>
-                    <li>Download selected content.</li>
-                    <li>Create 7 profiles.</li>
-                    <li>Max. device log ins: 10 devices.</li>
-                    <li>Concurrent streaming: 3 screens.</li>
-                    <li>Max. video quality: 4K (2160p).</li>
-                </ul>
-                <p class="text-xs italic mt-2 text-red-500">Paket Basic (1 Screen) max. 3 devices login & Full HD 1080p.</p>
-            `,
-            "YouTube Premium": `
-                <p class="font-bold">Perbedaan Famplan dan Indplan:</p>
-                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
-                    <li><strong class="text-red-500">Famplan:</strong> Max hanya bisa 2 kali premium dalam 1 tahun. Sistem invite dan membutuhkan email customer.</li>
-                    <li><strong class="text-red-500">Indplan (Individual):</strong> Hanya sendiri, tidak ramai-ramai seperti famplan. Membutuhkan email + password customer yang benar-benar masih fresh/baru.</li>
-                </ul>
-            `,
-            "Canva": `
-                <p class="font-bold">Perbedaan Member dan Admin:</p>
-                <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 mt-2 dark:text-gray-300">
-                    <li><strong class="text-red-500">Member:</strong> Mendapatkan semua fitur Pro, tetapi bergabung dengan tim yang sudah ada. Aman, hanya terkadang ada batasan fitur tertentu dari Admin.</li>
-                    <li><strong class="text-red-500">Admin:</strong> Anda menjadi pemilik tim dan dapat mengundang member lain. Akses fitur Pro 100% tanpa batasan.</li>
-                </ul>
-            `,
+            "Netflix": `... (Keterangan Netflix Anda) ...`,
+            "Vidio": `... (Keterangan Vidio Anda) ...`,
+            "Viu": `... (Keterangan Viu Anda) ...`,
+            "YouTube Premium": `... (Keterangan YouTube Anda) ...`,
+            "Canva Pro": `... (Keterangan Canva Anda) ...`,
         };
 
-
-        // --- VARIABLE GLOBAL ---
+        // --- VARIABEL DINAMIS (Akan diisi oleh API) ---
+        let dynamicProducts = {}; // Untuk menyimpan produk yang di-fetch & di-group
+        let dynamicProductImages = {}; // Untuk menyimpan logo/banner dari DB
+        
+        // --- VARIABEL GLOBAL LAINNYA ---
         let currentIndex = 0;
         let totalCards = 0;
         let cardWidth = 0;
         let autoSlideInterval;
         const slider = document.getElementById('testimonial-slider');
         let currentAppName = '';
-        let currentCategoryFilter = 'Semua'; // BARU: Untuk filter
-
-        // BARU: Variabel untuk animasi hero
+        let currentCategoryFilter = 'Semua';
         let mouseXPercent = 0;
         let mouseYPercent = 0;
         const heroSection = document.querySelector('.hero-section');
         const floatingCards = document.querySelectorAll('.floating-card');
-        // Transformasi dasar untuk kartu hero
         const baseTransforms = [
-            'rotate(3deg) translateY(-48px)', // Card 1 (Netflix)
-            'rotate(-6deg)',                 // Card 2 (Spotify)
-            'rotate(12deg)',                // Card 3 (Lightroom)
-            'rotate(-3deg)'                 // Card 4 (YouTube)
+            'rotate(3deg) translateY(-48px)', 'rotate(-6deg)', 'rotate(12deg)', 'rotate(-3deg)'
         ];
-
 
         // --- HELPER FUNCTIONS ---
         const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
 
         function showNotification(message, type = 'success') {
             const container = document.getElementById('notification-container');
-            if (!container) return; // Penjagaan jika kontainer tidak ada
-            const color = type === 'success' ? 'bg-accent-wa' : 'bg-red-500';
-            const html = `
-                <div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out">
-                    ${message}
-                </div>
-            `;
-            const notification = document.createElement('div');
-            notification.innerHTML = html;
-            container.appendChild(notification);
-
+            if (!container) return; 
+            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500'; // Menggunakan warna standar
+            const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
+            const toast = document.createElement('div');
+            toast.innerHTML = html;
+            const toastEl = toast.firstElementChild;
+            document.body.appendChild(toastEl);
+            setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
             setTimeout(() => {
-                notification.classList.add('opacity-0', 'scale-90');
-                notification.addEventListener('transitionend', () => notification.remove());
+                toastEl.classList.add('opacity-0', 'scale-90');
+                toastEl.addEventListener('transitionend', () => toastEl.remove());
             }, 3000);
         }
-
+        
+        // --- FUNGSI DINAMIS BARU (MENGGANTIKAN DATA STATIS) ---
+        
         async function fetchProducts() {
             try {
-                const response = await fetch(`${API_BASE_URL}/products`);
+                // Panggil endpoint /api/products
+                const response = await fetch(`${API_BASE_URL}/products`); 
 
                 if (!response.ok) {
+                    // Cek jika error 404 (URL salah)
+                    if (response.status === 404) {
+                        throw new Error(`API Endpoint Not Found (404). Cek URL: ${API_BASE_URL}/products`);
+                    }
+                    // Cek jika error CORS (seringkali 0 atau error network)
+                    if (response.status === 0) {
+                         throw new Error(`CORS Error. Pastikan server Railway mengizinkan domain Vercel.`);
+                    }
+                    
+                    const errText = await response.text();
+                    // Cek jika server mengembalikan HTML (crash)
+                    if (errText.startsWith("<!DOCTYPE html>")) {
+                        throw new Error("Server backend crash. Menerima HTML bukan JSON.");
+                    }
+                    
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const productsArray = await response.json();
 
                 // Mengubah array dari backend menjadi format objek (grouping by app_name)
+                // Ini penting agar generatePricelistCards tetap berfungsi
                 dynamicProducts = productsArray.reduce((acc, item) => {
                     (acc[item.app_name] = acc[item.app_name] || []).push(item);
+                    
+                    // Simpan URL gambar dari DB
+                    if (!dynamicProductImages[item.app_name] && (item.logo_url || item.banner_url)) {
+                        dynamicProductImages[item.app_name] = { logo: item.logo_url, banner: item.banner_url };
+                    }
                     return acc;
                 }, {});
 
@@ -1627,7 +1540,7 @@
 
             } catch (error) {
                 console.error('Error fetching data from API:', error);
-                showNotification('Gagal memuat produk. Cek koneksi server Anda.', 'error');
+                showNotification(`Gagal memuat produk: ${error.message}`, 'error');
             }
         }
 
@@ -1635,45 +1548,30 @@
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.toggle('dark');
-
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             lucide.createIcons();
         }
-
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
             const html = document.documentElement;
-
-            if (savedTheme === 'dark') {
-                html.classList.add('dark');
-            } else {
-                html.classList.remove('dark');
-            }
+            if (savedTheme === 'dark') html.classList.add('dark');
+            else html.classList.remove('dark');
         }
-        // --- END LOGIKA DARK MODE ---
-
 
         // --- ANIMASI BLUR PADA HEADER SAAT SCROLL ---
         function toggleHeaderBlur() {
             const header = document.getElementById('main-header');
             if (!header) return;
             const scrollThreshold = 50;
-            if (window.scrollY > scrollThreshold) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         }
 
         // --- ANIMASI SAAT SCROLL (SCROLL-APPEAR) ---
         let staticObserver;
         function initScrollAppear(reset = false) {
-            if (staticObserver && reset) {
-                staticObserver.disconnect();
-            }
-
+            if (staticObserver && reset) staticObserver.disconnect();
             const scrollAppearElements = document.querySelectorAll('.scroll-appear');
-
             if (!staticObserver || reset) {
                 staticObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -1683,16 +1581,10 @@
                             staticObserver.unobserve(target);
                         }
                     });
-                }, {
-                    rootMargin: '0px',
-                    threshold: 0.1
-                });
+                }, { rootMargin: '0px', threshold: 0.1 });
             }
-
             scrollAppearElements.forEach(element => {
-                if (reset) {
-                    element.classList.remove('active');
-                }
+                if (reset) element.classList.remove('active');
                 staticObserver.observe(element);
             });
         }
@@ -1701,25 +1593,17 @@
         function initNavLinks() {
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.style.position = 'relative';
-
                 const underline = document.createElement('span');
                 underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
                 underline.style.width = '0%';
                 underline.style.transition = 'width 0.3s ease-out';
-
                 link.appendChild(underline);
-
-                link.addEventListener('mouseenter', () => {
-                    underline.style.width = '100%';
-                });
-                link.addEventListener('mouseleave', () => {
-                    underline.style.width = '0%';
-                });
+                link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
+                link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
             });
         }
-
-
-        // --- LOGIKA GENERASI CARD PRODUK DINAMIS ---
+        
+        // --- LOGIKA GENERASI CARD PRODUK (MENGGUNAKAN DATA DINAMIS) ---
         function filterByCategory(category, buttonElement) {
             currentCategoryFilter = category;
             const buttons = document.querySelectorAll('#filter-buttons .filter-button');
@@ -1730,54 +1614,51 @@
 
         function generatePricelistCards() {
             const container = document.getElementById('pricelist-section');
-
-            // PENGECEKAN KEAMANAN (MEMPERBAIKI ERROR NULL)
             if (!container) {
-                console.error("Critical Error: Elemen #pricelist-section tidak ditemukan di HTML.");
-                return; // Hentikan fungsi jika elemen tidak ada
+                console.error("Critical Error: Elemen #pricelist-section tidak ditemukan.");
+                return;
             }
-
-            container.innerHTML = ''; // Hapus loading spinner atau kartu lama
+            container.innerHTML = '';
             const searchInput = document.getElementById('search-input');
             const searchTerms = searchInput ? searchInput.value.toLowerCase().trim() : '';
-            const appNames = Object.keys(dynamicProducts).sort();
+            
+            // PERBAIKAN: Gunakan dynamicProducts (dari API) bukan PRICES (statis)
+            const appNames = Object.keys(dynamicProducts).sort(); 
 
             let cardIndex = 0;
             appNames.forEach((appName) => {
+                // PERBAIKAN: Gunakan dynamicProducts
                 const packages = dynamicProducts[appName];
                 if (!packages) return;
 
                 const minPriceItem = packages.reduce((min, current) => (current.price < min.price ? current : min), packages[0] || { price: 0, duration: '' });
-
-                const appInfo = APP_IMAGES[appName];
+                
+                // PERBAIKAN: Gunakan gambar dinamis dari API
+                const appInfo = dynamicProductImages[appName] || APP_IMAGES[appName]; // Fallback ke APP_IMAGES jika DB tidak ada URL
                 const brandColorHex = BRAND_COLORS[appName] ? BRAND_COLORS[appName].main : '#2563EB';
                 const fallbackLogoBg = brandColorHex.substring(1);
 
+                // PERBAIKAN: Gunakan data_category dari API
                 const dataCategories = packages.map(p => p.data_category).filter((value, index, self) => self.indexOf(value) === index).join(' ');
 
                 // --- LOGIKA FILTER ---
                 const searchMatch = appName.toLowerCase().includes(searchTerms) || dataCategories.toLowerCase().includes(searchTerms);
-                const categoryMatch = currentCategoryFilter === 'Semua' ||
-                    dataCategories.toLowerCase().includes(currentCategoryFilter.toLowerCase());
+                const categoryMatch = currentCategoryFilter === 'Semua' || dataCategories.toLowerCase().includes(currentCategoryFilter.toLowerCase());
 
                 if (!searchMatch || !categoryMatch) {
                     return;
                 }
                 // --- AKHIR LOGIKA FILTER ---
 
-
-                // Struktur Card Visual
                 const imageContainerHtml = appInfo ? `
                     <div class="h-20 relative overflow-hidden rounded-t-2xl flex items-center justify-center bg-gray-200" style="background-color: ${brandColorHex};">
                         <img src="${appInfo.banner}"  
                             onerror="this.style.display='none'; this.parentElement.style.backgroundColor='${brandColorHex}'; this.parentElement.classList.add('opacity-80', 'bg-gradient-to-r');"  
-                            alt="${appName} Banner"  
-                            class="w-full h-full object-cover">
+                            alt="${appName} Banner" class="w-full h-full object-cover">
                     </div>
                     <img src="${appInfo.logo}"  
                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/${fallbackLogoBg}/ffffff?text=${appName.substring(0, 2)}';"  
-                        alt="${appName} Logo"  
-                        class="absolute w-16 h-16 rounded-full border-4 border-white top-12 left-1/2 transform -translate-x-1/2 shadow-xl object-contain bg-white p-1 dark:border-gray-800 dark:bg-gray-800">
+                        alt="${appName} Logo" class="absolute w-16 h-16 rounded-full border-4 border-white top-12 left-1/2 transform -translate-x-1/2 shadow-xl object-contain bg-white p-1 dark:border-gray-800 dark:bg-gray-800">
                 ` : `
                     <div class="h-20 rounded-t-2xl relative overflow-hidden bg-gradient-to-r from-blue-700 to-blue-500 opacity-80" style="background-color: ${brandColorHex};"></div>
                     <div class="absolute w-16 h-16 rounded-full border-4 border-white top-12 left-1/2 transform -translate-x-1/2 shadow-xl flex items-center justify-center bg-white p-1 dark:border-gray-800 dark:bg-gray-800">
@@ -1791,9 +1672,7 @@
                          data-name="${appName}"
                          data-category="${dataCategories}"
                          style="animation-delay: ${cardIndex * 0.1}s;">
-                        
                         ${imageContainerHtml}
-                        
                         <div class="p-6 pt-10 flex flex-col justify-between flex-grow text-center">
                             <h3 class="text-xl font-bold text-gray-900 mb-1 dark:text-gray-100">${appName}</h3>
                             <p class="text-gray-500 mb-1 font-medium dark:text-gray-400">Paket termurah:</p>
@@ -1814,12 +1693,12 @@
             lucide.createIcons();
             initScrollAppear(true);
         }
-
+        
         // --- LOGIKA MODAL PRODUK ---
         function toggleCollapse(contentId, iconId) {
             const content = document.getElementById(contentId);
             const icon = document.getElementById(iconId);
-            if (content && icon) {
+            if(content && icon) {
                 content.classList.toggle('open');
                 icon.classList.toggle('rotate-180');
             }
@@ -1828,48 +1707,40 @@
         function initFaqAccordion() {
             const faqContainer = document.getElementById('faq-container');
             if (!faqContainer) return;
-
-            faqContainer.addEventListener('click', function (e) {
+            faqContainer.addEventListener('click', function(e) {
                 const questionButton = e.target.closest('.faq-question');
                 if (!questionButton) return;
                 const faqItem = questionButton.parentElement;
                 const isActive = faqItem.classList.contains('active');
-                faqContainer.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
+                faqContainer.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+                if (!isActive) faqItem.classList.add('active');
                 lucide.createIcons();
             });
         }
 
         function showModal(appName) {
             currentAppName = appName;
-
-            // PERBAIKAN BUG: Gunakan dynamicProducts (data dari API)
+            // PERBAIKAN: Gunakan dynamicProducts (dari API) bukan PRICES
             const packages = dynamicProducts[appName];
             if (!packages) {
-                console.error("Data paket tidak ditemukan untuk:", appName);
                 showNotification("Gagal memuat detail paket.", "error");
                 return;
             }
-
-            // Perbaikan: Gunakan 'package_name' atau 'category' dari DB untuk grouping
+            
+            // PERBAIKAN: Gunakan data_category dari API untuk grouping
             const groupedPackages = packages.reduce((acc, item) => {
-                // Gunakan data_category dari DB sebagai kunci
-                const categoryKey = item.data_category || 'Lainnya';
+                const categoryKey = item.data_category || 'Lainnya'; 
                 (acc[categoryKey] = acc[categoryKey] || []).push(item);
                 return acc;
             }, {});
-
+            
             const brandColor = BRAND_COLORS[appName] ? BRAND_COLORS[appName].main : '#2563EB';
 
             // KETERANGAN APLIKASI
             const keteranganHtml = APP_KETERANGAN[appName];
             const keteranganContainer = document.getElementById('app-keterangan-content');
             const keteranganToggle = document.getElementById('app-keterangan-toggle');
-
+            
             if (keteranganHtml) {
                 keteranganContainer.innerHTML = keteranganHtml;
                 keteranganToggle.classList.remove('hidden');
@@ -1887,11 +1758,11 @@
 
             for (const category in groupedPackages) {
                 let categoryHtml = `<h4 class="text-xl font-bold mt-4 mb-3 border-b border-soft-blue pb-1 dark:border-gray-700 dark:text-gray-200">${category}</h4>`;
-
+                
                 groupedPackages[category].forEach(item => {
-                    // item.id sekarang adalah ID numerik dari database
                     const stockDisplay = item.stock > 0 ? `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-green-100 text-green-600">Stok: ${item.stock}</span>` : `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-red-100 text-red-600">Habis</span>`;
-
+                    
+                    // PERBAIKAN KRITIS: Kirim 'item.product_code' BUKAN 'item.id'
                     const itemHtml = `
                         <div class="flex justify-between items-center p-3 bg-light-bg rounded-lg shadow-sm border-l-4 my-2 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600" style="border-left-color: ${brandColor};">
                             <div class="flex flex-col">
@@ -1901,9 +1772,7 @@
                             </div>
                             <div class="flex items-center space-x-3">
                                 <span class="text-lg font-bold" style="color: ${brandColor};">${formatRupiah(item.price)}</span>
-                                
                                 ${item.stock === 0 ? '' : `<button onclick="openOrderPage('${appName}', '${item.product_code}')" class="px-4 py-2 text-sm text-white rounded-lg hover:opacity-90 transition" style="background-color: ${brandColor};">Beli</button>`}
-                            
                             </div>
                         </div>
                     `;
@@ -1911,7 +1780,7 @@
                 });
                 detailContent.innerHTML += categoryHtml;
             }
-
+            
             const modal = document.getElementById('order-modal');
             const modalContent = modal.querySelector('.modal-content-container');
             modal.classList.remove('hidden');
@@ -1923,34 +1792,31 @@
             }, 10);
             lucide.createIcons();
         }
-
-        function openOrderPage(appName, itemId) {
-            window.open(`order.html?app=${appName}&id=${itemId}`, '_blank');
-            closeModal();
+        
+        // PERBAIKAN: Mengirim product_code (itemCode)
+        function openOrderPage(appName, itemCode) {
+            window.open(`order.html?app=${appName}&id=${itemCode}`, '_blank'); 
+            closeModal(); 
         }
 
         function closeModal(event = null) {
             if (event && event.target !== document.getElementById('order-modal')) return;
-
             const modal = document.getElementById('order-modal');
-            if (!modal) return;
             const modalContent = modal.querySelector('.modal-content-container');
-
             modal.classList.remove('opacity-100');
             modalContent.classList.remove('opacity-100', 'scale-100');
             modalContent.classList.add('opacity-0', 'scale-95');
-
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }, 300);
         }
-
+        
         // --- LOGIKA CAROUSEL TESTIMONI ---
         function getCardWidth() {
             if (!slider) return 0;
             const card = slider.querySelector('.testimonial-card-wrapper');
-            return card ? card.offsetWidth : 0;
+            return card ? card.offsetWidth : 0;  
         }
 
         function updateCarousel() {
@@ -1958,77 +1824,59 @@
             const cards = slider.querySelectorAll('.testimonial-card-wrapper');
             const carouselContainer = slider.parentElement;
             if (!carouselContainer || cards.length === 0) return;
-
             const containerWidth = carouselContainer.clientWidth;
             cardWidth = getCardWidth();
-
             let cardsVisible = (window.innerWidth >= 768) ? 3 : 1;
             let targetTranslateX;
-
             if (cardsVisible > 1) {
-                const offset = (containerWidth / 2) - (cardWidth / 2);
-                targetTranslateX = -currentIndex * cardWidth + offset;
+                 const offset = (containerWidth / 2) - (cardWidth / 2);
+                 targetTranslateX = -currentIndex * cardWidth + offset;
             } else {
-                const offset = (containerWidth / 2) - (cardWidth / 2);
-                targetTranslateX = -currentIndex * cardWidth + offset;
+                 const offset = (containerWidth / 2) - (cardWidth / 2);
+                 targetTranslateX = -currentIndex * cardWidth + offset;
             }
-
             slider.style.transform = `translateX(${targetTranslateX}px)`;
-
             cards.forEach((card, index) => {
                 card.classList.remove('active');
-                if (index === currentIndex) {
-                    card.classList.add('active');
-                }
+                if (index === currentIndex) card.classList.add('active');
             });
         }
-
         function nextTestimonial() {
-            if (currentIndex < totalCards - 1) {
-                currentIndex++;
-            } else {
-                currentIndex = 0;
-            }
+            if (currentIndex < totalCards - 1) currentIndex++;
+            else currentIndex = 0;
             updateCarousel();
             resetAutoSlide();
         }
-
         function prevTestimonial() {
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = totalCards - 1;
-            }
+            if (currentIndex > 0) currentIndex--;
+            else currentIndex = totalCards - 1;
             updateCarousel();
             resetAutoSlide();
         }
-
         function startAutoSlide() {
-            if (totalCards > 1) {
-                autoSlideInterval = setInterval(nextTestimonial, 4000);
+            if(totalCards > 1) {
+                autoSlideInterval = setInterval(nextTestimonial, 4000);  
             }
         }
-
         function resetAutoSlide() {
             clearInterval(autoSlideInterval);
             startAutoSlide();
         }
-
         function initTestimonialCarousel() {
             if (!slider) return;
             totalCards = slider.querySelectorAll('.testimonial-card-wrapper').length;
-            currentIndex = 0;
-            updateCarousel();
+            currentIndex = 0;  
+            updateCarousel();  
             startAutoSlide();
             window.addEventListener('resize', updateCarousel);
         }
 
-        // --- ANIMASI HERO (Parallax + Float) ---
+        // --- ANIMASI HERO ---
         function animateHero() {
             if (!heroSection) return;
-            const floatY = Math.sin(Date.now() / 900) * 6;
-            const floatX = Math.cos(Date.now() / 1100) * 4;
-            const strength = 40;
+            const floatY = Math.sin(Date.now() / 900) * 6; 
+            const floatX = Math.cos(Date.now() / 1100) * 4; 
+            const strength = 40; 
 
             floatingCards.forEach((card, index) => {
                 const depth = [0.4, 1.0, 0.7, 0.9][index] || 0.5;
@@ -2041,8 +1889,8 @@
             requestAnimationFrame(animateHero);
         }
 
-        // ====== [FUNGSI-FUNGSI BARU UNTUK AUTENTIKASI & ADMIN] ======
-
+        // --- LOGIKA AUTENTIKASI & ADMIN BARU ---
+        
         // 1. Logika Modal Auth (Login/Sign Up)
         function showAuthModal(mode = 'login') {
             const modal = document.getElementById('auth-modal');
@@ -2067,11 +1915,10 @@
 
         function closeAuthModal(event = null) {
             if (event && event.target !== document.getElementById('auth-modal')) return;
-
             const modal = document.getElementById('auth-modal');
-            if (!modal) return;
+            if(!modal) return;
             const modalContent = modal.querySelector('.modal-content-container');
-
+            
             modal.classList.remove('opacity-100');
             modalContent.classList.remove('opacity-100', 'scale-100');
             modalContent.classList.add('opacity-0', 'scale-95');
@@ -2091,8 +1938,8 @@
 
         // 2. Logika Submit Form Login
         async function handleLogin(event) {
-            event.preventDefault();
-
+            event.preventDefault(); 
+            
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             const submitBtn = document.getElementById('login-submit-btn');
@@ -2114,8 +1961,8 @@
                     localStorage.setItem('userRole', data.user.role);
                     showNotification(`Selamat datang, ${data.user.name}!`, 'success');
                     closeAuthModal();
-                    updateAuthStatus();
-
+                    updateAuthStatus(); 
+                    
                     if (data.user.role === 'admin') {
                         window.location.href = 'admin.html';
                     }
@@ -2133,7 +1980,7 @@
         // 3. Logika Submit Form Sign Up
         async function handleSignup(event) {
             event.preventDefault();
-
+            
             const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
@@ -2170,19 +2017,18 @@
             localStorage.removeItem('token');
             localStorage.removeItem('userRole');
             showNotification('Anda telah Logout.', 'success');
-            updateAuthStatus();
-
+            updateAuthStatus(); 
             const sidebar = document.getElementById('admin-sidebar');
             const backdrop = document.getElementById('admin-sidebar-backdrop');
-            if (sidebar) sidebar.classList.add('-translate-x-full');
-            if (backdrop) backdrop.classList.add('hidden');
+            if(sidebar) sidebar.classList.add('-translate-x-full');
+            if(backdrop) backdrop.classList.add('hidden');
         }
 
         // 5. Update Status Header (Login/Logout/Admin)
         function updateAuthStatus() {
             const token = localStorage.getItem('token');
             const role = localStorage.getItem('userRole');
-
+            
             const authLoggedOutDiv = document.getElementById('auth-logged-out');
             const authLoggedInDiv = document.getElementById('auth-logged-in');
             const adminMenuToggle = document.getElementById('admin-menu-toggle');
@@ -2193,7 +2039,6 @@
                 authLoggedOutDiv.classList.add('hidden');
                 authLoggedInDiv.classList.remove('hidden');
                 authLoggedInDiv.classList.add('flex');
-
                 if (role === 'admin') {
                     adminMenuToggle.classList.remove('hidden');
                 } else {
@@ -2212,8 +2057,8 @@
         function toggleAdminMenu() {
             const sidebar = document.getElementById('admin-sidebar');
             const backdrop = document.getElementById('admin-sidebar-backdrop');
-            if (sidebar) sidebar.classList.toggle('-translate-x-full');
-            if (backdrop) backdrop.classList.toggle('hidden');
+            if(sidebar) sidebar.classList.toggle('-translate-x-full');
+            if(backdrop) backdrop.classList.toggle('hidden');
         }
 
         // 7. Logika Google Callback
@@ -2225,40 +2070,33 @@
             if (token && role) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('userRole', role);
-
                 window.history.replaceState(null, null, window.location.pathname);
-
                 showNotification('Login Google berhasil!', 'success');
                 updateAuthStatus();
-
                 if (role === 'admin') {
                     window.location.href = 'admin.html';
                 }
             }
         }
 
-        // ====== [AKHIR FUNGSI BARU] ======
-
-
         // --- INISIALISASI ---
         document.addEventListener('DOMContentLoaded', () => {
-
             // 0. Handle Google Callback (jika ada)
             handleGoogleCallback();
 
             // 1. Muat Tema Tersimpan
             loadTheme();
-
-            // 2. Panggil fungsi baru untuk mengambil data dari API
-            fetchProducts();
-
+            
+            // 2. PERBAIKAN: Panggil fetchProducts() untuk data dinamis
+            fetchProducts();  
+            
             // 3. Inisialisasi Ikon
             lucide.createIcons();
-
+            
             // 4. Inisialisasi Blur Header
-            toggleHeaderBlur(); // Panggil sekali saat load
-            window.addEventListener('scroll', toggleHeaderBlur);
-
+            toggleHeaderBlur();
+            window.addEventListener('scroll', toggleHeaderBlur);  
+            
             // 5. Inisialisasi Carousel
             initTestimonialCarousel();
 
@@ -2270,28 +2108,26 @@
                     mouseXPercent = (clientX / innerWidth) - 0.5;
                     mouseYPercent = (clientY / innerHeight) - 0.5;
                 });
-                // 7. EFEK BARU: Mulai loop animasi Hero
                 animateHero();
             }
 
-            // 8. BARU: Inisialisasi FAQ Accordion
+            // 7. BARU: Inisialisasi FAQ Accordion
             initFaqAccordion();
 
-            // 9. BARU: Update Status Tombol Login/Logout di Header
+            // 8. BARU: Update Status Tombol Login/Logout di Header
             updateAuthStatus();
 
-            // 10. BARU: Inisialisasi Navigasi Underline
+            // 9. BARU: Inisialisasi Navigasi Underline
             initNavLinks();
-
         });
-
+        
         // Memastikan fungsi navigasi global tersedia
         window.nextTestimonial = nextTestimonial;
         window.prevTestimonial = prevTestimonial;
-        window.toggleTheme = toggleTheme;
-        window.filterByCategory = filterByCategory;
-        window.toggleCollapse = toggleCollapse;
-        window.showModal = showModal;
+        window.toggleTheme = toggleTheme; 
+        window.filterByCategory = filterByCategory; 
+        window.toggleCollapse = toggleCollapse; 
+        window.showModal = showModal; 
         window.closeModal = closeModal;
         window.openOrderPage = openOrderPage;
 
@@ -2303,9 +2139,10 @@
         window.handleSignup = handleSignup;
         window.handleLogout = handleLogout;
         window.toggleAdminMenu = toggleAdminMenu;
-
+        
     </script>
 </body>
 
 
 </html>
+

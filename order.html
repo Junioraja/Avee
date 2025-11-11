@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konfirmasi Pesanan - Avee Premium Store</title>
-    <!-- Memuat Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Memuat ikon Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Memuat Font Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -27,6 +24,9 @@
                         'card-bg': '#FFFFFF',
                         'text-primary': '#1F2937',
                         'accent-wa': '#25D366',
+                        'brand-netflix': '#E50914', // Tambahkan warna brand yang dipakai JS
+                        'brand-canva': '#00C4CC',
+                        'brand-viu': '#FF7120',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -44,16 +44,12 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F0F8FF;
-            /* light-bg */
             color: #1F2937;
-            /* text-primary */
         }
 
         html.dark body {
             background-color: #111827;
-            /* gray-900 */
             color: #d1d5db;
-            /* gray-300 */
         }
 
         /* Gaya Accordion (Tab Grup) */
@@ -71,7 +67,6 @@
 
         .accordion-item.active .accordion-answer {
             max-height: 500px;
-            /* Cukup besar untuk konten */
             padding-top: 1rem;
             padding-bottom: 1.5rem;
         }
@@ -86,39 +81,31 @@
 
         .accordion-item.active .accordion-question {
             background-color: #FFFFFF;
-            /* card-bg */
         }
 
         html.dark .accordion-item.active .accordion-question {
             background-color: #1f2937;
-            /* gray-800 */
         }
 
         /* Gaya Tombol Metode Pembayaran */
         .payment-button {
             transition: all 0.2s ease;
             border: 2px solid #E5E7EB;
-            /* gray-200 */
         }
 
         html.dark .payment-button {
             border: 2px solid #4B5563;
-            /* gray-600 */
         }
 
         .payment-button.active {
             border-color: #2563EB;
-            /* deep-blue */
             background-color: #EFF6FF;
-            /* blue-50 */
             box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
         }
 
         html.dark .payment-button.active {
             border-color: #3B82F6;
-            /* blue-500 */
             background-color: #1F2937;
-            /* gray-800 */
         }
 
         /* Konten Pembayaran Tersembunyi */
@@ -147,7 +134,8 @@
 
 <body class="antialiased">
 
-    <!-- Header Sederhana -->
+    <div id="notification-container" class="fixed top-4 right-4 z-[100]"></div>
+
     <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
             <a href="index.html" class="flex items-center space-x-2 group">
@@ -298,6 +286,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mt-8">
                 <h2 class="text-2xl font-bold mb-4 border-b dark:border-gray-700 pb-2 text-gray-900 dark:text-gray-100">
                     Rincian Biaya</h2>
@@ -352,346 +341,346 @@
                     WhatsApp untuk konfirmasi.</p>
             </div>
         </div>
-    </main>
+    </main>
 
-    <!-- DATA JAVASCRIPT (Disalin dari index.html) -->
-    <script>
-        // ====== [JAVASCRIPT LENGKAP UNTUK order.html] ======
+        <script>
+        // ====== [JAVASCRIPT LENGKAP UNTUK order.html] ======
 
-        // --- Variabel Global & Konfigurasi ---
-        let selectedApp = null;
-        let selectedItem = null; // Ini akan menampung objek produk lengkap dari API
-        let currentQuantity = 1;
-        let selectedPaymentMethod = 'QRIS'; // Default
-        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app';
+        // --- Variabel Global & Konfigurasi ---
+        let selectedApp = null;
+        let selectedItem = null; // Ini akan menampung objek produk lengkap dari API
+        let currentQuantity = 1;
+        let selectedPaymentMethod = 'QRIS'; // Default
+        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
 
-        // --- Fungsi Helper ---
-        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        // --- Fungsi Helper ---
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
 
-        function showNotification(message, type = 'error') {
-            // Implementasi notifikasi toast atau alert
-            console.log(`[${type.toUpperCase()}] ${message}`);
-            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-            const container = document.getElementById('notification-container') || document.body;
+        function showNotification(message, type = 'error') {
+            // Implementasi notifikasi toast atau alert
+            console.log(`[${type.toUpperCase()}] ${message}`);
+            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const container = document.getElementById('notification-container') || document.body;
 
-            const toast = document.createElement('div');
-            toast.className = `fixed top-4 right-4 z-[100] p-4 rounded-lg shadow-lg text-white font-medium ${color} transition transform duration-300 translate-x-full`;
-            toast.textContent = message;
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 z-[100] p-4 rounded-lg shadow-lg text-white font-medium ${color} transition transform duration-300 translate-x-full`;
+            toast.textContent = message;
 
-            container.appendChild(toast);
+            container.appendChild(toast);
 
-            // Animasi masuk
-            setTimeout(() => toast.classList.remove('translate-x-full'), 10);
+            // Animasi masuk
+            setTimeout(() => toast.classList.remove('translate-x-full'), 10);
 
-            // Animasi keluar
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'scale-90');
-                toast.addEventListener('transitionend', () => toast.remove());
-            }, 4000);
-        }
+            // Animasi keluar
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'scale-90');
+                toast.addEventListener('transitionend', () => toast.remove());
+            }, 4000);
+        }
 
-        // --- LOGIKA DARK MODE ---
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        }
+        // --- LOGIKA DARK MODE ---
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            lucide.createIcons();
-        }
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
 
-        // --- LOGIKA ACCORDION (FAQ) ---
-        function initAccordion() {
-            const container = document.getElementById('accordion-container');
-            if (!container) return;
+        // --- LOGIKA ACCORDION (FAQ) ---
+        function initAccordion() {
+            const container = document.getElementById('accordion-container');
+            if (!container) return;
 
-            container.addEventListener('click', function (e) {
-                const questionButton = e.target.closest('.accordion-question');
-                if (!questionButton) return;
+            container.addEventListener('click', function (e) {
+                const questionButton = e.target.closest('.accordion-question');
+                if (!questionButton) return;
 
-                const faqItem = questionButton.parentElement;
-                const isActive = faqItem.classList.contains('active');
+                const faqItem = questionButton.parentElement;
+                const isActive = faqItem.classList.contains('active');
 
-                // Tutup semua item
-                container.querySelectorAll('.accordion-item').forEach(item => {
-                    item.classList.remove('active');
-                });
+                // Tutup semua item
+                container.querySelectorAll('.accordion-item').forEach(item => {
+                    item.classList.remove('active');
+                });
 
-                // Buka yang diklik (jika sebelumnya tidak aktif)
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
-                lucide.createIcons();
-            });
-        }
+                // Buka yang diklik (jika sebelumnya tidak aktif)
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+                lucide.createIcons();
+            });
+        }
 
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
 
-            // Ambil teks tanpa format (menghilangkan spasi berlebih)
-            const textToCopy = element.textContent.replace(/[^0-9A-Z]/gi, '');
+            // Ambil teks tanpa format (menghilangkan spasi berlebih)
+            const textToCopy = element.textContent.replace(/[^0-9A-Z]/gi, '');
 
-            // Gunakan modern API (navigator.clipboard)
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showNotification('Nomor berhasil disalin!', 'success');
-                }).catch(err => {
-                    console.error('Could not copy text: ', err);
-                    showNotification('Gagal menyalin. Silakan salin manual.', 'error');
-                });
-            } else {
-                // Fallback untuk browser lama atau HTTP (tidak disarankan)
-                const textArea = document.createElement("textarea");
-                textArea.value = textToCopy;
-                textArea.style.position = "fixed";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showNotification('Nomor berhasil disalin!', 'success');
-                } catch (err) {
-                    showNotification('Gagal menyalin. Silakan salin manual.', 'error');
-                }
-                document.body.removeChild(textArea);
-            }
-        }
+            // Gunakan modern API (navigator.clipboard)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showNotification('Nomor berhasil disalin!', 'success');
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                    showNotification('Gagal menyalin. Silakan salin manual.', 'error');
+                });
+            } else {
+                // Fallback untuk browser lama atau HTTP (tidak disarankan)
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                textArea.style.position = "fixed";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showNotification('Nomor berhasil disalin!', 'success');
+                } catch (err) {
+                    showNotification('Gagal menyalin. Silakan salin manual.', 'error');
+                }
+                document.body.removeChild(textArea);
+            }
+        }
 
-        // --- LOGIKA PEMILIHAN PEMBAYARAN ---
-        function selectPayment(method, buttonElement) {
-            selectedPaymentMethod = method;
+        // --- LOGIKA PEMILIHAN PEMBAYARAN ---
+        function selectPayment(method, buttonElement) {
+            selectedPaymentMethod = method;
 
-            // Update status tombol
-            document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('active'));
-            buttonElement.classList.add('active');
+            // Update status tombol
+            document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
 
-            // Tampilkan konten yang sesuai
-            document.querySelectorAll('.payment-content').forEach(content => content.classList.remove('active'));
-            const content = document.getElementById(`payment-${method}`);
-            if (content) content.classList.add('active');
-        }
+            // Tampilkan konten yang sesuai
+            document.querySelectorAll('.payment-content').forEach(content => content.classList.remove('active'));
+            const content = document.getElementById(`payment-${method}`);
+            if (content) content.classList.add('active');
+        }
 
-        // --- LOGIKA KUANTITAS & HARGA ---
-        function updateQuantity(change) {
-            if (!selectedItem) return;
+        // --- LOGIKA KUANTITAS & HARGA ---
+        function updateQuantity(change) {
+            if (!selectedItem) return;
 
-            let newQty = currentQuantity + change;
+            let newQty = currentQuantity + change;
 
-            if (newQty < 1) newQty = 1;
-            // Cek stok (contoh)
-            if (selectedItem.stock !== null && selectedItem.stock !== undefined && newQty > selectedItem.stock) {
-                showNotification(`Stok hanya tersisa ${selectedItem.stock}!`, 'error');
-                newQty = selectedItem.stock;
-            }
-            if (newQty > 10) newQty = 10; // Batas maks umum
+            if (newQty < 1) newQty = 1;
+            // Cek stok (contoh)
+            if (selectedItem.stock !== null && selectedItem.stock !== undefined && newQty > selectedItem.stock) {
+                showNotification(`Stok hanya tersisa ${selectedItem.stock}!`, 'error');
+                newQty = selectedItem.stock;
+            }
+            if (newQty > 10) newQty = 10; // Batas maks umum
 
-            currentQuantity = newQty;
-            document.getElementById('quantity-display').textContent = currentQuantity;
-            updateTotal();
-        }
+            currentQuantity = newQty;
+            document.getElementById('quantity-display').textContent = currentQuantity;
+            updateTotal();
+        }
 
-        function updateTotal() {
-            if (!selectedItem) return;
-            const unitPrice = selectedItem.price;
-            const totalPrice = unitPrice * currentQuantity;
+        function updateTotal() {
+            if (!selectedItem) return;
+            const unitPrice = selectedItem.price;
+            const totalPrice = unitPrice * currentQuantity;
 
-            document.getElementById('summary-unit-price').textContent = formatRupiah(unitPrice);
-            document.getElementById('summary-total-price').textContent = formatRupiah(totalPrice);
-        }
+            document.getElementById('summary-unit-price').textContent = formatRupiah(unitPrice);
+            document.getElementById('summary-total-price').textContent = formatRupiah(totalPrice);
+        }
 
-        // --- FUNGSI KRITIS: Ambil Data dari API Berdasarkan Kode Produk ---
-        async function fetchProductDetails(itemCode) {
-            try {
-                // Ambil semua produk (karena endpoint GET /api/products/:code mungkin belum ada)
-                const response = await fetch(`${API_BASE_URL}/products`);
+        // --- FUNGSI KRITIS: Ambil Data dari API Berdasarkan Kode Produk ---
+        async function fetchProductDetails(itemCode) {
+            try {
+                // Ambil semua produk (karena endpoint GET /api/products/:code mungkin belum ada)
+                const response = await fetch(`${API_BASE_URL}/api/products`); // Ditambahkan /api
 
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error || 'Gagal mengambil data produk dari server.');
-                }
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || 'Gagal mengambil data produk dari server.');
+                }
 
-                const products = await response.json();
+                const products = await response.json();
 
-                // Cari produk berdasarkan product_code (yang dikirim dari index.html)
-                const item = products.find(p => p.product_code === itemCode);
+                // Cari produk berdasarkan product_code (yang dikirim dari index.html)
+                const item = products.find(p => p.product_code === itemCode);
 
-                if (item) {
-                    return item;
-                } else {
-                    throw new Error(`Item Code "${itemCode}" tidak ditemukan di database.`);
-                }
+                if (item) {
+                    return item;
+                } else {
+                    throw new Error(`Item Code "${itemCode}" tidak ditemukan di database.`);
+                }
 
-            } catch (error) {
-                console.error("Error fetching product details:", error);
-                showNotification(`Gagal memuat detail produk: ${error.message}`, 'error');
-                return null;
-            }
-        }
+            } catch (error) {
+                console.error("Error fetching product details:", error);
+                showNotification(`Gagal memuat detail produk: ${error.message}`, 'error');
+                return null;
+            }
+        }
 
-        // --- LOGIKA PENGIRIMAN PESANAN (KE WA DAN DB) ---
-        async function submitOrder() {
-            if (!selectedItem) {
-                showNotification('Gagal: Detail paket belum dimuat.', 'error');
-                return;
-            }
-            if (currentQuantity < 1) {
-                showNotification('Kuantitas tidak valid.', 'error');
-                return;
-            }
+        // --- LOGIKA PENGIRIMAN PESANAN (KE WA DAN DB) ---
+        async function submitOrder() {
+            if (!selectedItem) {
+                showNotification('Gagal: Detail paket belum dimuat.', 'error');
+                return;
+            }
+            if (currentQuantity < 1) {
+                showNotification('Kuantitas tidak valid.', 'error');
+                return;
+            }
 
-            const total = selectedItem.price * currentQuantity;
-            const userId = localStorage.getItem('userId') || null;
+            const total = selectedItem.price * currentQuantity;
+            const userId = localStorage.getItem('userId') || null;
 
-            const orderData = {
-                userId: userId,
-                totalAmount: total,
-                items: [{
-                    // KUNCI PERBAIKAN: 
-                    // Kita mengirim ID internal (numeric) dan productCode (string)
-                    productId: selectedItem.id,
-                    productCode: selectedItem.product_code, // <--- INI PENTING! (string)
-                    quantity: currentQuantity,
-                    unitPrice: selectedItem.price
-                }]
-            };
+            const orderData = {
+                userId: userId,
+                totalAmount: total,
+                items: [{
+                    // KUNCI PERBAIKAN: 
+                    // Kita mengirim ID internal (numeric) dan productCode (string)
+                    productId: selectedItem.id, // ID internal (numeric)
+                    productCode: selectedItem.product_code, // <--- STRING UNIK
+                    quantity: currentQuantity,
+                    unitPrice: selectedItem.price
+                }]
+            };
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/orders`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderData)
-                });
+            try {
+                // PERBAIKAN URL: Menggunakan /api/orders
+                const response = await fetch(`${API_BASE_URL}/api/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
 
-                const data = await response.json();
+                const data = await response.json();
 
-                if (response.ok) {
-                    showNotification(`Pesanan #${data.orderId} berhasil dicatat. Lanjutkan ke WhatsApp.`, 'success');
-                    // Lanjutkan ke WhatsApp dengan ID Pesanan dari server
-                    generateWaLink(data.orderId);
-                } else {
-                    showNotification(`Gagal menyimpan order ke DB: ${data.error}`, 'error');
-                }
-            } catch (error) {
-                console.error('API Error:', error);
-                showNotification('Gagal terhubung ke server backend.', 'error');
-            }
-        }
+                if (response.ok) {
+                    showNotification(`Pesanan #${data.orderId} berhasil dicatat. Lanjutkan ke WhatsApp.`, 'success');
+                    // Lanjutkan ke WhatsApp dengan ID Pesanan dari server
+                    generateWaLink(data.orderId);
+                } else {
+                    showNotification(`Gagal menyimpan order ke DB: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+                showNotification('Gagal terhubung ke server backend.', 'error');
+            }
+        }
 
-        function generateWaLink(orderId = 'BELUM_DICATAT') {
-            if (!selectedItem) return;
-            const total = selectedItem.price * currentQuantity;
+        function generateWaLink(orderId = 'BELUM_DICATAT') {
+            if (!selectedItem) return;
+            const total = selectedItem.price * currentQuantity;
 
-            // Pastikan nomor WA Anda sudah benar di sini
-            const waNumber = '6287766107867';
+            // Pastikan nomor WA Anda sudah benar di sini
+            const waNumber = '6287766107867';
 
-            const message = `
+            const message = `
 Halo Avee, saya ingin memesan paket berikut:
 --------------------------------
-ID Pesanan   : ${orderId}
-Produk       : ${selectedApp}
-Paket        : ${selectedItem.package_name}
-Durasi       : ${selectedItem.duration}
-Jumlah       : ${currentQuantity}
-Total Harga  : ${formatRupiah(total)}
+ID Pesanan   : ${orderId}
+Produk       : ${selectedApp}
+Paket        : ${selectedItem.package_name}
+Durasi       : ${selectedItem.duration}
+Jumlah       : ${currentQuantity}
+Total Harga  : ${formatRupiah(total)}
 --------------------------------
 Metode Pembayaran : ${selectedPaymentMethod}
 
 Mohon info ketersediaan dan instruksi pembayarannya. Terima kasih!
 (Jika sudah bayar, mohon lampirkan bukti transfer di bawah ini)
-    `.trim().replace(/\n/g, '%0A').replace(/ /g, '%20');
+    `.trim().replace(/\n/g, '%0A').replace(/ /g, '%20');
 
-            const waLink = `https://wa.me/${waNumber}?text=${message}`;
+            const waLink = `https://wa.me/${waNumber}?text=${message}`;
 
-            window.open(waLink, '_blank');
-        }
+            window.open(waLink, '_blank');
+        }
 
 
-        // --- FUNGSI INISIALISASI HALAMAN ---
-        document.addEventListener('DOMContentLoaded', async () => {
-            loadTheme();
-            lucide.createIcons();
-            initAccordion();
+        // --- FUNGSI INISIALISASI HALAMAN ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadTheme();
+            lucide.createIcons();
+            initAccordion();
 
-            // 1. Baca URL Parameters
-            const params = new URLSearchParams(window.location.search);
-            const itemCode = params.get('id'); // Ini harus berisi product_code dari index.html
+            // 1. Baca URL Parameters
+            const params = new URLSearchParams(window.location.search);
+            const itemCode = params.get('id'); // Ini harus berisi product_code dari index.html
 
-            if (!itemCode) {
-                document.getElementById('product-name').textContent = "Error: Kode Produk Tidak Ditemukan";
-                document.getElementById('summary-package-name').textContent = "Error";
-                return;
-            }
+            if (!itemCode) {
+                document.getElementById('product-name').textContent = "Error: Kode Produk Tidak Ditemukan";
+                document.getElementById('summary-package-name').textContent = "Error";
+                return;
+            }
 
-            // 2. Ambil data dari API menggunakan Kode Produk
-            selectedItem = await fetchProductDetails(itemCode);
+            // 2. Ambil data dari API menggunakan Kode Produk
+            selectedItem = await fetchProductDetails(itemCode);
 
-            if (!selectedItem) {
-                document.getElementById('product-name').textContent = "Error: Paket Tidak Valid atau API Gagal";
-                document.getElementById('summary-package-name').textContent = "Error";
-                return;
-            }
+            if (!selectedItem) {
+                document.getElementById('product-name').textContent = "Error: Paket Tidak Valid atau API Gagal";
+                document.getElementById('summary-package-name').textContent = "Error";
+                return;
+            }
 
-            // 3. Isi variabel global dari data API
-            selectedApp = selectedItem.app_name;
-            // Ambil warna (jika Anda mendefinisikannya di tailwind.config di order.html)
-            // Jika tidak, gunakan warna default atau dari data API
-            const brandColor = tailwind.config.theme.extend.colors[`brand-${selectedApp.toLowerCase().replace('+', '').replace(' ', '')}`] || '#2563EB';
+            // 3. Isi variabel global dari data API
+            selectedApp = selectedItem.app_name;
+            // Ambil warna (jika Anda mendefinisikannya di tailwind.config di order.html)
+            // Jika tidak, gunakan warna default atau dari data API
+            const brandColor = tailwind.config.theme.extend.colors[`brand-${selectedApp.toLowerCase().replace('+', '').replace(' ', '')}`] || '#2563EB';
 
-            // 4. Isi Banner, Logo, dan Judul
-            const bannerEl = document.getElementById('product-banner');
-            if (bannerEl) {
-                bannerEl.style.backgroundImage = `url(${selectedItem.banner_url || 'https://placehold.co/600x200/eeeeee/cccccc?text=Banner+Produk'})`;
-                bannerEl.style.backgroundSize = 'cover';
-                bannerEl.style.backgroundPosition = 'center';
-            }
+            // 4. Isi Banner, Logo, dan Judul
+            const bannerEl = document.getElementById('product-banner');
+            if (bannerEl) {
+                bannerEl.style.backgroundImage = `url(${selectedItem.banner_url || 'https://placehold.co/600x200/eeeeee/cccccc?text=Banner+Produk'})`;
+                bannerEl.style.backgroundSize = 'cover';
+                bannerEl.style.backgroundPosition = 'center';
+            }
 
-            const logoEl = document.getElementById('product-logo');
-            if (logoEl) {
-                logoEl.src = selectedItem.logo_url || 'https://placehold.co/64x64/eeeeee/cccccc?text=Logo';
-            }
+            const logoEl = document.getElementById('product-logo');
+            if (logoEl) {
+                logoEl.src = selectedItem.logo_url || 'https://placehold.co/64x64/eeeeee/cccccc?text=Logo';
+            }
 
-            document.getElementById('product-name').textContent = selectedApp;
-            document.getElementById('product-name').style.color = brandColor;
+            document.getElementById('product-name').textContent = selectedApp;
+            document.getElementById('product-name').style.color = brandColor;
 
-            // 5. Isi Info Paket
-            document.getElementById('info-content').innerHTML = `
-        <p><strong>Kode Produk:</strong> ${selectedItem.product_code}</p>
-        <p><strong>Paket:</strong> ${selectedItem.package_name}</p>
-        <p><strong>Deskripsi:</strong> ${selectedItem.description || 'Informasi tidak tersedia.'}</p>
-        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Pastikan Anda telah membaca dan memahami detail paket sebelum memesan.</p>
-    `;
+            // 5. Isi Info Paket
+            document.getElementById('info-content').innerHTML = `
+        <p><strong>Kode Produk:</strong> ${selectedItem.product_code}</p>
+        <p><strong>Paket:</strong> ${selectedItem.package_name}</p>
+        <p><strong>Deskripsi:</strong> ${selectedItem.description || 'Informasi tidak tersedia.'}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Pastikan Anda telah membaca dan memahami detail paket sebelum memesan.</p>
+    `;
 
-            // 6. Isi Rincian Biaya
-            document.getElementById('summary-package-name').textContent = `${selectedApp} - ${selectedItem.package_name}`;
-            document.getElementById('summary-duration').textContent = selectedItem.duration;
+            // 6. Isi Rincian Biaya
+            document.getElementById('summary-package-name').textContent = `${selectedApp} - ${selectedItem.package_name}`;
+            document.getElementById('summary-duration').textContent = selectedItem.duration;
 
-            // Inisialisasi Kuantitas dan Harga
-            currentQuantity = 1;
-            document.getElementById('quantity-display').textContent = currentQuantity;
-            updateTotal();
+            // Inisialisasi Kuantitas dan Harga
+            currentQuantity = 1;
+            document.getElementById('quantity-display').textContent = currentQuantity;
+            updateTotal();
 
-            // 7. Atur warna tombol WA
-            const waButton = document.querySelector('.bg-accent-wa');
-            if (waButton) {
-                waButton.style.backgroundColor = brandColor;
-            }
-        });
+            // 7. Atur warna tombol WA
+            const waButton = document.querySelector('.bg-accent-wa');
+            if (waButton) {
+                waButton.style.backgroundColor = brandColor;
+            }
+        });
 
-        // Daftarkan fungsi global
-        window.toggleTheme = toggleTheme;
-        window.selectPayment = selectPayment;
-        window.updateQuantity = updateQuantity;
-        window.generateWaLink = generateWaLink;
-        window.submitOrder = submitOrder;
-    </script>
+        // Daftarkan fungsi global
+        window.toggleTheme = toggleTheme;
+        window.selectPayment = selectPayment;
+        window.updateQuantity = updateQuantity;
+        window.generateWaLink = generateWaLink;
+        window.submitOrder = submitOrder;
+    </script>
 </body>
 
 </html>

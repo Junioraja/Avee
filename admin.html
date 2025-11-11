@@ -538,19 +538,17 @@
         }
         
         async function deleteOrder(orderId) {
-            if (!confirm(`Yakin ingin menghapus pesanan #${orderId}? Stok tidak akan dikembalikan.`)) return;
-            
-            // Catatan: API backend (DELETE /api/orders/:id) perlu dibuat
-            // try {
-            //     await fetchWithAuth(`${API_BASE_URL}/orders/${orderId}`, { method: 'DELETE' });
-            //     showNotification(`Pesanan #${orderId} berhasil dihapus.`, 'success');
-            //     loadOrders(); 
-            //     loadDashboardData();
-            // } catch (error) {
-            //     showNotification(`Gagal menghapus: ${error.message}`, 'error');
-            // }
-            showNotification(`(MOCK) Menghapus pesanan #${orderId}. API backend (DELETE /api/orders/:id) perlu dibuat.`, 'error');
-        }
+    if (!confirm(`Yakin ingin menghapus pesanan #${orderId}? Stok tidak akan dikembalikan.`)) return;
+    
+    try {
+        await fetchWithAuth(`${API_BASE_URL}/orders/${orderId}`, { method: 'DELETE' });
+        showNotification(`Pesanan #${orderId} berhasil dihapus.`, 'success');
+        loadOrders(); // Muat ulang tabel
+        loadDashboardData(); // Muat ulang statistik
+    } catch (error) {
+        showNotification(`Gagal menghapus: ${error.message}`, 'error');
+    }
+}
 
         async function sendWaOrder(orderId) {
             // Fungsi ini menggunakan API detail pesanan yang baru Anda buat (GET /api/orders/:id)
@@ -843,3 +841,4 @@ ${itemDetails}
 </body>
 
 </html>
+

@@ -273,8 +273,10 @@
             </form>
         </div>
     </div>
+    
     <script>
         // URL API Backend Anda
+        // PERBAIKAN: Hapus /api di akhir (karena fetchWithAuth menambahkannya)
         const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app';
         let adminToken = null; 
         let financeChart = null; 
@@ -299,26 +301,39 @@
         async function fetchWithAuth(url, options = {}) {
             if (!adminToken) { 
                 handleLogout(); 
-                throw new Error("Token tidak ditemukan"); // Tambahkan throw di sini
+                throw new Error("Token tidak ditemukan"); 
             }
+            // PERBAIKAN: Menambahkan /api secara konsisten ke semua panggilan
+            const fullUrl = `${API_BASE_URL}/api${url}`;
+            
             const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminToken}`, ...options.headers, };
+            
             try {
-                const response = await fetch(url, { ...options, headers });
+                const response = await fetch(fullUrl, { ...options, headers });
+                
                 if (response.status === 401 || response.status === 403) {
                     alert("Sesi Anda telah berakhir. Silakan login kembali.");
                     handleLogout();
                     throw new Error("Token tidak valid");
                 }
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error || `HTTP Error: ${response.status}`);
-                }
+                
+                // Cek jika respons punya konten
                 const contentType = response.headers.get("content-type");
                 if (contentType && contentType.indexOf("application/json") !== -1) {
-                    return response.json();
+                    const data = await response.json();
+                    if (!response.ok) {
+                         // Jika JSON tapi error (misal: "Produk tidak ditemukan")
+                        throw new Error(data.error || `HTTP Error: ${response.status}`);
+                    }
+                    return data;
                 } else {
+                    // Handle non-JSON response (misal: DELETE sukses)
+                    if (!response.ok) {
+                         throw new Error(`HTTP Error: ${response.status}`);
+                    }
                     return response.text();
                 }
+
             } catch (error) {
                 console.error("Fetch API Error:", error.message);
                 showNotification(`Error API: ${error.message}`, 'error');
@@ -326,7 +341,291 @@
             }
         }
         
-        // --- MODAL & CRUD LOGIC ---
+        // --- AUTH & NAVIGATION ---
+        function checkAuth() { 
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('userRole');
+            if (!token || role !== 'admin') {
+                window.location.href = 'index.html';
+                return null;
+            }
+            adminToken = token;
+            return token;
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+            adminToken = null;
+            window.location.href = 'index.html';
+        }
+        
+        function showView(viewId, element) { 
+            document.querySelectorAll('.admin-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-blue-100', 'dark:bg-gray-700');
+            });
+            element.classList.add('bg-blue-100', 'dark:bg-gray-700');
+
+            if (viewId === 'orders-view') loadOrders();
+            if (viewId === 'products-view') loadProducts();
+            if (viewId === 'dashboard-view') loadDashboardData();
+            if (viewId === 'users-view') loadUsers();
+            
+            lucide.createIcons();
+        }
+
+        // --- DASHBOARD LOGIC ---
+        async function loadDashboardData() {
+            try {
+                const orders = await fetchWithAuth(`/orders`);
+                let total = 0;
+                let completed = 0;
+                let pending = 0;
+                
+                orders.forEach(order => {
+                    if (order.status === 'Selesai' || order.status === 'Paid') {
+                        total += order.total_amount;
+                        completed++;
+                    } else if (order.status === 'Pending') {
+                        pending++;
+                    }
+                });
+
+                document.getElementById('stat-total').textContent = formatRupiah(total);
+                document.getElementById('stat-completed').textContent = completed;
+                document.getElementById('stat-pending').textContent = pending;
+            } catch (err) {
+                console.error("Gagal memuat statistik", err);
+            }
+            renderFinanceChart();
+        }
+
+        function renderFinanceChart() {
+            const ctx = document.getElementById('finance-chart').getContext('2d');
+            if (financeChart) financeChart.destroy();
+            
+            const labels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+            financeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pendapatan (Rp)',
+                        data: [150000, 250000, 180000, 300000, 450000, 220000, 500000], // Data dummy
+                        fill: true,
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } }, plugins: { legend: { display: false } } }
+            });
+        }
+        
+        // --- ORDER LOGIC ---
+        async function loadOrders() {
+            const container = document.getElementById('orders-table-container');
+            container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data pesanan...</div>`;
+            try {
+                const orders = await fetchWithAuth(`/orders`);
+                renderOrdersTable(orders);
+            } catch (error) {
+                container.innerHTML = `<div class="p-8 text-center text-red-500">Gagal memuat pesanan.</div>`;
+            }
+        }
+        
+        function renderOrdersTable(orders) {
+            const container = document.getElementById('orders-table-container');
+            if (orders.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada pesanan.</div>`;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pelanggan</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            `;
+
+            orders.forEach(order => {
+                const userName = order.user_name || 'Guest';
+                const formattedDate = new Date(order.order_date).toLocaleString('id-ID');
+                
+                tableHTML += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${order.id}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${userName} (${order.user_email || 'N/A'})</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formattedDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${formatRupiah(order.total_amount)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <select onchange="updateOrderStatus(${order.id}, this.value)" class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Proses" ${order.status === 'Proses' ? 'selected' : ''}>Proses</option>
+                                <option value="Selesai" ${order.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+                                <option value="Paid" ${order.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                            </select>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex items-center space-x-2"> 
+                                <button onclick="sendWaOrder(${order.id})" class="flex items-center bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Proses Pesanan via WA">
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deleteOrder(${order.id})" class="flex items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Hapus Pesanan">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                await fetchWithAuth(`/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: newStatus })
+                });
+                showNotification(`Status pesanan #${orderId} diubah menjadi ${newStatus}`, 'success');
+                loadDashboardData(); 
+            } catch (error) {
+                showNotification(`Gagal update status: ${error.message}`, 'error');
+                loadOrders(); 
+            }
+        }
+        
+        async function deleteOrder(orderId) {
+            if (!confirm(`Yakin ingin menghapus pesanan #${orderId}? Stok tidak akan dikembalikan.`)) return;
+            
+            try {
+                await fetchWithAuth(`/orders/${orderId}`, { method: 'DELETE' });
+                showNotification(`Pesanan #${orderId} berhasil dihapus.`, 'success');
+                loadOrders(); 
+                loadDashboardData();
+            } catch (error) {
+                showNotification(`Gagal menghapus: ${error.message}`, 'error');
+            }
+        }
+
+        async function sendWaOrder(orderId) {
+            try {
+                const order = await fetchWithAuth(`/orders/${orderId}`);
+                
+                if (!order.items || order.items.length === 0) {
+                    showNotification("Pesanan ini tidak memiliki item detail.", "error");
+                    return;
+                }
+                
+                let itemDetails = order.items.map(item => 
+                    `.buy ${item.product_code} ${item.quantity} SALDO`
+                ).join('\n');
+
+                const waNumber = '6281359049717';
+                const templatePesan = `
+⁂ ᴋᴇᴛɪᴋ .buy<ꜱᴘᴀꜱɪ>kode produk<ꜱᴘᴀꜱɪ>kuantitas<ꜱᴘᴀꜱɪ>metode pembayaran ᴜɴᴛᴜᴋ ᴍᴇᴍʙᴇʟɪ ᴘʀᴏᴅᴜᴋ
+
+ᴄᴏɴᴛᴏH:
+ .buy viuanlim1b 2 saldo
+
+ᴍᴇᴛᴏᴅᴇ ᴘᴇᴍʙᴀʏᴀʀᴀɴ ᴛᴇʀꜱᴇᴅɪᴀ:
+SALDO, QRIS
+
+---
+*DETAIL PESANAN (Ref ID: #${orderId}):*
+${itemDetails}
+                `;
+                
+                const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(templatePesan)}`;
+                window.open(waLink, '_blank');
+                
+            } catch (error) {
+                showNotification(`Gagal mengambil detail pesanan #${orderId}: ${error.message}`, 'error');
+            }
+        }
+
+        // --- CATALOG/PRODUCT LOGIC ---
+        async function loadProducts() {
+            const container = document.getElementById('products-table-container');
+            container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data produk...</div>`;
+
+            try {
+                const products = await fetchWithAuth(`/products`);
+                renderProductsTable(products);
+            } catch (error) {
+                container.innerHTML = `<div class="p-8 text-center text-red-500">Gagal memuat produk.</div>`;
+            }
+        }
+
+        function renderProductsTable(products) {
+            const container = document.getElementById('products-table-container');
+            if (products.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada produk.</div>`;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kode Produk</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aplikasi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Paket</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hrg. Beli</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hrg. Jual</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Stok</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            `;
+
+            products.forEach(product => {
+                tableHTML += `
+                    <tr data-product='${JSON.stringify(product)}'>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-100">${product.product_code || 'N/A'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${product.app_name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${product.package_name} (${product.duration})</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${formatRupiah(product.purchase_price || 0)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${formatRupiah(product.price)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${product.stock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex items-center space-x-2">
+                                <button onclick="openProductModal(this)" class="flex items-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Edit Produk">
+                                    <i data-lucide="edit-2" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deleteProduct('${product.product_code}')" class="flex items-center bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-lg text-xs shadow-md" title="Hapus Produk">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        }
+        
+        // --- MODAL & CRUD LOGIC (PERBAIKAN KRITIS) ---
         function closeProductModal(event = null) {
             if (event && event.target !== document.getElementById('product-modal')) return;
             const modal = document.getElementById('product-modal');
@@ -341,6 +640,7 @@
             form.reset();
             
             if (buttonElement) {
+                // Mode Edit
                 document.getElementById('product-modal-title').textContent = 'Edit Produk (Paket)';
                 const productData = JSON.parse(buttonElement.closest('tr').dataset.product);
                 
@@ -362,6 +662,7 @@
                 document.getElementById('product-description').value = productData.description || '';
                 
             } else {
+                // Mode Tambah Baru
                 document.getElementById('product-modal-title').textContent = 'Tambah Produk Baru';
                 document.getElementById('product-id').value = ''; 
             }
@@ -374,7 +675,7 @@
 
         async function handleProductSubmit(event) {
             event.preventDefault();
-            const productId = document.getElementById('product-id').value; // product_code string
+            const productId = document.getElementById('product-id').value; // Ini adalah product_code (string)
             const isEditing = !!productId;
 
             const productData = {
@@ -382,7 +683,7 @@
                 data_category: document.getElementById('product-data-category').value,
                 package_name: document.getElementById('product-package-name').value,
                 duration: document.getElementById('product-duration').value,
-                product_code: document.getElementById('product-code').value, // Used for PUT payload and key
+                product_code: document.getElementById('product-code').value, 
                 purchase_price: parseInt(document.getElementById('product-purchase-price').value) || 0,
                 price: parseInt(document.getElementById('product-price').value) || 0,
                 discount_percentage: parseInt(document.getElementById('product-discount').value) || 0,
@@ -392,7 +693,8 @@
                 description: document.getElementById('product-description').value,
             };
 
-            const url = isEditing ? `${API_BASE_URL}/api/products/${productId}` : `${API_BASE_URL}/api/products`;
+            // URL API menggunakan product_code sebagai :id
+            const url = isEditing ? `/products/${productId}` : `/products`;
             const method = isEditing ? 'PUT' : 'POST';
 
             try {
@@ -408,6 +710,71 @@
             }
         }
         
+        async function deleteProduct(productCode) { // Menerima product_code (string)
+            if (!confirm(`Yakin ingin menghapus produk Kode: ${productCode}?`)) return;
+            
+            try {
+                await fetchWithAuth(`/products/${productCode}`, { method: 'DELETE' });
+                showNotification(`Produk Kode: ${productCode} berhasil dihapus.`, 'success');
+                loadProducts(); 
+            } catch (error) {
+                showNotification(`Gagal menghapus: ${error.message}`, 'error');
+            }
+        }
+
+        // --- USER LOGIC ---
+        async function loadUsers() {
+             const container = document.getElementById('users-table-container');
+            container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data pengguna...</div>`;
+            
+            try {
+                const users = await fetchWithAuth(`/users`);
+                renderUsersTable(users);
+            } catch (error) {
+                container.innerHTML = `<div class="p-8 text-center text-red-500">Gagal memuat pengguna.</div>`;
+            }
+        }
+        
+        function renderUsersTable(users) {
+            const container = document.getElementById('users-table-container');
+            if (users.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada pengguna terdaftar.</div>`;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Poin</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kode Referral</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            `;
+
+            users.forEach(user => {
+                tableHTML += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${user.id}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 dark:text-gray-100">${user.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${user.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${user.role}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-600 dark:text-blue-400">${user.loyalty_points || 0}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">${user.referral_code || 'N/A'}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            lucide.createIcons();
+        }
+        
         // --- NAVIGATION & INIT ---
         function checkAuth() { 
             const token = localStorage.getItem('token');
@@ -420,29 +787,10 @@
             return token;
         }
 
-        function handleLogout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userRole');
-            adminToken = null;
-            window.location.href = 'index.html';
-        }
-        
-        function showView(viewId, element) { /* ... */ }
-        function loadDashboardData() { /* ... */ }
-        function renderFinanceChart() { /* ... */ }
-        function loadOrders() { /* ... */ }
-        function renderOrdersTable(orders) { /* ... */ }
-        async function updateOrderStatus(orderId, newStatus) { /* ... */ }
-        async function sendWaOrder(orderId) { /* ... */ }
-        async function loadProducts() { /* ... */ }
-        function renderProductsTable(products) { /* ... */ }
-        async function deleteProduct(productId) { /* ... */ }
-        async function loadUsers() { /* ... */ }
-        function renderUsersTable(users) { /* ... */ }
-
+        // INIT LOGIC (Panggil saat halaman dimuat)
         document.addEventListener('DOMContentLoaded', () => { 
-            checkAuth();
-            showView('dashboard-view', document.querySelector('.nav-link'));
+            checkAuth(); // Auth Guard
+            showView('dashboard-view', document.querySelector('.nav-link')); // Tampilkan Dashboard
             lucide.createIcons();
             
             const savedTheme = localStorage.getItem('theme');
@@ -454,16 +802,14 @@
         window.openProductModal = openProductModal; 
         window.handleProductSubmit = handleProductSubmit; 
         window.deleteProduct = deleteProduct; 
-        // ... (fungsi lain)
-        window.checkAuth = checkAuth; // Export for debugging
         window.handleLogout = handleLogout;
         window.showView = showView;
-        window.loadDashboardData = loadDashboardData;
-        window.loadOrders = loadOrders;
-        window.loadProducts = loadProducts;
-        window.loadUsers = loadUsers;
         window.updateOrderStatus = updateOrderStatus;
         window.sendWaOrder = sendWaOrder;
+        window.loadUsers = loadUsers;
+        window.loadProducts = loadProducts;
+        window.loadOrders = loadOrders;
+        window.loadDashboardData = loadDashboardData;
     </script>
 </body>
 

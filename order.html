@@ -499,7 +499,7 @@
         async function fetchProductDetails(itemCode) {
             try {
                 // Ambil semua produk (karena endpoint GET /api/products/:code mungkin belum ada)
-                const response = await fetch(`${API_BASE_URL}/api/products`); // Ditambahkan /api
+                const response = await fetch(`${API_BASE_URL}/api`); // Ditambahkan /api
 
                 if (!response.ok) {
                     const errData = await response.json();
@@ -553,7 +553,7 @@
 
             try {
                 // PERBAIKAN URL: Menggunakan /api/orders
-                const response = await fetch(`${API_BASE_URL}/api/orders`, {
+                const response = await fetch(`${API_BASE_URL}/api`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderData)
@@ -684,3 +684,4 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima kasih!
 </body>
 
 </html>
+

@@ -656,55 +656,53 @@ ${itemDetails}
         }
         
         // --- LOGIKA MODAL PRODUK (CRUD) ---
-        function openProductModal(buttonElement) {
-            const modal = document.getElementById('product-modal');
-            const form = document.getElementById('product-form');
-            form.reset(); // Bersihkan form
-            
-            if (buttonElement) {
-                // Mode Edit
-                document.getElementById('product-modal-title').textContent = 'Edit Produk (Paket)';
-                const productData = JSON.parse(buttonElement.closest('tr').dataset.product);
-                
-                // Isi form dengan data yang ada
-                document.getElementById('product-id').value = productData.id; // ID numerik internal
-                document.getElementById('product-app-name').value = productData.app_name || '';
-                document.getElementById('product-data-category').value = productData.data_category || '';
-                document.getElementById('product-package-name').value = productData.package_name || '';
-                document.getElementById('product-duration').value = productData.duration || '';
-                document.getElementById('product-code').value = productData.product_code || '';
-                document.getElementById('product-purchase-price').value = productData.purchase_price || 0;
-                document.getElementById('product-price').value = productData.price || 0;
-                document.getElementById('product-discount').value = productData.discount_percentage || 0;
-                document.getElementById('product-stock').value = productData.stock || 0;
-                document.getElementById('product-logo-url').value = productData.logo_url || '';
-                document.getElementById('product-banner-url').value = productData.banner_url || '';
-                document.getElementById('product-description').value = productData.description || '';
-                
-            } else {
-                // Mode Tambah Baru
-                document.getElementById('product-modal-title').textContent = 'Tambah Produk Baru';
-                document.getElementById('product-id').value = ''; // Kosongkan ID
-            }
-            
-            // Tampilkan modal
-            modal.classList.remove('opacity-0', 'hidden');
-            modal.classList.add('flex');
-            setTimeout(() => modal.firstElementChild.classList.remove('scale-95', 'opacity-0'), 10);
-            lucide.createIcons();
-        }
+    function openProductModal(buttonElement) {
+    const modal = document.getElementById('product-modal');
+    const form = document.getElementById('product-form');
+    form.reset(); // Bersihkan form
+    
+    if (buttonElement) {
+        // Mode Edit
+        document.getElementById('product-modal-title').textContent = 'Edit Produk (Paket)';
+        const productData = JSON.parse(buttonElement.closest('tr').dataset.product);
+        
+        // ====================================================================
+        // KOREKSI UTAMA: Menggunakan product_code sebagai ID URL dan Kode Produk
+        // ====================================================================
+        document.getElementById('product-id').value = productData.product_code; // <--- PERBAIKAN KRITIS
+        
+        // Isi form dengan data yang ada
+        document.getElementById('product-app-name').value = productData.app_name || '';
+        document.getElementById('product-data-category').value = productData.data_category || '';
+        document.getElementById('product-package-name').value = productData.package_name || '';
+        document.getElementById('product-duration').value = productData.duration || '';
+        document.getElementById('product-code').value = productData.product_code || '';
+        document.getElementById('product-purchase-price').value = productData.purchase_price || 0;
+        document.getElementById('product-price').value = productData.price || 0;
+        document.getElementById('product-discount').value = productData.discount_percentage || 0;
+        document.getElementById('product-stock').value = productData.stock || 0;
+        document.getElementById('product-logo-url').value = productData.logo_url || '';
+        document.getElementById('product-banner-url').value = productData.banner_url || '';
+        document.getElementById('product-description').value = productData.description || '';
+        
+    } else {
+        // Mode Tambah Baru
+        document.getElementById('product-modal-title').textContent = 'Tambah Produk Baru';
+        document.getElementById('product-id').value = ''; // Kosongkan ID
+    }
+    
+    // Tampilkan modal
+    modal.classList.remove('opacity-0', 'hidden');
+    modal.classList.add('flex');
+    setTimeout(() => modal.firstElementChild.classList.remove('scale-95', 'opacity-0'), 10);
+    lucide.createIcons();
+}
 
-        function closeProductModal(event = null) {
-            if (event && event.target !== document.getElementById('product-modal')) return;
-            const modal = document.getElementById('product-modal');
-            modal.firstElementChild.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => modal.classList.add('opacity-0', 'hidden'), 300);
-        }
-
-        async function handleProductSubmit(event) {
-            event.preventDefault();
-            const productId = document.getElementById('product-id').value;
-            const isEditing = !!productId;
+// Dan periksa handleProductSubmit untuk memastikan ia mengirim ID yang benar
+async function handleProductSubmit(event) {
+    event.preventDefault();
+    const productId = document.getElementById('product-id').value; // Ini sekarang adalah product_code string
+    const isEditing = !!productId;
 
             // Kumpulkan semua data dari form
             const productData = {
@@ -841,4 +839,5 @@ ${itemDetails}
 </body>
 
 </html>
+
 

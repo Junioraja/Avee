@@ -268,6 +268,13 @@
             will-change: transform;
         }
 
+        .floating-card img {
+        /* Pastikan gambar tidak meluber dari wadahnya */
+        max-width: 100%; 
+        height: auto; /* Ini kunci agar rasio aspek gambar tetap terjaga */
+        display: block;
+        }
+
         /* --- 7. EFEK BARU: Latar Belakang Bintang Berkelip (Bagian Produk) --- */
         .particle-container-stars {
             position: absolute;
@@ -2149,4 +2156,5 @@
 
 
 </html>
+
 

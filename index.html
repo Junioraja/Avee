@@ -260,18 +260,12 @@
         /* EFEK BARU: Kartu Hero Interaktif (Parallax) */
         .floating-card {
             /* Transisi untuk pergerakan parallax yang mulus */
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             transition: transform 0.1s linear;
             will-change: transform;
         }
-        
-        /* FIX: Agar gambar di hero tidak gepeng di mobile */
-        .floating-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; 
-            /* Memastikan rasio aspek terjaga */
-        }
-
 
         /* --- 7. EFEK BARU: Latar Belakang Bintang Berkelip (Bagian Produk) --- */
         .particle-container-stars {
@@ -727,30 +721,30 @@
 
                 <div class="md:w-1/2 flex justify-center relative">
                     <div id="hero-apps" class="w-full max-w-md relative p-8 h-80">
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-3 -translate-y-12 dark:bg-gray-700 aspect-square"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-3 -translate-y-12 dark:bg-gray-700"
                             style="top: 10%; left: 10%;">
                             <img src="https://yt3.googleusercontent.com/CvgBA1ypUZNxOjiCX0l1V2FbAm7oSDPZE4YkMvkpT_4iLXQ3IXWVtBgWnznHxgtcUoj50TXqZA=s900-c-k-c0x00ffffff-no-rj"
-                                alt="Netflix" class="rounded-lg w-full h-full object-contain">
+                                alt="Netflix" class="rounded-lg w-20 h-20">
                         </div>
 
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 dark:bg-gray-700 aspect-square"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 dark:bg-gray-700"
                             style="bottom: 5%; right: 10%;">
                             <img src="https://m.media-amazon.com/images/I/31B2Nyzd8XL.png" alt="Spotify"
-                                class="rounded-lg w-full h-full object-contain">
+                                class="rounded-lg w-20 h-20">
                         </div>
 
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-12 dark:bg-gray-700 aspect-square"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-12 dark:bg-gray-700"
                             style="top: 40%; right: 5%;">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QlSxwJl8yWlWY50n7lLhGnnmirt7N6_YGg&s"
                                 onerror="this.onerror=null;this.src='https://placehold.co/80x80/3D335A/ffffff?text=LR';"
-                                alt="Lightroom Logo" class="rounded-lg w-full h-full object-contain">
+                                alt="Lightroom Logo" class="rounded-lg w-20 h-20 object-contain">
                         </div>
 
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-3 dark:bg-gray-700 aspect-square"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-3 dark:bg-gray-700"
                             style="top: 60%; left: 15%;">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"
                                 onerror="this.onerror=null;this.src='https://placehold.co/80x80/FF0000/ffffff?text=YT';"
-                                alt="YouTube Logo" class="rounded-lg w-full h-full object-contain">
+                                alt="YouTube Logo" class="rounded-lg w-20 h-20 object-contain">
                         </div>
                     </div>
                 </div>
@@ -767,7 +761,7 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Pilih Kategori Langganan
                     Terbaik</h2>
 
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 max-w-4xl mx-auto">
 
                     <a href="#"
                         class="category-card p-6 text-center rounded-2xl shadow-lg bg-white/70 backdrop-blur-sm scroll-appear dark:bg-gray-700/70">
@@ -788,16 +782,7 @@
                         <p class="font-semibold text-lg leading-tight mb-1 dark:text-gray-200">Editing Software</p>
                         <p class="text-sm text-gray-500 leading-tight dark:text-gray-400">Canva Pro, Adobe</p>
                     </a>
-                    
-                    <a href="#"
-                        class="category-card p-6 text-center rounded-2xl shadow-lg bg-white/70 backdrop-blur-sm scroll-appear dark:bg-gray-700/70">
-                        <div
-                            class="category-icon-bg w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-blue-200 text-blue-600">
-                            <i data-lucide="zap" class="w-8 h-8"></i>
-                        </div>
-                        <p class="font-semibold text-lg leading-tight mb-1 dark:text-gray-200">AI & Produktivitas</p>
-                        <p class="text-sm text-gray-500 leading-tight dark:text-gray-400">Midjourney, ChatGPT, dll</p>
-                    </a>
+
                     <a href="#"
                         class="category-card p-6 text-center rounded-2xl shadow-lg bg-white/70 backdrop-blur-sm scroll-appear dark:bg-gray-700/70">
                         <div
@@ -852,31 +837,12 @@
                             class="filter-button font-medium py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
                             Editing
                         </button>
-                        <button onclick="filterByCategory('AI & Produktivitas', this)"
-                            class="filter-button font-medium py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
-                            AI & Produktivitas
-                        </button>
                         <button onclick="filterByCategory('Lifestyle & Lainnya', this)"
                             class="filter-button font-medium py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
                             Lifestyle
                         </button>
                     </div>
-
-                    <div id="stock-filter-buttons" class="flex flex-wrap justify-center gap-3 pt-4">
-                        <button onclick="filterByStock('Semua', this)"
-                            class="stock-filter-button active font-medium py-2 px-5 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
-                            Semua Stok
-                        </button>
-                        <button onclick="filterByStock('Ready', this)"
-                            class="stock-filter-button font-medium py-2 px-5 rounded-full bg-green-100 hover:bg-green-200 text-green-700 dark:bg-green-700/50 dark:text-green-200 dark:hover:bg-green-700">
-                            Ready Stock
-                        </button>
-                        <button onclick="filterByStock('Pre-Order', this)"
-                            class="stock-filter-button font-medium py-2 px-5 rounded-full bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-700/50 dark:text-red-200 dark:hover:bg-red-700">
-                            Pre-Order
-                        </button>
-                    </div>
-                    </div>
+                </div>
 
 
                 <div id="pricelist-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1510,15 +1476,6 @@
                 logo: "https://i.pinimg.com/736x/f5/3c/6c/f53c6ce6f793a1e5af96dddaccb5eb14.jpg",
                 banner: "https://gizmologi.id/wp-content/uploads/2020/12/Spotify-Premium-Mini-001.jpg", // Link baru
             },
-            // TAMBAHAN UNTUK AI & PRODUKTIVITAS
-            "Midjourney": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Midjourney_Logo.png/1200px-Midjourney_Logo.png",
-                banner: "https://uploads-ssl.webflow.com/626b9f2d1e670d8a5996f264/6362548480356e300196235b_Midjourney%20Blog%20Post%20Image%20(1).jpg",
-            },
-            "ChatGPT Plus": {
-                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/2048px-ChatGPT_logo.svg.png",
-                banner: "https://cdn.medcom.id/dynamic/content/2023/12/05/1647416/9oO6rP9J2i.jpeg?w=640",
-            }
         };
 
 
@@ -1526,7 +1483,7 @@
             "Netflix": "clapperboard", "Disney+ Hotstar": "film", "YouTube Premium": "youtube", "Viu": "monitor", "WeTV": "tv",
             "IQIYI": "airplay", "Vidio": "video", "Vision+": "radio", "Amazon Prime": "package", "HBO Go": "camera",
             "VSCO": "image", "Picsart": "scissors", "Lightroom": "sun", "Resso": "music", "Bstation": "globe", "Canva": "palette",
-            "Spotify": "headphones", "Midjourney": "sparkles", "ChatGPT Plus": "bot"
+            "Spotify": "headphones"
         };
 
         const BRAND_COLORS = {
@@ -1538,8 +1495,7 @@
             "HBO Go": { main: '#5402F0', text: '#FFFFFF' }, "VSCO": { main: '#000000', text: '#FFFFFF' },
             "Picsart": { main: '#FF4C68', text: '#FFFFFF' }, "Lightroom": { main: '#3D335A', text: '#FFFFFF' },
             "Resso": { main: '#FF0050', text: '#FFFFFF' }, "Bstation": { main: '#00A1D6', text: '#FFFFFF' },
-            "Spotify": { main: '#1db954', text: '#FFFFFF' }, "Midjourney": { main: '#00B3FF', text: '#FFFFFF' },
-            "ChatGPT Plus": { main: '#19c37d', text: '#FFFFFF' }
+            "Spotify": { main: '#1db954', text: '#FFFFFF' }
         };
 
         let dynamicProducts = {};
@@ -1615,8 +1571,7 @@
         let autoSlideInterval;
         const slider = document.getElementById('testimonial-slider');
         let currentAppName = '';
-        let currentCategoryFilter = 'Semua'; // Untuk filter kategori
-        let currentStockFilter = 'Semua';    // BARU: Untuk filter stok
+        let currentCategoryFilter = 'Semua'; // BARU: Untuk filter
 
         // BARU: Variabel untuk animasi hero
         let mouseXPercent = 0;
@@ -1776,16 +1731,6 @@
             generatePricelistCards();
         }
 
-        // BARU: Fungsi Filter Stok
-        function filterByStock(stockStatus, buttonElement) {
-            currentStockFilter = stockStatus;
-            const buttons = document.querySelectorAll('#stock-filter-buttons .stock-filter-button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            if (buttonElement) buttonElement.classList.add('active');
-            generatePricelistCards();
-        }
-
-
         function generatePricelistCards() {
             const container = document.getElementById('pricelist-section');
 
@@ -1803,7 +1748,7 @@
             let cardIndex = 0;
             appNames.forEach((appName) => {
                 const packages = dynamicProducts[appName];
-                if (!packages || packages.length === 0) return;
+                if (!packages) return;
 
                 const minPriceItem = packages.reduce((min, current) => (current.price < min.price ? current : min), packages[0] || { price: 0, duration: '' });
 
@@ -1813,21 +1758,12 @@
 
                 const dataCategories = packages.map(p => p.data_category).filter((value, index, self) => self.indexOf(value) === index).join(' ');
 
-                // Cek apakah ada satupun paket yang ready stock (stok > 0)
-                const isAnyPackageInStock = packages.some(p => p.stock > 0);
-                const appStockStatus = isAnyPackageInStock ? 'Ready' : 'Pre-Order';
-
-
-                // --- LOGIKA FILTER KATEGORI, SEARCH, DAN STOK ---
+                // --- LOGIKA FILTER ---
                 const searchMatch = appName.toLowerCase().includes(searchTerms) || dataCategories.toLowerCase().includes(searchTerms);
-                
                 const categoryMatch = currentCategoryFilter === 'Semua' ||
                     dataCategories.toLowerCase().includes(currentCategoryFilter.toLowerCase());
 
-                const stockMatch = currentStockFilter === 'Semua' || currentStockFilter === appStockStatus;
-
-
-                if (!searchMatch || !categoryMatch || !stockMatch) {
+                if (!searchMatch || !categoryMatch) {
                     return;
                 }
                 // --- AKHIR LOGIKA FILTER ---
@@ -1857,7 +1793,6 @@
                          onclick="showModal('${appName}')"
                          data-name="${appName}"
                          data-category="${dataCategories}"
-                         data-stock="${appStockStatus}"
                          style="animation-delay: ${cardIndex * 0.1}s;">
                         
                         ${imageContainerHtml}
@@ -1871,7 +1806,7 @@
                             <span class="text-sm text-gray-600 dark:text-gray-400">(${minPriceItem.duration || 'Lihat Detail'})</span>
                             <button class="mt-4 w-full py-2 font-semibold rounded-xl text-white shadow-md transition duration-200 hover:opacity-90"
                                 style="background-color: ${brandColorHex};">
-                                Lihat Paket & Beli (${appStockStatus})
+                                Lihat Paket & Beli
                             </button>
                         </div>
                     </div>
@@ -1958,10 +1893,7 @@
 
                 groupedPackages[category].forEach(item => {
                     // item.id sekarang adalah ID numerik dari database
-                    const isReadyStock = item.stock > 0;
-                    const stockDisplay = isReadyStock 
-                        ? `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-green-100 text-green-600">Stok: ${item.stock}</span>` 
-                        : `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-red-100 text-red-600">Pre-Order (Habis)</span>`;
+                    const stockDisplay = item.stock > 0 ? `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-green-100 text-green-600">Stok: ${item.stock}</span>` : `<span class="text-xs font-semibold p-1 px-2 rounded-full bg-red-100 text-red-600">Habis</span>`;
 
                     const itemHtml = `
                         <div class="flex justify-between items-center p-3 bg-light-bg rounded-lg shadow-sm border-l-4 my-2 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600" style="border-left-color: ${brandColor};">
@@ -1973,7 +1905,7 @@
                             <div class="flex items-center space-x-3">
                                 <span class="text-lg font-bold" style="color: ${brandColor};">${formatRupiah(item.price)}</span>
                                 
-                                ${isReadyStock ? `<button onclick="openOrderPage('${appName}', '${item.product_code}')" class="px-4 py-2 text-sm text-white rounded-lg hover:opacity-90 transition" style="background-color: ${brandColor};">Beli</button>` : `<button disabled class="px-4 py-2 text-sm text-white rounded-lg opacity-50 cursor-not-allowed" style="background-color: ${brandColor};">Beli</button>`}
+                                ${item.stock === 0 ? '' : `<button onclick="openOrderPage('${appName}', '${item.product_code}')" class="px-4 py-2 text-sm text-white rounded-lg hover:opacity-90 transition" style="background-color: ${brandColor};">Beli</button>`}
                             
                             </div>
                         </div>
@@ -2361,7 +2293,6 @@
         window.prevTestimonial = prevTestimonial;
         window.toggleTheme = toggleTheme;
         window.filterByCategory = filterByCategory;
-        window.filterByStock = filterByStock; // BARU: Daftarkan filter stok
         window.toggleCollapse = toggleCollapse;
         window.showModal = showModal;
         window.closeModal = closeModal;

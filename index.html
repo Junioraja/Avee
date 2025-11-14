@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avee Premium Store | Beli Langganan Premium Murah & Terpercaya</title>
+    <title>Akun Bareng | Beli Langganan Premium Murah & Terpercaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" https://fonts.googleapis.com">
@@ -850,6 +850,541 @@
             /* blue-700 */
         }
 
+        /* --- [BARU] 15. GAYA LOADER ANIMASI --- */
+        /* From Uiverse.io by ZacharyCrespin2 */
+        .loader {
+            width: 6em;
+            height: 6em;
+        }
+
+        .loader-ring {
+            animation: ringA 2s linear infinite;
+        }
+
+        .loader-ring-a {
+            stroke: #3b82f6;
+            /* DIUBAH DARI UNGU */
+        }
+
+        .loader-ring-b {
+            animation-name: ringB;
+            stroke: #2563EB;
+            /* DIUBAH DARI UNGU */
+        }
+
+        .loader-ring-c {
+            animation-name: ringC;
+            stroke: #3b82f6;
+            /* DIUBAH DARI UNGU */
+        }
+
+        .loader-ring-d {
+            animation-name: ringD;
+            stroke: #2563EB;
+            /* DIUBAH DARI UNGU */
+        }
+
+        /* Animations */
+        @keyframes ringA {
+
+            from,
+            4% {
+                stroke-dasharray: 0 660;
+                stroke-width: 20;
+                stroke-dashoffset: -330;
+            }
+
+            12% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -335;
+            }
+
+            32% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -595;
+            }
+
+            40%,
+            54% {
+                stroke-dasharray: 0 660;
+                stroke-width: 20;
+                stroke-dashoffset: -660;
+            }
+
+            62% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -665;
+            }
+
+            82% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -925;
+            }
+
+            90%,
+            to {
+                stroke-dasharray: 0 660;
+                stroke-width: 20;
+                stroke-dashoffset: -990;
+            }
+        }
+
+        @keyframes ringB {
+
+            from,
+            12% {
+                stroke-dasharray: 0 220;
+                stroke-width: 20;
+                stroke-dashoffset: -110;
+            }
+
+            20% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -115;
+            }
+
+            40% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -195;
+            }
+
+            48%,
+            62% {
+                stroke-dasharray: 0 220;
+                stroke-width: 20;
+                stroke-dashoffset: -220;
+            }
+
+            70% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -225;
+            }
+
+            90% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -305;
+            }
+
+            98%,
+            to {
+                stroke-dasharray: 0 220;
+                stroke-width: 20;
+                stroke-dashoffset: -330;
+            }
+        }
+
+        @keyframes ringC {
+            from {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: 0;
+            }
+
+            8% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -5;
+            }
+
+            28% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -175;
+            }
+
+            36%,
+            58% {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -220;
+            }
+
+            66% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -225;
+            }
+
+            86% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -395;
+            }
+
+            94%,
+            to {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -440;
+            }
+        }
+
+        @keyframes ringD {
+
+            from,
+            8% {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: 0;
+            }
+
+            16% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -5;
+            }
+
+            36% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -175;
+            }
+
+            44%,
+            50% {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -220;
+            }
+
+            58% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -225;
+            }
+
+            78% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -395;
+            }
+
+            86%,
+            to {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -440;
+            }
+        }
+
+        /* --- [BARU] 16. GAYA TEKS ANIMASI (HERO) --- */
+        /* Diadaptasi dari referensi pengguna */
+        .animated-text-container {
+            /* Dibuat transparan agar menyatu dgn gradasi body */
+            --bg-color: transparent;
+            background-color: var(--bg-color);
+            padding: 0.5rem 1rem;
+            /* Dikecilkan dari 1rem 2rem */
+            border-radius: 1.25rem;
+            width: 100%;
+        }
+
+        .animated-text-loader {
+            color: #4b5563;
+            /* gray-600 */
+            font-family: "Inter", sans-serif;
+            /* Disesuaikan */
+            font-weight: 500;
+            font-size: 1.25rem;
+            /* 20px (sesuai text-xl) */
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+            height: 30px;
+            /* Disesuaikan dgn font-size (was 40px) */
+            padding: 5px 10px;
+            /* Disesuaikan (was 10px 10px) */
+            display: flex;
+            border-radius: 8px;
+            /* [PERBAIKAN] Ini akan center di mobile (default) */
+            justify-content: center;
+            align-items: center;
+            /* Menengahkan vertikal */
+            flex-wrap: wrap;
+            /* Biar rapi di mobile */
+            gap: 0.5rem;
+            /* Jarak antara teks statis dan animasi */
+        }
+        
+        /* [PERBAIKAN] Menambahkan media query agar rata kiri di desktop (md) */
+        @media (min-width: 768px) {
+            .animated-text-loader {
+                justify-content: flex-start; /* Rata kiri di desktop */
+            }
+        }
+
+        html.dark .animated-text-loader {
+            color: #9ca3af;
+            /* gray-400 */
+        }
+
+        .words {
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            /* Pastikan height 100% */
+        }
+
+        .word {
+            display: block;
+            height: 100%;
+            padding-left: 0.25rem;
+            /* 4px */
+            color: #2563EB;
+            /* deep-blue (was #956afa) */
+            animation: spin_4991 6s infinite;
+            /* Durasi diperlambat dari 4s */
+        }
+
+        @keyframes spin_4991 {
+
+            /* 5 items (0, 1, 2, 3, 4) */
+            /* Item 1 (index 0) */
+            0% {
+                transform: translateY(0);
+            }
+
+            8% {
+                transform: translateY(-2%);
+            }
+
+            /* Settle */
+            18% {
+                transform: translateY(0);
+            }
+
+            /* Move up */
+
+            /* Item 2 (index 1) */
+            20% {
+                transform: translateY(-102%);
+            }
+
+            /* Overshoot */
+            28% {
+                transform: translateY(-100%);
+            }
+
+            /* Settle */
+            38% {
+                transform: translateY(-98%);
+            }
+
+            /* Move up */
+
+            /* Item 3 (index 2) */
+            40% {
+                transform: translateY(-202%);
+            }
+
+            /* Overshoot */
+            48% {
+                transform: translateY(-200%);
+            }
+
+            /* Settle */
+            58% {
+                transform: translateY(-198%);
+            }
+
+            /* Move up */
+
+            /* Item 4 (index 3) */
+            60% {
+                transform: translateY(-302%);
+            }
+
+            /* Overshoot */
+            68% {
+                transform: translateY(-300%);
+            }
+
+            /* Settle */
+            78% {
+                transform: translateY(-298%);
+            }
+
+            /* Move up */
+
+            /* Item 5 (index 4, same as 0) */
+            80% {
+                transform: translateY(-402%);
+            }
+
+            /* Overshoot */
+            88% {
+                transform: translateY(-400%);
+            }
+
+            /* Settle */
+            100% {
+                transform: translateY(-400%);
+            }
+
+            /* Hold */
+        }
+
+        /* --- [BARU] 17. GAYA HOVER TEKS ANIMASI (HEADER) --- */
+        /* Diadaptasi untuk kejelasan teks dan animasi non-transparent */
+        .animated-hover-text {
+            /* Warna Teks Default (Solid) */
+            --default-color-light: #1f2937; /* Gray-800 */
+            --default-color-dark: #f3f4f6; /* Gray-100 */
+            
+            --animation-color: #3b82f6; /* Biru Tema */
+            --highlight-width: 0%; /* Lebar Awal Highlight */
+
+            position: relative;
+            text-transform: uppercase;
+            color: var(--default-color-light); /* Set warna default */
+            
+            /* Transisi untuk warna dan efek lainnya */
+            transition: color 0.3s ease, text-shadow 0.3s ease; 
+        }
+
+        html.dark .animated-hover-text {
+            color: var(--default-color-dark);
+        }
+
+        /* Teks dasar berubah menjadi warna animasi saat hover */
+        .group:hover .animated-hover-text {
+             color: var(--animation-color); 
+             /* Tambahkan sedikit shadow agar efek highlight terlihat */
+             text-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+        }
+
+        /* Pseudo-element untuk efek garis/garis bawah */
+        .animated-hover-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Sedikit di bawah teks */
+            left: 0;
+            height: 3px;
+            /* Garis bawah tipis */
+            background-color: var(--animation-color);
+            width: var(--highlight-width);
+            transition: width 0.3s ease-out;
+        }
+
+        /* Efek saat hover di parent <a> (class="group") */
+        .group:hover .animated-hover-text::after {
+            --highlight-width: 100%; /* Garis bawah memanjang penuh */
+        }
+
+        /* --- [BARU] 18. GAYA BOTTOM MENU BAR (Desktop & Mobile) --- */
+        /* Diadaptasi dari Uiverse.io by Admin12121 & permintaan pengguna */
+
+        /* Kontainer utama menu di bawah */
+        .bottom-menu-container {
+            padding: 0.5rem; /* 8px */
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center; /* Menengahkan item */
+            align-items: center;
+            gap: 0.5rem; /* Jarak 8px antar item */
+            border-radius: 15px; /* Sesuai referensi */
+            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
+            width: auto; /* Lebar otomatis sesuai konten */
+            max-width: 400px; /* Batasi lebar di tablet */
+            margin: 0 auto; /* Menengahkan kontainer */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Styling untuk dark mode */
+        html.dark .bottom-menu-container {
+            background-color: rgba(31, 41, 55, 0.95); /* gray-800 semi-transparan */
+            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
+            border-color: rgba(55, 65, 81, 0.5); /* gray-700 */
+        }
+
+        /* Setiap item tautan */
+        .bottom-menu-link {
+            display: inline-flex; /* Menggunakan inline-flex */
+            flex-direction: row; /* Ikon dan Teks berdampingan */
+            align-items: center;
+            width: 70px; /* Lebar default (hanya ikon) */
+            height: 50px; /* Tinggi (sesuai referensi) */
+            border-radius: 8px;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            color: #4b5563; /* gray-600 */
+            overflow: hidden; /* Sembunyikan teks yang meluber */
+            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            padding-left: 21px; 
+            box-sizing: border-box; /* Agar padding tidak menambah lebar */
+        }
+
+        html.dark .bottom-menu-link {
+            color: #d1d5db; /* gray-300 */
+        }
+
+        /* Ikon di dalam tautan */
+        .bottom-menu-icon {
+            width: 28px; /* Sesuai referensi */
+            height: 28px;
+            display: block;
+            flex-shrink: 0; /* Mencegah ikon menyusut */
+        }
+
+        /* Judul/Teks di dalam tautan */
+        .bottom-menu-title {
+            display: block;
+            text-align: left;
+            font-size: 0.875rem; /* 14px */
+            font-weight: 500;
+            white-space: nowrap; /* Mencegah teks turun baris */
+            margin-left: 10px; /* Jarak dari ikon */
+            opacity: 0; /* Sembunyikan teks secara default */
+            transform: translateX(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        /* EFEK HOVER: Memanjang dan Tampilkan Teks (Berlaku untuk SEMUA link) */
+        .bottom-menu-link:hover {
+            width: 130px; /* Lebar saat memanjang */
+            background-color: #F0F8FF; /* light-bg */
+        }
+
+        html.dark .bottom-menu-link:hover {
+            background-color: #374151; /* gray-700 */
+        }
+
+        .bottom-menu-link:hover .bottom-menu-title {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* EFEK AKTIF: HANYA WARNA BIRU (Tidak memanjang/tampil teks) */
+        .bottom-menu-link.active {
+            background-color: #2563EB; /* deep-blue */
+            color: white; /* Ikon menjadi putih */
+        }
+        
+        html.dark .bottom-menu-link.active {
+             background-color: #3b82f6; /* blue-500 */
+        }
+
+        /* Hover di atas tombol aktif (Override warna hover standar) */
+        .bottom-menu-link.active:hover {
+            background-color: #1d4ed8; /* Biru lebih gelap */
+            color: white; /* Pastikan ikon dan teks tetap putih */
+        }
+        html.dark .bottom-menu-link.active:hover {
+            background-color: #2563EB;
+        }
+
+        /* --- AKHIR GAYA LOADER --- */
+
         /* Mobile adjustments for chatbot */
         @media (max-width: 767px) {
             .chatbot-overlay {
@@ -921,7 +1456,7 @@
         </div>
         <div id="chatbot-messages" class="chatbot-messages">
             <div class="chat-bubble chat-bubble-bot">
-                Halo! Saya Aunty Jane, asisten virtual Avee Store. Ada yang bisa Aunty bantu?
+                Halo! Saya Aunty Jane, asisten virtual Akun Bareng. Ada yang bisa Aunty bantu?
             </div>
         </div>
         <form id="chatbot-form" onsubmit="handleChatbotSubmit(event)" class="chatbot-form">
@@ -943,18 +1478,18 @@
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
 
-                <a href="#" class="flex items-center space-x-2 group">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110">
-                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
-                            fill="currentColor" opacity="0.15" />
-                        <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
-                            stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700" />
-                    </svg>
-                    <span
-                        class="text-xl font-extrabold tracking-tight text-blue-700 transition duration-300 group-hover:text-blue-900">Avee
-                        Premium Store</span>
-                </a>
+              <a href="#" class="flex items-center group">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+        class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110 mr-2">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
+            fill="currentColor" opacity="0.15" />
+        <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700" />
+    </svg>
+    <span class="animated-hover-text text-xl font-extrabold tracking-tight" data-text="Akun Bareng">
+        Akun Bareng
+    </span>
+</a>
             </div>
             <nav class="hidden md:flex space-x-6">
                 <a href="#produk"
@@ -1045,9 +1580,19 @@
                         style="animation: fadeInSlide 1s ease-out 0.2s backwards;">
                         <span class="text-blue-600 block">Akses Premium</span> Paling Aman & Terjangkau.
                     </h1>
-                    <p class="text-xl text-gray-600 mb-8" style="animation: fadeInSlide 1s ease-out 0.4s backwards;">
-                        Tontonan, Editing Kreatif, dan Musik. Semua ada di Avee.
-                    </p>
+                    <div class="animated-text-container mb-8"
+                        style="animation: fadeInSlide 1s ease-out 0.4s backwards;">
+                        <div class="animated-text-loader">
+                            <span>Akun Bareng menyediakan</span>
+                            <div class="words">
+                                <span class="word">Hiburan Tontonan</span>
+                                <span class="word">AI Produktivitas</span>
+                                <span class="word">Desain & Editing</span>
+                                <span class="word">Edukasi & Belajar</span>
+                                <span class="word">Hiburan Tontonan</span>
+                            </div>
+                        </div>
+                    </div>
                     <a href="#produk"
                         class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-xl shadow-blue-400 transform transition duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95">
                         Jelajahi Sekarang
@@ -1156,8 +1701,8 @@
             </div>
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Pilihan Langganan Populer
-                    Avee</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Pilihan Kategori Aplikasi
+                    Akun Bareng</h2>
 
                 <div class="flex flex-col items-center space-y-6 mb-12 scroll-appear">
                     <div class="w-full md:w-2/3 lg:w-1/2 relative">
@@ -1218,8 +1763,8 @@
 
         <section id="fitur" class="py-20 relative z-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 scroll-appear">Kenapa Harus Avee Premium
-                    Store?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 scroll-appear">Kenapa Harus Akun
+                    Bareng?</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div
@@ -1241,7 +1786,7 @@
                         </div>
                         <h3 class="text-xl font-bold mb-3 dark:text-gray-100">Akun 100% Legal & Aman</h3>
                         <p class="text-gray-600 dark:text-gray-400">Semua akun premium dijamin legal dan bergaransi
-                            penuh dari Avee.</p>
+                            penuh dari Akun Bareng.</p>
                     </div>
 
                     <div
@@ -1251,7 +1796,8 @@
                             <i data-lucide="messages-square" class="w-8 h-8"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3 dark:text-gray-100">Dukungan 24/7</h3>
-                        <p class="text-gray-600 dark:text-gray-400">Tim Avee siap membantu Anda mengatasi masalah kapan
+                        <p class="text-gray-600 dark:text-gray-400">Tim CS Akun Bareng siap membantu Anda mengatasi
+                            masalah kapan
                             pun dan di mana pun.</p>
                     </div>
                 </div>
@@ -1368,9 +1914,10 @@
 
         <section id="testimoni" class="py-20 relative z-20 overflow-hidden bg-gray-50">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 scroll-appear">Apa Kata Pelanggan Avee?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 scroll-appear">Apa Kata Pelanggan Akun
+                    Bareng?</h2>
                 <p class="text-xl text-center text-gray-600 mb-10 max-w-3xl mx-auto scroll-appear dark:text-gray-400">
-                    Ribuan pengguna telah mempercayai Avee untuk kebutuhan premium mereka. Lihat ulasan terbaru!
+                    Ribuan pengguna telah mempercayai Akun Bareng untuk kebutuhan premium mereka. Lihat ulasan terbaru!
                 </p>
 
                 <div class="relative max-w-5xl mx-auto overflow-hidden">
@@ -1389,7 +1936,8 @@
                                         </div>
                                     </div>
                                     <p class="text-gray-700 italic flex-grow dark:text-gray-300">"Gila sih, langganan di
-                                        Avee super cepat. 5 menit langsung bisa streaming 4K! Adminnya responsif banget,
+                                        Akun Bareng super cepat. 5 menit langsung bisa streaming 4K! Adminnya responsif
+                                        banget,
                                         bintang lima!"</p>
                                     <p class="text-xs text-right text-gray-400 mt-4 dark:text-gray-500">— 2 jam lalu</p>
                                 </div>
@@ -1445,7 +1993,7 @@
                                         </div>
                                     </div>
                                     <p class="text-gray-700 italic flex-grow dark:text-gray-300">"Sangat puas dengan
-                                        layanan Avee. Selalu cepat dalam pemrosesan dan garansi akun tidak pernah
+                                        layanan Akun Bareng. Selalu cepat dalam pemrosesan dan garansi akun tidak pernah
                                         mengecewakan. Mantap!"</p>
                                     <p class="text-xs text-right text-gray-400 mt-4 dark:text-gray-500">— 1 minggu lalu
                                     </p>
@@ -1583,12 +2131,38 @@
         </section>
     </main>
 
+    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 p-4 z-[60] block">
+        
+        <div class="bottom-menu-container">
+            
+            <a href="#" class="bottom-menu-link active" aria-label="Home">
+                <i data-lucide="home" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Home</span>
+            </a>
+            
+            <a href="#produk" class="bottom-menu-link" aria-label="Produk">
+                <i data-lucide="shopping-bag" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Produk</span>
+            </a>
+            
+            <a href="listorder.html" class="bottom-menu-link" aria-label="Daftar Pesanan">
+                <i data-lucide="list-ordered" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Pesanan</span>
+            </a>
+
+            <a href="profil.html" class="bottom-menu-link" aria-label="Profil Pengguna">
+                <i data-lucide="user" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Profil</span>
+            </a>
+
+        </div>
+    </nav>
     <footer class="bg-gray-800 text-white py-12 relative z-20 dark:bg-gray-900 dark:text-gray-200">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-8">
             <div class="col-span-2 md:col-span-2">
-                <h4 class="text-xl font-bold mb-4">Avee Premium Store</h4>
+                <h4 class="text-xl font-bold mb-4">Akun Bareng</h4>
                 <p class="text-gray-400 text-sm">Penyedia layanan langganan premium terpercaya dan termurah. Didukung
-                    oleh seller Avee.</p>
+                    oleh seller Akun Bareng.</p>
                 <div class="flex space-x-4 mt-4">
                     <a href="#"
                         class="text-gray-400 hover:text-blue-400 transition duration-200 transform hover:scale-125"><i
@@ -1632,7 +2206,7 @@
             </div>
         </div>
         <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
-            © 2024 Avee Premium Store. Semua Hak Cipta Dilindungi.
+            © 2024 Akun Bareng. Semua Hak Cipta Dilindungi.
         </div>
     </footer>
 
@@ -1669,7 +2243,7 @@
         class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-[70] transition-opacity duration-300"
         onclick="closeAuthModal(event)">
         <div id="auth-content"
-            class="modal-content-container bg-white w-full max-w-sm rounded-2xl p-6 shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800"
+            class="modal-content-container bg-gradient-to-t from-white to-[#F4F7FB] w-full max-w-sm rounded-[40px] p-8 shadow-[0_30px_30px_-20px_rgba(133,189,215,0.878)] border-4 border-white relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800 dark:border-gray-700 dark:shadow-2xl"
             onclick="event.stopPropagation()">
             <button onclick="closeAuthModal()"
                 class="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 transition rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -1677,87 +2251,132 @@
             </button>
 
             <div id="login-view">
-                <h2 class="text-3xl font-bold mb-6 text-deep-blue dark:text-blue-400">Masuk</h2>
+                <h2 class="text-center text-3xl font-black mb-6 text-[#1089D3] dark:text-blue-400">Masuk</h2>
                 <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
                         <label for="login-email"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <input type="email" id="login-email" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 ml-2">Email</label>
+                        <input type="email" id="login-email" required placeholder="email@anda.com"
+                            class="block w-full px-5 py-4 bg-white border-2 border-transparent rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-[#12B1D1] dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:border-blue-400">
                     </div>
                     <div>
                         <label for="login-password"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                        <input type="password" id="login-password" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 ml-2">Password</label>
+                        <input type="password" id="login-password" required placeholder="••••••••"
+                            class="block w-full px-5 py-4 bg-white border-2 border-transparent rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-[#12B1D1] dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:border-blue-400">
                     </div>
                     <button type="submit" id="login-submit-btn"
-                        class="w-full py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                        class="w-full py-3.5 px-4 mt-4 border border-transparent rounded-[20px] shadow-[0_20px_10px_-15px_rgba(133,189,215,0.878)] text-sm font-bold text-white bg-gradient-to-r from-[#1089D3] to-[#12B1D1] focus:outline-none transition-all duration-200 ease-in-out hover:scale-[1.03] active:scale-95">
                         Login
                     </button>
                 </form>
 
-                <div class="mt-6">
+                <div class="social-account-container mt-6">
                     <div class="relative">
                         <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                            <div class="w-full border-t border-gray-200 dark:border-gray-600"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Atau</span>
+                            <span
+                                class="px-2 bg-gradient-to-t from-white to-[#F4F7FB] text-gray-400 text-xs dark:bg-gray-800">Atau
+                                lanjut dengan</span>
                         </div>
                     </div>
-                    <a id="google-login-btn" href="http://localhost:3000/api/users/google"
-                        class="mt-4 w-full py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 flex items-center justify-center dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 dark:border-gray-600 transition duration-200">
-                        <svg class="w-4 h-4 mr-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M44.5 24c0-1.63-0.14-3.26-0.42-4.86H24v9.12h11.95c-0.51 2.66-2.05 4.88-4.32 6.32v5.82h7.52c4.4-4.04 7.05-9.92 7.05-16.4z"
-                                fill="#4285F4" />
-                            <path
-                                d="M24 45.42c6.54 0 12.05-2.17 16.06-5.88l-7.52-5.82c-2.09 1.41-4.73 2.24-7.54 2.24-5.83 0-10.79-3.95-12.54-9.22H3.7v5.99c3.9 7.73 11.66 13.01 20.3 13.01z"
-                                fill="#34A853" />
-                            <path
-                                d="M11.46 29.89c-0.34-1.41-0.53-2.91-0.53-4.47s0.19-3.06 0.53-4.47V15.01H3.7c-0.7 1.41-1.07 3.01-1.07 4.79s0.37 3.38 1.07 4.79l7.76 5.3z"
-                                fill="#FBBC05" />
-                            <path
-                                d="M24 15.01c3.55 0 6.64 1.25 9.1 3.49l6.62-6.49C36.05 7.6 30.54 5.3 24 5.3c-8.64 0-16.4 5.28-20.3 13.01l7.76 5.99c1.75-5.27 6.71-9.22 12.54-9.22z"
-                                fill="#EA4335" />
-                        </svg>
-                        Masuk dengan Google
-                    </a>
+
+                    <div class="social-accounts w-full flex justify-center gap-4 mt-4">
+                        <a href="http://localhost:3000/api/users/google"
+                            class="bg-white border-4 border-white p-1 rounded-full w-12 h-12 grid place-content-center shadow-[rgba(133,189,215,0.878)_0px_12px_10px_-8px] transition-all duration-200 ease-in-out hover:scale-125 active:scale-95"
+                            aria-label="Masuk dengan Google">
+                            <svg class="w-6 h-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M44.5 24c0-1.63-0.14-3.26-0.42-4.86H24v9.12h11.95c-0.51 2.66-2.05 4.88-4.32 6.32v5.82h7.52c4.4-4.04 7.05-9.92 7.05-16.4z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M24 45.42c6.54 0 12.05-2.17 16.06-5.88l-7.52-5.82c-2.09 1.41-4.73 2.24-7.54 2.24-5.83 0-10.79-3.95-12.54-9.22H3.7v5.99c3.9 7.73 11.66 13.01 20.3 13.01z"
+                                    fill="#34A853" />
+                                <path
+                                    d="M11.46 29.89c-0.34-1.41-0.53-2.91-0.53-4.47s0.19-3.06 0.53-4.47V15.01H3.7c-0.7 1.41-1.07 3.01-1.07 4.79s0.37 3.38 1.07 4.79l7.76 5.3z"
+                                    fill="#FBBC05" />
+                                <path
+                                    d="M24 15.01c3.55 0 6.64 1.25 9.1 3.49l6.62-6.49C36.05 7.6 30.54 5.3 24 5.3c-8.64 0-16.4 5.28-20.3 13.01l7.76 5.99c1.75-5.27 6.71-9.22 12.54-9.22z"
+                                    fill="#EA4335" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <p class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+
+                <p class="mt-6 text-center text-xs text-gray-400 dark:text-gray-400">
                     Belum punya akun? <button onclick="toggleAuthMode()"
                         class="font-medium text-blue-600 hover:underline">Daftar</button>
                 </p>
             </div>
 
             <div id="signup-view" class="hidden">
-                <h2 class="text-3xl font-bold mb-6 text-deep-blue dark:text-blue-400">Daftar Akun Baru</h2>
+                <h2 class="text-center text-3xl font-black mb-6 text-[#1089D3] dark:text-blue-400">Daftar Akun
+                </h2>
                 <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4">
                     <div>
-                        <label for="signup-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama
+                        <label for="signup-name"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 ml-2">Nama
                             Lengkap</label>
-                        <input type="text" id="signup-name" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                        <input type="text" id="signup-name" required placeholder="Nama Anda"
+                            class="block w-full px-5 py-4 bg-white border-2 border-transparent rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-[#12B1D1] dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:border-blue-400">
                     </div>
                     <div>
                         <label for="signup-email"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <input type="email" id="signup-email" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 ml-2">Email</label>
+                        <input type="email" id="signup-email" required placeholder="email@anda.com"
+                            class="block w-full px-5 py-4 bg-white border-2 border-transparent rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-[#12B1D1] dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:border-blue-400">
                     </div>
                     <div>
                         <label for="signup-password"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                        <input type="password" id="signup-password" required minlength="6"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 ml-2">Password
+                            </Bagus< /label>
+                            <input type="password" id="signup-password" required minlength="6"
+                                placeholder="Minimal 6 karakter"
+                                class="block w-full px-5 py-4 bg-white border-2 border-transparent rounded-[20px] shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-[#12B1D1] dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:border-blue-400">
                     </div>
                     <button type="submit" id="signup-submit-btn"
-                        class="w-full py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                        class="w-full py-3.5 px-4 mt-4 border border-transparent rounded-[20px] shadow-[0_20px_10px_-15px_rgba(133,189,215,0.878)] text-sm font-bold text-white bg-gradient-to-r from-[#1089D3] to-[#12B1D1] focus:outline-none transition-all duration-200 ease-in-out hover:scale-[1.03] active:scale-95">
                         Daftar
                     </button>
                 </form>
-                <p class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+
+                <div class="social-account-container mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-200 dark:border-gray-600"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span
+                                class="px-2 bg-gradient-to-t from-white to-[#F4F7FB] text-gray-400 text-xs dark:bg-gray-800">Atau
+                                lanjut dengan</span>
+                        </div>
+                    </div>
+
+                    <div class="social-accounts w-full flex justify-center gap-4 mt-4">
+                        <a href="http://localhost:3000/api/users/google"
+                            class="bg-white border-4 border-white p-1 rounded-full w-12 h-12 grid place-content-center shadow-[rgba(133,189,215,0.878)_0px_12px_10px_-8px] transition-all duration-200 ease-in-out hover:scale-125 active:scale-95"
+                            aria-label="Daftar dengan Google">
+                            <svg class="w-6 h-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M44.5 24c0-1.63-0.14-3.26-0.42-4.86H24v9.12h11.95c-0.51 2.66-2.05 4.88-4.32 6.32v5.82h7.52c4.4-4.04 7.05-9.92 7.05-16.4z"
+                                    fill="#4285F4" />
+                                <path
+                                    d="M24 45.42c6.54 0 12.05-2.17 16.06-5.88l-7.52-5.82c-2.09 1.41-4.73 2.24-7.54 2.24-5.83 0-10.79-3.95-12.54-9.22H3.7v5.99c3.9 7.73 11.66 13.01 20.3 13.01z"
+                                    fill="#34A853" />
+                                <path
+                                    d="M11.46 29.89c-0.34-1.41-0.53-2.91-0.53-4.47s0.19-3.06 0.53-4.47V15.01H3.7c-0.7 1.41-1.07 3.01-1.07 4.79s0.37 3.38 1.07 4.79l7.76 5.3z"
+                                    fill="#FBBC05" />
+                                <path
+                                    d="M24 15.01c3.55 0 6.64 1.25 9.1 3.49l6.62-6.49C36.05 7.6 30.54 5.3 24 5.3c-8.64 0-16.4 5.28-20.3 13.01l7.76 5.99c1.75-5.27 6.71-9.22 12.54-9.22z"
+                                    fill="#EA4335" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <p class="mt-6 text-center text-xs text-gray-400 dark:text-gray-400">
                     Sudah punya akun? <button onclick="toggleAuthMode()"
                         class="font-medium text-blue-600 hover:underline">Masuk</button>
                 </p>
@@ -2675,6 +3294,32 @@
 
             // 10. BARU: Listener untuk menutup FAB
             document.addEventListener('click', closeFabMenu);
+
+            function initBottomMenu() {
+                const bottomBar = document.getElementById('bottom-bar');
+                if (!bottomBar) return;
+
+                const links = bottomBar.querySelectorAll('.bottom-menu-link');
+                
+                links.forEach(link => {
+                    link.addEventListener('click', function() {
+                        // 1. Hapus .active dari semua link
+                        links.forEach(l => l.classList.remove('active'));
+                        
+                        // 2. Tambahkan .active ke link yang diklik
+                        this.classList.add('active');
+                        
+                        // 3. (Opsional) Cek jika ini link internal (bukan navigasi)
+                        // Jika ya, tutup menu lain (FAB) agar tidak tumpang tindih
+                        const href = this.getAttribute('href');
+                        if (href && href.startsWith('#')) {
+                            closeFabMenu(); // Panggil fungsi FAB yang sudah ada
+                        }
+                    });
+                });
+            }
+            // Panggil fungsi ini
+            initBottomMenu();
         });
 
         // Memastikan fungsi navigasi global tersedia

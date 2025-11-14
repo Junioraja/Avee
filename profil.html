@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna - Akun Bareng</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script>
+        // Konfigurasi Tailwind (Sama seperti index.html)
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-blue': '#C8E6F7',
+                        'deep-blue': '#2563EB',
+                        'light-bg': '#F0F8FF',
+                        'card-bg': '#FFFFFF',
+                        'text-primary': '#1F2937',
+                        'accent-wa': '#25D366',
+                        'accent-x': '#000000',
+                        'accent-tiktok': '#EE1D52',
+                        'brand-netflix': '#E50914',
+                        'brand-disney': '#113CCF',
+                        'brand-youtube': '#FF0000',
+                        'brand-viu': '#FF7120',
+                        'brand-wetv': '#00B3FF',
+                        'brand-iqiyi': '#409930',
+                        'brand-vidio': '#FF6600',
+                        'brand-canva': '#00C4CC',
+                        'brand-vplus': '#FF0000',
+                        'brand-aprime': '#232F3E',
+                        'brand-hbo': '#5402F0',
+                        'brand-vsco': '#000000',
+                        'brand-picsart': '#FF4C68',
+                        'brand-lroom': '#3D335A',
+                        'brand-resso': '#FF0050',
+                        'brand-bstation': '#00A1D6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                        'lg-soft': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'hover-strong-blue': '0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ==========================================================================
+         [PENTING] Salin SEMUA CSS dari <style> index.html Anda ke sini
+         Ini termasuk SEMUA 19 BLOK CSS (dari .body sampai .shooting_star)
+         
+         Saya hanya akan menyalin beberapa CSS KUNCI yang relevan dengan 
+         menu bar bawah dan modal agar contoh ini berfungsi.
+         
+         Pastikan Anda menyalin SEMUA CSS Anda dari index.html!
+         ==========================================================================
+        */
+
+        /* SAYA HANYA MENYALIN SEBAGIAN CSS PENTING DI SINI */
+        /* PASTIKAN ANDA MENYALIN SEMUA CSS DARI index.html */
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Latar Belakang (Contoh Sederhana) */
+        body {
+            background: linear-gradient(to bottom, #e4f0ff 0%, #ffffff 500px, #f0f8ff 1000px, #ffffff 1500px, #e4f0ff 2000px, #ffffff 3000px);
+            background-attachment: fixed;
+        }
+
+        html.dark body {
+            color: #d1d5db;
+            background: #111827;
+            background-image: linear-gradient(to bottom, #1f2937 0%, #111827 500px, #1f2937 1000px, #111827 1500px, #1f2937 2000px, #111827 3000px);
+        }
+
+        /* GAYA HEADER */
+        .navbar-blur {
+            transition: all 0.5s ease-in-out;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        .navbar-blur.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        html.dark .navbar-blur.scrolled {
+            background-color: rgba(31, 41, 55, 0.95);
+            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.4);
+        }
+
+
+        /* ANIMASI SCROLL-APPEAR */
+        @keyframes fadeInSlide {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .scroll-appear {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .scroll-appear.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* GAYA MODAL (Umum) */
+        .modal-content-container {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* GAYA BOTTOM MENU BAR (Disalin dari index.html) */
+        .bottom-menu-container {
+            padding: 0.5rem; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center; gap: 0.5rem; border-radius: 15px;
+            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1); width: auto; max-width: 400px; margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.8); position: relative;
+        }
+        html.dark .bottom-menu-container {
+            background-color: rgba(31, 41, 55, 0.95); box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3); border-color: rgba(55, 65, 81, 0.5);
+        }
+        .bottom-menu-link {
+            display: inline-flex; flex-direction: row; align-items: center; width: 70px; height: 50px; border-radius: 8px;
+            position: relative; z-index: 1; text-decoration: none; color: #4b5563; overflow: hidden;
+            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease, justify-content 0.3s ease;
+            box-sizing: border-box; border: none; background-color: transparent; cursor: pointer; justify-content: center;
+        }
+        html.dark .bottom-menu-link { color: #d1d5db; }
+        .bottom-menu-icon {
+            width: 28px; height: 28px; display: block; flex-shrink: 0; transition: transform 0.3s ease;
+        }
+        .bottom-menu-title {
+            display: block; text-align: left; font-size: 0.875rem; font-weight: 500; white-space: nowrap; margin-left: 10px;
+            opacity: 0; max-width: 0; transform: translateX(10px);
+            transition: opacity 0.2s ease, max-width 0.3s ease 0.1s, transform 0.2s ease;
+        }
+        .bottom-menu-link:hover {
+            width: 150px; background-color: #F0F8FF; justify-content: flex-start; padding-left: 21px;
+        }
+        html.dark .bottom-menu-link:hover { background-color: #374151; }
+        .bottom-menu-link:hover .bottom-menu-title {
+            opacity: 1; max-width: 100px; transform: translateX(0);
+        }
+        .bottom-menu-link.active {
+            background-color: #2563EB; color: white; justify-content: center; padding-left: 0;
+        }
+        html.dark .bottom-menu-link.active { background-color: #3b82f6; }
+        .bottom-menu-link.active:hover {
+            background-color: #1d4ed8; color: white; width: 150px; justify-content: flex-start; padding-left: 21px;
+        }
+        html.dark .bottom-menu-link.active:hover { background-color: #2563EB; }
+
+        /* GAYA FAB TERINTEGRASI (Disalin dari index.html) */
+        #integrated-fab-wrapper { position: relative; z-index: 10; }
+        #integrated-fab-wrapper.active #integrated-fab-toggle { background-color: #dc2626; color: white; }
+        #integrated-fab-wrapper.active #integrated-fab-toggle .bottom-menu-icon { transform: rotate(135deg); }
+        #integrated-fab-menu {
+            position: absolute; bottom: 75px; right: 10px; pointer-events: none;
+            display: flex; flex-direction: column-reverse;
+        }
+        .bottom-fab-child {
+            width: 50px; height: 50px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; margin-bottom: 12px; opacity: 0; transform: scale(0.5); pointer-events: none;
+        }
+        #integrated-fab-wrapper.active #integrated-fab-menu { pointer-events: auto; }
+        #integrated-fab-wrapper.active .bottom-fab-child {
+            opacity: 1; transform: scale(1); pointer-events: auto;
+        }
+        @media (min-width: 768px) {
+            #integrated-fab-menu { bottom: 20px; right: 20px; display: block; }
+            .bottom-fab-child { position: absolute; bottom: 0; right: 0; margin-bottom: 0; opacity: 0; transform: scale(0.5); }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(1) { transform: translate(10px, -65px) scale(1); }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(2) { transform: translate(60px, -60px) scale(1); }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(3) { transform: translate(90px, -25px) scale(1); }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(4) { transform: translate(120px, 15px) scale(1); }
+        }
+
+        /* [BARU] CSS KHUSUS HALAMAN PROFIL */
+        .voucher-ticket {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            border: 1px solid #c8e6f7;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .voucher-ticket:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.2);
+        }
+        html.dark .voucher-ticket {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            border-color: #4b5563;
+        }
+        .voucher-ticket::before, .voucher-ticket::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e4f0ff; /* Warna body */
+            transform: translateY(-50%);
+        }
+        .voucher-ticket::before { left: -10px; }
+        .voucher-ticket::after { right: -10px; }
+        
+        html.dark .voucher-ticket::before, html.dark .voucher-ticket::after {
+            background: #111827; /* Warna body dark */
+        }
+
+        /* Modal di atas modal */
+        #upload-modal {
+            z-index: 80; /* Di atas modal edit (z-70) */
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 antialiased">
+
+    <header id="main-header" class="sticky top-0 z-50 navbar-blur">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-2">
+                <button id="admin-menu-toggle" onclick="toggleAdminMenu()"
+                    class="hidden p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-full transition duration-200 hover:bg-blue-50 dark:hover:bg-gray-700">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <a href="index.html" class="flex items-center group"> <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110 mr-2">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
+                            fill="currentColor" opacity="0.15" />
+                        <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700" />
+                    </svg>
+                    <span class="animated-hover-text text-xl font-extrabold tracking-tight" data-text="Akun Bareng">
+                        Akun Bareng
+                    </span>
+                </a>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#produk" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Produk</a>
+                <a href="index.html#kategori" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Kategori</a>
+                <a href="index.html#testimoni" class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Testimoni</a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <button id="theme-toggle" onclick="toggleTheme()"
+                    class="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-full transition duration-200 hover:bg-blue-50 dark:hover:bg-gray-700">
+                    <i data-lucide="moon" id="moon-icon" class="w-5 h-5 block dark:hidden"></i>
+                    <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+                <div id="auth-logged-out">
+                    <button id="auth-button" onclick="showAuthModal('login')"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-lg shadow-blue-300 transform transition duration-200 hover:scale-105 active:scale-95">
+                        Masuk
+                    </button>
+                </div>
+                <div id="auth-logged-in" class="hidden flex items-center space-x-3">
+                    <button onclick="handleLogout()"
+                        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full shadow-lg transition duration-200 hover:scale-105 active:scale-95">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16 relative z-10">
+        
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-8 scroll-appear text-center md:text-left">Profil Saya</h1>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg-soft p-6 md:p-8 mb-8 relative scroll-appear border border-blue-100 dark:border-gray-700">
+            <a href="listorder.html" class="absolute top-4 right-4 p-3 rounded-full text-gray-500 dark:text-gray-400 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 transition duration-200" title="Riwayat Pesanan">
+                <i data-lucide="history" class="w-6 h-6"></i>
+            </a>
+
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="relative mb-4 md:mb-0 md:mr-6 flex-shrink-0">
+                    <img id="profile-avatar-main" src="https://placehold.co/120x120/E0E7FF/374151?text=A" alt="Avatar Pengguna" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-blue-200 dark:border-blue-700 shadow-md">
+                </div>
+                <div class="text-center md:text-left flex-grow">
+                    <h2 id="profile-name" class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100">Nama Pengguna</h2>
+                    <p id="profile-email" class="text-md text-gray-500 dark:text-gray-400 mb-4">email@pengguna.com</p>
+                    <button onclick="openEditProfileModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-full shadow-lg shadow-blue-300 transform transition duration-200 hover:scale-105 active:scale-95">
+                        <i data-lucide="edit-2" class="w-4 h-4 inline-block mr-1 -mt-1"></i>
+                        Edit Profil
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center md:text-left">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Kode Referral Anda</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Bagikan kode ini dan dapatkan poin!</p>
+                <div class="flex justify-center md:justify-start">
+                    <span id="profile-referral" class="text-lg font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-700 border-2 border-dashed border-blue-300 dark:border-blue-600 py-2 px-4 rounded-lg inline-block">
+                        MEMUAT...
+                    </span>
+                    <button onclick="copyReferral()" class="ml-2 p-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition" title="Salin Kode">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-appear" style="animation-delay: 0.2s;">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Voucher Saya</h2>
+            <div classs="space-y-4">
+                <div class="voucher-ticket flex items-center rounded-lg shadow-soft overflow-hidden mb-4">
+                    <div class="w-1/4 bg-blue-500 text-white flex flex-col items-center justify-center p-4 h-28">
+                        <i data-lucide="ticket" class="w-8 h-8 mb-1"></i>
+                        <span class="font-bold text-xl">10%</span>
+                        <span class="text-xs">Diskon</span>
+                    </div>
+                    <div class="w-3/4 p-4 pl-8 relative">
+                        <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200">Diskon 10%</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Min. belanja Rp 50.000</p>
+                        <p class="text-xs text-red-500 dark:text-red-400 font-medium mt-2">Berlaku s/d: 31 Des 2025</p>
+                    </div>
+                </div>
+                <div class="voucher-ticket flex items-center rounded-lg shadow-soft overflow-hidden mb-4">
+                    <div class="w-1/4 bg-green-500 text-white flex flex-col items-center justify-center p-4 h-28">
+                        <i data-lucide="gift" class="w-8 h-8 mb-1"></i>
+                        <span class="font-bold text-lg">Gratis</span>
+                        <span class="text-xs">1 Bulan</span>
+                    </div>
+                    <div class="w-3/4 p-4 pl-8 relative">
+                        <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200">Gratis Langganan</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Untuk pembelian ke-5 (Produk Netflix)</p>
+                        <p class="text-xs text-red-500 dark:text-red-400 font-medium mt-2">Berlaku s/d: 14 Nov 2025</p>
+                    </div>
+                </div>
+                 <div class="voucher-ticket flex items-center rounded-lg shadow-soft overflow-hidden opacity-60">
+                    <div class="w-1/4 bg-gray-400 text-white flex flex-col items-center justify-center p-4 h-28">
+                        <i data-lucide="percent" class="w-8 h-8 mb-1"></i>
+                        <span class="font-bold text-xl">5%</span>
+                        <span class="text-xs">Diskon</span>
+                    </div>
+                    <div class="w-3/4 p-4 pl-8 relative">
+                        <h3 class="font-bold text-lg text-gray-500 dark:text-gray-400 line-through">Diskon 5%</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Voucher Spesial 11.11</p>
+                        <p class="text-xs text-red-500 dark:text-red-400 font-medium mt-2">KADALUWARSA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 p-4 z-[60] block">
+        <div class="bottom-menu-container">
+            <a href="index.html" class="bottom-menu-link" data-menu-item="true" aria-label="Home">
+                <i data-lucide="home" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Home</span>
+            </a>
+            <a href="index.html#produk" class="bottom-menu-link" data-menu-item="true" aria-label="Produk">
+                <i data-lucide="shopping-bag" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Produk</span>
+            </a>
+            <a href="listorder.html" class="bottom-menu-link" data-menu-item="true" aria-label="Daftar Pesanan">
+                <i data-lucide="list-ordered" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Pesanan</span>
+            </a>
+            <a href="profil.html" class="bottom-menu-link active" data-menu-item="true" aria-label="Profil Pengguna">
+                <i data-lucide="user" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Profil</span>
+            </a>
+            <div id="integrated-fab-wrapper" class="relative">
+                <button id="integrated-fab-toggle" class="bottom-menu-link" aria-label="Buka Menu Kontak">
+                    <i data-lucide="plus" class="bottom-menu-icon transition-transform duration-300"></i>
+                    <span class="bottom-menu-title">Kontak</span>
+                </button>
+                <div id="integrated-fab-menu" class="absolute bottom-4 right-4 w-auto h-auto pointer-events-none">
+                    <a href="https://wa.me/6287766107867" target="_blank" rel="noopener noreferrer" class="bottom-fab-child" style="background-color: #25D366; transition-delay: 0.1s;" aria-label="Hubungi via WhatsApp">
+                        <i data-lucide="message-square-text" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://twitter.com/Aveeeryxn" target="_blank" rel="noopener noreferrer" class="bottom-fab-child" style="background-color: #000000; transition-delay: 0.15s;" aria-label="Kunjungi Twitter Aveeeryxn">
+                        <i data-lucide="twitter" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://tiktok.com/@Aerlyxn" target="_blank" rel="noopener noreferrer" class="bottom-fab-child" style="background-color: #EE1D52; transition-delay: 0.2s;" aria-label="Kunjungi TikTok Aerlyxn">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </a>
+                    <button onclick="toggleChatbot()" class="bottom-fab-child" style="background-color: #6366f1; transition-delay: 0.25s;" aria-label="Buka Chatbot">
+                        <i data-lucide="bot" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <footer class="bg-gray-800 text-white py-12 relative z-20 dark:bg-gray-900 dark:text-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-5 gap-8">
+            <div class="col-span-2 md:col-span-2">
+                <h4 class="text-xl font-bold mb-4">Akun Bareng</h4>
+                <p class="text-gray-400 text-sm">Penyedia layanan langganan premium terpercaya dan termurah. Didukung oleh seller Akun Bareng.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4 text-blue-300">Perusahaan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Tentang Kami</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Kebijakan Privasi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4 text-blue-300">Bantuan</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html#faq" class="text-gray-400 hover:text-white transition duration-200">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-200">Kontak Kami</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4 text-blue-300">Kategori</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html#kategori" class="text-gray-400 hover:text-white transition duration-200">Tontonan</a></li>
+                    <li><a href="index.html#kategori" class="text-gray-400 hover:text-white transition duration-200">Editing</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+            © 2024 Akun Bareng. Semua Hak Cipta Dilindungi.
+        </div>
+    </footer>
+
+
+    <div id="edit-profile-modal"
+        class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-[70] transition-opacity duration-300"
+        onclick="closeEditProfileModal(event)">
+        <div class="modal-content-container bg-white w-full max-w-lg rounded-2xl p-6 shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800"
+            onclick="event.stopPropagation()">
+            <button onclick="closeEditProfileModal()"
+                class="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 transition">
+                <i data-lucide="x" class="w-6 h-6 dark:text-gray-400"></i>
+            </button>
+
+            <h2 class="text-3xl font-bold mb-6 text-deep-blue dark:text-blue-400">Edit Profil</h2>
+
+            <div class="flex justify-center mb-6">
+                <div class="relative">
+                    <img id="profile-avatar-modal" src="https://placehold.co/120x120/E0E7FF/374151?text=A" alt="Avatar Pengguna" class="w-32 h-32 rounded-full object-cover border-4 border-blue-200 dark:border-blue-700 shadow-md">
+                    <button onclick="openUploadModal()" class="absolute bottom-1 right-1 bg-blue-600 text-white p-2 rounded-full shadow-md hover:bg-blue-700 transition" title="Ganti Foto Profil">
+                        <i data-lucide="camera" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="edit-profile-form" onsubmit="handleProfileUpdate(event)" class="space-y-4">
+                <div>
+                    <label for="edit-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama Lengkap</label>
+                    <input type="text" id="edit-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                </div>
+                 <div>
+                    <label for="edit-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                    <input type="email" id="edit-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                </div>
+                 <div>
+                    <label for="edit-phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nomor Telepon (Opsional)</label>
+                    <input type="tel" id="edit-phone" placeholder="0812..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                </div>
+                
+                <div class="pt-4 flex justify-end space-x-3">
+                    <button type="button" onclick="closeEditProfileModal()" class="py-2 px-4 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition duration-200 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">
+                        Batal
+                    </button>
+                    <button type="submit" id="profile-submit-btn" class="py-2 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="upload-modal"
+        class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-[80] transition-opacity duration-300"
+        onclick="closeUploadModal(event)">
+        <div class="modal-content-container bg-white w-full max-w-md rounded-2xl p-6 shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800"
+            onclick="event.stopPropagation()">
+            <h2 class="text-2xl font-bold mb-4 text-deep-blue dark:text-blue-400">Ganti Foto Profil</h2>
+            
+            <div class="flex justify-center mb-4">
+                <img id="avatar-preview" src="https://placehold.co/200x200/E0E7FF/374151?text=Preview" alt="Preview" class="w-48 h-48 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700">
+            </div>
+            
+            <input type="file" id="avatar-file-input" class="block w-full text-sm text-gray-500 dark:text-gray-400
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100 dark:file:bg-gray-700 dark:file:text-blue-400 dark:hover:file:bg-gray-600"
+                accept="image/*">
+            
+            <div class="pt-4 flex justify-end space-x-3 mt-4">
+                <button type="button" onclick="closeUploadModal()" class="py-2 px-4 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition duration-200 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">
+                    Batal
+                </button>
+                <button onclick="handleAvatarUpload()" class="py-2 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200">
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification-container" class="fixed top-20 right-4 z-[100] space-y-2"></div>
+    
+    <div id="auth-modal"
+        class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-[70] transition-opacity duration-300"
+        onclick="closeAuthModal(event)">
+        </div>
+
+
+    <script>
+        // --- [SALIN SEMUA JS DARI index.html KE SINI] ---
+        // (Saya akan menyertakan fungsi-fungsi UTAMA yang diperlukan agar halaman ini berfungsi)
+
+        // URL API Backend Anda
+        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
+
+        // --- HELPER FUNCTIONS (Disalin) ---
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('notification-container');
+            if (!container) return;
+            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
+            const toast = document.createElement('div');
+            toast.innerHTML = html;
+            const toastEl = toast.firstElementChild;
+            container.appendChild(toastEl);
+            setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
+            setTimeout(() => {
+                toastEl.classList.add('opacity-0', 'scale-90');
+                toastEl.addEventListener('transitionend', () => toastEl.remove());
+            }, 3000);
+        }
+
+        // --- LOGIKA DARK MODE (Disalin) ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+            if (savedTheme === 'dark') html.classList.add('dark');
+            else html.classList.remove('dark');
+        }
+
+        // --- ANIMASI BLUR HEADER (Disalin) ---
+        function toggleHeaderBlur() {
+            const header = document.getElementById('main-header');
+            if (!header) return;
+            const scrollThreshold = 50;
+            if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        }
+        
+        // --- ANIMASI UNDERLINE NAV (Disalin) ---
+        function initNavLinks() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.style.position = 'relative';
+                const underline = document.createElement('span');
+                underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
+                underline.style.width = '0%';
+                underline.style.transition = 'width 0.3s ease-out';
+                link.appendChild(underline);
+                link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
+                link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
+            });
+        }
+
+        // --- LOGIKA AUTENTIKASI (Disalin, diperlukan untuk header) ---
+        function showAuthModal(mode = 'login') {
+            // (Salin fungsi lengkap dari index.html)
+            console.log("Membuka modal auth...");
+            // Ganti dengan implementasi modal auth Anda
+            alert("Silakan Login di halaman Home.");
+        }
+        function closeAuthModal(event = null) {
+            // (Salin fungsi lengkap dari index.html)
+        }
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+            showNotification('Anda telah Logout.', 'success');
+            updateAuthStatus();
+            window.location.href = 'index.html'; // Kembali ke home setelah logout
+        }
+        function updateAuthStatus() {
+            const token = localStorage.getItem('token');
+            const authLoggedOutDiv = document.getElementById('auth-logged-out');
+            const authLoggedInDiv = document.getElementById('auth-logged-in');
+            if (!authLoggedOutDiv || !authLoggedInDiv) return;
+
+            if (token) {
+                authLoggedOutDiv.classList.add('hidden');
+                authLoggedInDiv.classList.remove('hidden');
+                authLoggedInDiv.classList.add('flex');
+            } else {
+                authLoggedOutDiv.classList.remove('hidden');
+                authLoggedInDiv.classList.add('hidden');
+                authLoggedInDiv.classList.remove('flex');
+            }
+            lucide.createIcons();
+        }
+
+        // --- LOGIKA BOTTOM MENU BAR (Disalin) ---
+        function initBottomMenu() {
+            const bottomBar = document.getElementById('bottom-bar');
+            if (!bottomBar) return;
+            const navLinks = bottomBar.querySelectorAll('[data-menu-item="true"]');
+            const fabWrapper = document.getElementById('integrated-fab-wrapper');
+            const fabToggle = document.getElementById('integrated-fab-toggle');
+            if (!fabToggle || !fabWrapper) return;
+
+            // 1. Logika untuk tombol navigasi (Home, Produk, dll.)
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Cek jika ini BUKAN link ke halaman lain
+                    if (this.getAttribute('href').startsWith('#')) {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                        fabWrapper.classList.remove('active');
+                    }
+                    // Jika ini link ke halaman lain (misal profil.html), biarkan navigasi browser
+                });
+            });
+
+            // 2. Logika untuk tombol FAB (Kontak)
+            fabToggle.addEventListener('click', function(event) {
+                event.stopPropagation();
+                fabWrapper.classList.toggle('active');
+            });
+        }
+
+        function initFabMenuClose() {
+            const fabWrapper = document.getElementById('integrated-fab-wrapper');
+            if (!fabWrapper) return;
+            document.addEventListener('click', function(event) {
+                if (!fabWrapper.contains(event.target) && fabWrapper.classList.contains('active')) {
+                    fabWrapper.classList.remove('active');
+                }
+            });
+        }
+        
+        // --- FUNGSI BARU KHUSUS PROFIL ---
+
+        // 1. Memuat data profil (Gunakan data dari admin.html sebagai referensi)
+        async function loadUserProfile() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showNotification('Anda harus login untuk melihat profil.', 'error');
+                // Alihkan ke modal login di halaman home
+                window.location.href = 'index.html?action=login'; 
+                return;
+            }
+
+            try {
+                // Panggil API untuk mendapatkan info 'me' (pengguna saat ini)
+                // (ASUMSI: Endpoint ini ada di backend Anda: GET /api/users/me)
+                const response = await fetch(`${API_BASE_URL}/users/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Gagal mengambil data profil.');
+                }
+
+                const user = await response.json();
+
+                // Isi data ke halaman
+                document.getElementById('profile-name').textContent = user.name;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('profile-referral').textContent = user.referral_code || 'TIDAK ADA';
+                
+                // (Mock data untuk field yang tidak ada di admin.html)
+                const userPhone = user.phone || ''; // Asumsi 'phone' ada di data user
+
+                // Isi data ke modal edit
+                document.getElementById('edit-name').value = user.name;
+                document.getElementById('edit-email').value = user.email;
+                document.getElementById('edit-phone').value = userPhone;
+                
+                // (Mock data untuk avatar)
+                const avatarUrl = user.avatar_url || `https://placehold.co/120x120/E0E7FF/374151?text=${user.name.charAt(0)}`;
+                document.getElementById('profile-avatar-main').src = avatarUrl;
+                document.getElementById('profile-avatar-modal').src = avatarUrl;
+                document.getElementById('avatar-preview').src = avatarUrl;
+
+            } catch (error) {
+                showNotification(error.message, 'error');
+                handleLogout(); // Jika token error, logout saja
+            }
+        }
+        
+        // 2. Salin Kode Referral
+        function copyReferral() {
+            const code = document.getElementById('profile-referral').textContent;
+            if (code && code !== 'MEMUAT...') {
+                navigator.clipboard.writeText(code).then(() => {
+                    showNotification('Kode referral disalin!', 'success');
+                }, () => {
+                    showNotification('Gagal menyalin kode.', 'error');
+                });
+            }
+        }
+
+        // 3. Logika Modal Edit Profil
+        function openEditProfileModal() {
+            const modal = document.getElementById('edit-profile-modal');
+            const modalContent = modal.querySelector('.modal-content-container');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.add('opacity-100');
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+            }, 10);
+            lucide.createIcons();
+        }
+
+        function closeEditProfileModal(event = null) {
+            if (event && event.target !== document.getElementById('edit-profile-modal')) return;
+            const modal = document.getElementById('edit-profile-modal');
+            const modalContent = modal.querySelector('.modal-content-container');
+            modal.classList.remove('opacity-100');
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // 4. Logika Modal Upload Avatar
+        function openUploadModal() {
+            const modal = document.getElementById('upload-modal');
+            const modalContent = modal.querySelector('.modal-content-container');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.add('opacity-100');
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+            }, 10);
+
+            // Tampilkan preview
+            const fileInput = document.getElementById('avatar-file-input');
+            const preview = document.getElementById('avatar-preview');
+            fileInput.onchange = evt => {
+                const [file] = fileInput.files;
+                if (file) {
+                    preview.src = URL.createObjectURL(file);
+                }
+            }
+        }
+
+        function closeUploadModal(event = null) {
+            if (event && event.target !== document.getElementById('upload-modal')) return;
+            const modal = document.getElementById('upload-modal');
+            const modalContent = modal.querySelector('.modal-content-container');
+            modal.classList.remove('opacity-100');
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+        
+        // 5. Submit Perubahan Profil (ASUMSI API)
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+            const token = localStorage.getItem('token');
+            const name = document.getElementById('edit-name').value;
+            const email = document.getElementById('edit-email').value;
+            const phone = document.getElementById('edit-phone').value;
+
+            // (ASUMSI: Endpoint ini ada: PUT /api/users/me)
+            try {
+                // const response = await fetch(`${API_BASE_URL}/users/me`, {
+                //     method: 'PUT',
+                //     headers: { 
+                //         'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${token}` 
+                //     },
+                //     body: JSON.stringify({ name, email, phone }) // Kirim data
+                // });
+                // if (!response.ok) throw new Error('Gagal update profil.');
+
+                // (Simulasi sukses)
+                await new Promise(res => setTimeout(res, 500)); // Simulasi loading
+                
+                showNotification('Profil berhasil diperbarui!', 'success');
+                closeEditProfileModal();
+                loadUserProfile(); // Muat ulang data
+            
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
+        }
+        
+        // 6. Submit Upload Avatar (ASUMSI API)
+        async function handleAvatarUpload() {
+            showNotification('Fitur upload avatar belum tersedia.', 'error');
+            closeUploadModal();
+            // Implementasi API upload (FormData) akan ditaruh di sini nanti
+        }
+
+        // --- INISIALISASI HALAMAN PROFIL ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Muat fungsi-fungsi global
+            loadTheme();
+            lucide.createIcons();
+            toggleHeaderBlur();
+            window.addEventListener('scroll', toggleHeaderBlur);
+            initNavLinks();
+            updateAuthStatus();
+            initBottomMenu();
+            initFabMenuClose();
+            
+            // 2. Muat data khusus halaman profil
+            loadUserProfile();
+            
+            // 3. (PENTING) Atur active state menu bar bawah
+            // Hapus 'active' dari semua tombol (termasuk 'Home' dari HTML)
+            document.querySelectorAll('#bottom-bar .bottom-menu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Tambahkan 'active' ke tombol Profil
+            const profileLink = document.querySelector('a[href="profil.html"].bottom-menu-link');
+            if (profileLink) {
+                profileLink.classList.add('active');
+            }
+        });
+
+        // Daftarkan fungsi global
+        window.toggleTheme = toggleTheme;
+        window.handleLogout = handleLogout;
+        window.showAuthModal = showAuthModal;
+        window.closeAuthModal = closeAuthModal;
+        window.initBottomMenu = initBottomMenu;
+        window.initFabMenuClose = initFabMenuClose;
+        
+        // Daftarkan fungsi baru
+        window.openEditProfileModal = openEditProfileModal;
+        window.closeEditProfileModal = closeEditProfileModal;
+        window.openUploadModal = openUploadModal;
+        window.closeUploadModal = closeUploadModal;
+        window.handleProfileUpdate = handleProfileUpdate;
+        window.handleAvatarUpload = handleAvatarUpload;
+        window.copyReferral = copyReferral;
+    </script>
+</body>
+
+</html>

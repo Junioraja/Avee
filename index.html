@@ -266,7 +266,7 @@
 
         /* --- 7. EFEK BARU: Latar Belakang Bintang Berkelip (Bagian Produk) --- */
         .particle-container-stars {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -1281,7 +1281,7 @@
 
         /* EFEK HOVER: Memanjang dan Tampilkan Teks */
         .bottom-menu-link:hover {
-            width: 140px;
+            width: 150px;
             background-color: #F0F8FF;
             /* light-bg */
 
@@ -1320,9 +1320,9 @@
 
         /* Hover di atas tombol aktif */
         .bottom-menu-link.active:hover {
-            background-color: #1d4ed8;
-            /* Biru lebih gelap */
-            color: white;
+    background-color: #1d4ed8; /* Biru lebih gelap */
+    color: white;
+    width: 150px;
 
             /* [PERBAIKAN] Pindahkan ikon ke kiri lagi saat hover */
             justify-content: flex-start;
@@ -1333,38 +1333,37 @@
             background-color: #2563EB;
         }
 
-        /* --- GAYA FAB TERINTEGRASI --- */
+        /* --- [PERBAIKAN] GAYA FAB TERINTEGRASI (Mobile-First) --- */
 
+        /* Wrapper untuk tombol FAB baru (agar relatif) */
         #integrated-fab-wrapper {
             position: relative;
-            z-index: 10;
+            z-index: 10; /* Di atas link lain */
         }
 
         /* Tombol FAB baru saat aktif (menu terbuka) */
         #integrated-fab-wrapper.active #integrated-fab-toggle {
-            background-color: #dc2626;
-            /* Merah */
+            background-color: #dc2626; /* Merah */
             color: white;
-            /* [PERBAIKAN] Pastikan padding & justify kembali saat hover */
-            justify-content: flex-start;
-            padding-left: 21px;
+            /* Perataan hover/aktif (padding) ditangani oleh CSS .active:hover di atas */
         }
-
-        /* [PERBAIKAN] Putar HANYA ikon di dalam tombol, bukan seluruh tombol */
+        
+        /* Putar HANYA ikon di dalam tombol */
         #integrated-fab-wrapper.active #integrated-fab-toggle .bottom-menu-icon {
-            transform: rotate(135deg);
-            /* 135deg = 90 (plus) + 45 (menjadi X) */
+            transform: rotate(135deg); 
         }
 
-        /* Kontainer pop-up */
+        /* Kontainer pop-up (Mobile-First: di atas bar) */
         #integrated-fab-menu {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            pointer-events: none;
+            bottom: 75px; /* Tepat di atas menu bar (50px + 8px padding + 17px jarak) */
+            right: 10px; /* Sedikit ke kiri dari tepi */
+            pointer-events: none; /* Biarkan klik "tembus" saat tersembunyi */
+            display: flex;
+            flex-direction: column-reverse; /* Stack dari bawah ke atas */
         }
 
-        /* Tombol anak (WhatsApp, dll) */
+        /* Tombol anak (WhatsApp, dll) (Mobile-First) */
         .bottom-fab-child {
             width: 50px;
             height: 50px;
@@ -1376,39 +1375,221 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: absolute;
-            bottom: 0;
-            right: 0;
+            
+            /* Sembunyikan dan kecilkan di posisi awal (Mobile) */
+            position: relative; /* Bukan absolute di mobile */
+            margin-bottom: 12px; /* Jarak antar tombol */
             opacity: 0;
             transform: scale(0.5);
             pointer-events: none;
         }
 
-        /* Saat menu FAB aktif, tampilkan anak-anaknya */
+        /* Saat menu FAB aktif, tampilkan anak-anaknya (Mobile) */
         #integrated-fab-wrapper.active #integrated-fab-menu {
-            pointer-events: auto;
+            pointer-events: auto; /* Bisa diklik */
         }
 
         #integrated-fab-wrapper.active .bottom-fab-child {
             opacity: 1;
-            pointer-events: auto;
+            transform: scale(1);
+            pointer-events: auto; /* Bisa diklik */
         }
 
-        /* Animasi Radial (Mengelilingi Kanan Atas) */
-        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(1) {
-            transform: translate(10px, -65px) scale(1);
+        /* [BARU] Logika Desktop (Layar > 768px) */
+        @media (min-width: 768px) {
+            /* Kembalikan posisi kontainer ke DALAM bar */
+            #integrated-fab-menu {
+                bottom: 20px;
+                right: 20px;
+                display: block; /* Hapus flex */
+            }
+            
+            /* Kembalikan tombol anak ke 'absolute' */
+            .bottom-fab-child {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                margin-bottom: 0; /* Hapus margin mobile */
+                
+                /* Sembunyikan lagi (untuk animasi desktop) */
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            /* Saat aktif, gunakan animasi RADIAL (bukan vertikal) */
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(1) {
+                transform: translate(10px, -65px) scale(1);
+            }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(2) {
+                transform: translate(60px, -60px) scale(1);
+            }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(3) {
+                transform: translate(90px, -25px) scale(1);
+            }
+            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(4) {
+                transform: translate(120px, 15px) scale(1);
+            }
         }
 
-        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(2) {
-            transform: translate(60px, -60px) scale(1);
+        /* --- [BARU] 19. ANIMASI BINTANG JATUH (METEOR) --- */
+        /* Diadaptasi dari kode referensi */
+        .night {
+    position: fixed;
+    /* [PERBAIKAN] Dibuat jauh lebih besar (vw/vh) agar rotasi menutupi layar */
+    width: 200vw;
+    height: 200vh;
+    transform: rotate(45deg);
+    /* [PERBAIKAN] Disesuaikan untuk ukuran baru */
+    top: -50vh;
+    left: -50vw;
+    z-index: -1;
+    overflow: hidden;
+}
+
+        .shooting_star {
+            position: absolute;
+            height: 2px;
+            /* Default: Putih (Bagus untuk dark mode) */
+            background: linear-gradient(-45deg,
+                    rgba(255, 255, 255, 1),
+                    rgba(255, 255, 255, 0));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+            animation: tail 3s ease-in-out infinite,
+                shooting 3s ease-in-out infinite;
         }
 
-        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(3) {
-            transform: translate(90px, -25px) scale(1);
+        /* [EDIT] Penyesuaian: Di light mode, meteor jadi biru agar terlihat */
+        html:not(.dark) .shooting_star {
+            background: linear-gradient(-45deg,
+                    rgba(96, 165, 250, 1),
+                    /* Biru */
+                    rgba(96, 165, 250, 0));
+            filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.8));
         }
 
-        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(4) {
-            transform: translate(120px, 15px) scale(1);
+        .shooting_star::before,
+        .shooting_star::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(-45deg,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 1),
+                    rgba(255, 255, 255, 0));
+            border-radius: 100%;
+            animation: shining 3s ease-in-out infinite;
+        }
+
+        /* [EDIT] Penyesuaian kepala meteor di light mode */
+        html:not(.dark) .shooting_star::before,
+        html:not(.dark) .shooting_star::after {
+            background: linear-gradient(-45deg,
+                    rgba(96, 165, 250, 0),
+                    rgba(96, 165, 250, 1),
+                    rgba(96, 165, 250, 0));
+        }
+
+        .shooting_star::before {
+            transform: translateX(50%) rotateZ(45deg);
+        }
+
+        .shooting_star::after {
+            transform: translateX(50%) rotateZ(-45deg);
+        }
+
+        /* Warna Biru (Variasi) */
+        .shooting_star.blue {
+            background: linear-gradient(-45deg,
+                    rgba(95, 145, 255, 1),
+                    rgba(95, 145, 255, 0));
+            filter: drop-shadow(0 0 8px rgba(105, 155, 255, 1));
+        }
+
+        .shooting_star.blue::before,
+        .shooting_star.blue::after {
+            background: linear-gradient(-45deg,
+                    rgba(95, 145, 255, 0),
+                    rgba(95, 145, 255, 1),
+                    rgba(95, 145, 255, 0));
+        }
+
+        /* Warna Ungu (Variasi) */
+        .shooting_star.purple {
+            background: linear-gradient(-45deg,
+                    rgba(200, 95, 255, 1),
+                    rgba(200, 95, 255, 0));
+            filter: drop-shadow(0 0 8px rgba(200, 105, 255, 1));
+        }
+
+        .shooting_star.purple::before,
+        .shooting_star.purple::after {
+            background: linear-gradient(-45deg,
+                    rgba(200, 95, 255, 0),
+                    rgba(200, 95, 255, 1),
+                    rgba(200, 95, 255, 0));
+        }
+
+        /* Warna Emas (Variasi) */
+        .shooting_star.gold {
+            background: linear-gradient(-45deg,
+                    rgba(255, 215, 95, 1),
+                    rgba(255, 215, 95, 0));
+            filter: drop-shadow(0 0 8px rgba(255, 225, 105, 1));
+        }
+
+        .shooting_star.gold::before,
+        .shooting_star.gold::after {
+            background: linear-gradient(-45deg,
+                    rgba(255, 215, 95, 0),
+                    rgba(255, 215, 95, 1),
+                    rgba(255, 215, 95, 0));
+        }
+
+        @keyframes tail {
+            0% {
+                width: 0;
+            }
+
+            30% {
+                width: 150px;
+            }
+
+            100% {
+                width: 0;
+            }
+        }
+
+        @keyframes shining {
+            0% {
+                width: 0;
+            }
+
+            50% {
+                width: 50px;
+            }
+
+            100% {
+                width: 0;
+            }
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(800px); /* Gerakan lebih jauh */
+                opacity: 0;
+            }
         }
 
         /* --- AKHIR GAYA LOADER --- */
@@ -1556,6 +1737,22 @@
     <div id="admin-sidebar-backdrop" onclick="toggleAdminMenu()"
         class="fixed inset-0 bg-black bg-opacity-50 z-[55] hidden"></div>
     <main>
+        <div class="particle-container-stars" aria-hidden="true">
+                <div class="star-particle star-sm" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+                <div class="star-particle star-lg" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+                <div class="star-particle" style="top: 5%; left: 50%; animation-delay: 0.5s;"></div>
+                <div class="star-particle star-lg" style="top: 30%; left: 30%; animation-delay: 1.5s;"></div>
+                <div class="star-particle star-sm" style="top: 50%; left: 90%; animation-delay: 2s;"></div>
+                <div class="star-particle" style="top: 60%; left: 10%; animation-delay: 2.5s;"></div>
+                <div class="star-particle star-lg" style="top: 75%; left: 70%; animation-delay: 3s;"></div>
+                <div class="star-particle star-sm" style="top: 80%; left: 40%; animation-delay: 3.5s;"></div>
+                <div class="star-particle" style="top: 90%; left: 5%; animation-delay: 1.2s;"></div>
+                <div class="star-particle star-lg" style="top: 95%; left: 95%; animation-delay: 2.8s;"></div>
+            </div>
+
+            <div class="star-particle star-lg" style="top: 95%; left: 95%; animation-delay: 2.8s;"></div>
+            </div> <div class="night" id="night"></div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <section class="hero-section pt-16 pb-24 md:pt-24 md:pb-36 relative z-10 overflow-hidden">
             <div class="bubble-container">
                 <div class="bubble w-4 h-4" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></div>
@@ -1596,30 +1793,30 @@
 
                 <div class="md:w-1/2 flex justify-center relative">
                     <div id="hero-apps" class="w-full max-w-md relative p-8 h-80">
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-3 -translate-y-12 dark:bg-gray-700"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-3 -translate-y-12 dark:bg-gray-700 w-28 h-28"
                             style="top: 10%; left: 10%;">
                             <img src="https://yt3.googleusercontent.com/CvgBA1ypUZNxOjiCX0l1V2FbAm7oSDPZE4YkMvkpT_4iLXQ3IXWVtBgWnznHxgtcUoj50TXqZA=s900-c-k-c0x00ffffff-no-rj"
-                                alt="Netflix" class="rounded-lg w-20 h-20">
+                                alt="Netflix" class="rounded-lg w-full h-full object-contain">
                         </div>
 
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 dark:bg-gray-700"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-6 dark:bg-gray-700 w-28 h-28"
                             style="bottom: 5%; right: 10%;">
                             <img src="https://m.media-amazon.com/images/I/31B2Nyzd8XL.png" alt="Spotify"
-                                class="rounded-lg w-20 h-20">
+                                class="rounded-lg w-full h-full object-contain">
                         </div>
 
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-12 dark:bg-gray-700"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform rotate-12 dark:bg-gray-700 w-28 h-28"
                             style="top: 40%; right: 5%;">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5QlSxwJl8yWlWY50n7lLhGnnmirt7N6_YGg&s"
                                 onerror="this.onerror=null;this.src='https://placehold.co/80x80/3D335A/ffffff?text=LR';"
-                                alt="Lightroom Logo" class="rounded-lg w-20 h-20 object-contain">
+                                alt="Lightroom Logo" class="rounded-lg w-full h-full object-contain">
                         </div>
 
-                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-3 dark:bg-gray-700"
+                        <div class="floating-card absolute bg-white p-4 rounded-2xl shadow-2xl transform -rotate-3 dark:bg-gray-700 w-28 h-28"
                             style="top: 60%; left: 15%;">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"
                                 onerror="this.onerror=null;this.src='https://placehold.co/80x80/FF0000/ffffff?text=YT';"
-                                alt="YouTube Logo" class="rounded-lg w-20 h-20 object-contain">
+                                alt="YouTube Logo" class="rounded-lg w-full h-full object-contain">
                         </div>
                     </div>
                 </div>
@@ -1681,19 +1878,8 @@
             </div>
         </section>
 
-        <section id="produk" class="py-20 relative z-20">
-            <div class="particle-container-stars" aria-hidden="true">
-                <div class="star-particle star-sm" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
-                <div class="star-particle star-lg" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
-                <div class="star-particle" style="top: 5%; left: 50%; animation-delay: 0.5s;"></div>
-                <div class="star-particle star-lg" style="top: 30%; left: 30%; animation-delay: 1.5s;"></div>
-                <div class="star-particle star-sm" style="top: 50%; left: 90%; animation-delay: 2s;"></div>
-                <div class="star-particle" style="top: 60%; left: 10%; animation-delay: 2.5s;"></div>
-                <div class="star-particle star-lg" style="top: 75%; left: 70%; animation-delay: 3s;"></div>
-                <div class="star-particle star-sm" style="top: 80%; left: 40%; animation-delay: 3.5s;"></div>
-                <div class="star-particle" style="top: 90%; left: 5%; animation-delay: 1.2s;"></div>
-                <div class="star-particle star-lg" style="top: 95%; left: 95%; animation-delay: 2.8s;"></div>
-            </div>
+        <section id="produk" class="py-20 relative z-20 overflow-hidden">
+            
 
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 scroll-appear">Pilihan Kategori Aplikasi
@@ -3363,9 +3549,46 @@
                 });
             }
 
+        
             // Panggil kedua fungsi baru
             initBottomMenu();
             initFabMenuClose();
+
+            // [BARU] Inisialisasi Bintang Jatuh (Meteor)
+            function initShootingStars() {
+                const nightContainer = document.getElementById("night");
+                if (!nightContainer) return; // Hentikan jika elemen tidak ada
+
+                const colors = ["", "blue", "purple", "gold"];
+                const numStars = 50; // Jumlah bintang
+
+                nightContainer.innerHTML = ''; // Kosongkan dulu
+
+                for (let i = 0; i < numStars; i++) {
+                    const shootingStar = document.createElement("div");
+                    shootingStar.className = "shooting_star";
+                    
+                    // Tentukan warna (default putih/biru, atau berwarna)
+                    if (Math.random() > 0.4) {
+                        const colorClass = colors[Math.floor(Math.random() * colors.length)];
+                        if (colorClass) shootingStar.classList.add(colorClass);
+                    }
+                    
+                    shootingStar.style.top = Math.random() * 100 - 50 + "%";
+                    shootingStar.style.left = Math.random() * 100 - 50 + "%";
+                    
+                    const delay = Math.random() * 5 + "s";
+                    shootingStar.style.animationDelay = delay;
+                    
+                    // Durasi asli dari 3s-5s
+                    const duration = Math.random() * 2 + 3 + "s"; 
+                    shootingStar.style.animationDuration = duration;
+
+                    nightContainer.appendChild(shootingStar);
+                }
+            }
+            // Panggil fungsi ini
+            initShootingStars();
         });
 
         // Memastikan fungsi navigasi global tersedia

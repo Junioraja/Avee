@@ -572,112 +572,7 @@
             /* gray-800 */
         }
 
-        /* --- [BARU] 13. GAYA FLOATING ACTION BUTTON (FAB) --- */
-        .fab-container {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            z-index: 50;
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-        }
 
-        .fab-main {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #2563EB;
-            /* deep-blue */
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            position: relative;
-            z-index: 52;
-        }
-
-        .fab-main:hover {
-            transform: scale(1.1);
-        }
-
-        .fab-container.active .fab-main {
-            transform: rotate(135deg);
-            background-color: #dc2626;
-            /* red-600 */
-        }
-
-        .fab-child {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-origin: center;
-            position: absolute;
-            /* Ubah ke absolute */
-            bottom: 0;
-            /* Mulai dari posisi fab-main */
-            z-index: 51;
-            opacity: 0;
-            transform: translateY(0) scale(0.5);
-            pointer-events: none;
-        }
-
-        .fab-container.active .fab-child {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Posisi anak-anak FAB saat aktif */
-        .fab-container.active .fab-child-1 {
-            transform: translateY(-75px) scale(1);
-        }
-
-        .fab-container.active .fab-child-2 {
-            transform: translateY(-140px) scale(1);
-        }
-
-        .fab-container.active .fab-child-3 {
-            transform: translateY(-205px) scale(1);
-        }
-
-        .fab-container.active .fab-child-4 {
-            transform: translateY(-270px) scale(1);
-        }
-
-        .fab-child-label {
-            position: absolute;
-            right: 60px;
-            background-color: white;
-            color: #374151;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        html.dark .fab-child-label {
-            background-color: #374151;
-            color: white;
-        }
-
-        .fab-child:hover .fab-child-label {
-            opacity: 1;
-        }
 
         /* --- [BARU] 14. GAYA CHATBOT --- */
         .chatbot-overlay {
@@ -1112,11 +1007,12 @@
             gap: 0.5rem;
             /* Jarak antara teks statis dan animasi */
         }
-        
+
         /* [PERBAIKAN] Menambahkan media query agar rata kiri di desktop (md) */
         @media (min-width: 768px) {
             .animated-text-loader {
-                justify-content: flex-start; /* Rata kiri di desktop */
+                justify-content: flex-start;
+                /* Rata kiri di desktop */
             }
         }
 
@@ -1235,18 +1131,23 @@
         /* Diadaptasi untuk kejelasan teks dan animasi non-transparent */
         .animated-hover-text {
             /* Warna Teks Default (Solid) */
-            --default-color-light: #1f2937; /* Gray-800 */
-            --default-color-dark: #f3f4f6; /* Gray-100 */
-            
-            --animation-color: #3b82f6; /* Biru Tema */
-            --highlight-width: 0%; /* Lebar Awal Highlight */
+            --default-color-light: #1f2937;
+            /* Gray-800 */
+            --default-color-dark: #f3f4f6;
+            /* Gray-100 */
+
+            --animation-color: #3b82f6;
+            /* Biru Tema */
+            --highlight-width: 0%;
+            /* Lebar Awal Highlight */
 
             position: relative;
             text-transform: uppercase;
-            color: var(--default-color-light); /* Set warna default */
-            
+            color: var(--default-color-light);
+            /* Set warna default */
+
             /* Transisi untuk warna dan efek lainnya */
-            transition: color 0.3s ease, text-shadow 0.3s ease; 
+            transition: color 0.3s ease, text-shadow 0.3s ease;
         }
 
         html.dark .animated-hover-text {
@@ -1255,16 +1156,17 @@
 
         /* Teks dasar berubah menjadi warna animasi saat hover */
         .group:hover .animated-hover-text {
-             color: var(--animation-color); 
-             /* Tambahkan sedikit shadow agar efek highlight terlihat */
-             text-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+            color: var(--animation-color);
+            /* Tambahkan sedikit shadow agar efek highlight terlihat */
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
         }
 
         /* Pseudo-element untuk efek garis/garis bawah */
         .animated-hover-text::after {
             content: '';
             position: absolute;
-            bottom: -5px; /* Sedikit di bawah teks */
+            bottom: -5px;
+            /* Sedikit di bawah teks */
             left: 0;
             height: 3px;
             /* Garis bawah tipis */
@@ -1275,112 +1177,238 @@
 
         /* Efek saat hover di parent <a> (class="group") */
         .group:hover .animated-hover-text::after {
-            --highlight-width: 100%; /* Garis bawah memanjang penuh */
+            --highlight-width: 100%;
+            /* Garis bawah memanjang penuh */
         }
+
 
         /* --- [BARU] 18. GAYA BOTTOM MENU BAR (Desktop & Mobile) --- */
         /* Diadaptasi dari Uiverse.io by Admin12121 & permintaan pengguna */
 
         /* Kontainer utama menu di bawah */
         .bottom-menu-container {
-            padding: 0.5rem; /* 8px */
+            padding: 0.5rem;
+            /* 8px */
             background-color: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             display: flex;
-            justify-content: center; /* Menengahkan item */
+            justify-content: center;
+            /* Menengahkan item */
             align-items: center;
-            gap: 0.5rem; /* Jarak 8px antar item */
-            border-radius: 15px; /* Sesuai referensi */
+            gap: 0.5rem;
+            /* Jarak 8px antar item */
+            border-radius: 15px;
+            /* Sesuai referensi */
             box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
-            width: auto; /* Lebar otomatis sesuai konten */
-            max-width: 400px; /* Batasi lebar di tablet */
-            margin: 0 auto; /* Menengahkan kontainer */
+            width: auto;
+            /* Lebar otomatis sesuai konten */
+            max-width: 400px;
+            /* Batasi lebar di tablet */
+            margin: 0 auto;
+            /* Menengahkan kontainer */
             border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
         }
 
         /* Styling untuk dark mode */
         html.dark .bottom-menu-container {
-            background-color: rgba(31, 41, 55, 0.95); /* gray-800 semi-transparan */
+            background-color: rgba(31, 41, 55, 0.95);
+            /* gray-800 semi-transparan */
             box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
-            border-color: rgba(55, 65, 81, 0.5); /* gray-700 */
+            border-color: rgba(55, 65, 81, 0.5);
+            /* gray-700 */
         }
 
         /* Setiap item tautan */
         .bottom-menu-link {
-            display: inline-flex; /* Menggunakan inline-flex */
-            flex-direction: row; /* Ikon dan Teks berdampingan */
+            display: inline-flex;
+            flex-direction: row;
             align-items: center;
-            width: 70px; /* Lebar default (hanya ikon) */
-            height: 50px; /* Tinggi (sesuai referensi) */
+            width: 70px;
+            /* Lebar default (hanya ikon) */
+            height: 50px;
             border-radius: 8px;
             position: relative;
             z-index: 1;
             text-decoration: none;
-            color: #4b5563; /* gray-600 */
-            overflow: hidden; /* Sembunyikan teks yang meluber */
-            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-            padding-left: 21px; 
-            box-sizing: border-box; /* Agar padding tidak menambah lebar */
+            color: #4b5563;
+            /* gray-600 */
+            overflow: hidden;
+            /* Sembunyikan teks yang meluber */
+            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease, justify-content 0.3s ease;
+            box-sizing: border-box;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+
+            /* [PERBAIKAN] Ikon kini di-center */
+            justify-content: center;
         }
 
         html.dark .bottom-menu-link {
-            color: #d1d5db; /* gray-300 */
+            color: #d1d5db;
+            /* gray-300 */
         }
 
         /* Ikon di dalam tautan */
         .bottom-menu-icon {
-            width: 28px; /* Sesuai referensi */
+            width: 28px;
             height: 28px;
             display: block;
-            flex-shrink: 0; /* Mencegah ikon menyusut */
+            flex-shrink: 0;
+            /* Mencegah ikon menyusut */
+            transition: transform 0.3s ease;
         }
 
         /* Judul/Teks di dalam tautan */
         .bottom-menu-title {
             display: block;
             text-align: left;
-            font-size: 0.875rem; /* 14px */
+            font-size: 0.875rem;
+            /* 14px */
             font-weight: 500;
-            white-space: nowrap; /* Mencegah teks turun baris */
-            margin-left: 10px; /* Jarak dari ikon */
-            opacity: 0; /* Sembunyikan teks secara default */
+            white-space: nowrap;
+            margin-left: 10px;
+            /* Jarak dari ikon */
+
+            /* [PERBAIKAN] Sembunyikan dari layout menggunakan max-width: 0 */
+            opacity: 0;
+            max-width: 0;
             transform: translateX(10px);
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.2s ease, max-width 0.3s ease 0.1s, transform 0.2s ease;
         }
 
-        /* EFEK HOVER: Memanjang dan Tampilkan Teks (Berlaku untuk SEMUA link) */
+        /* EFEK HOVER: Memanjang dan Tampilkan Teks */
         .bottom-menu-link:hover {
-            width: 130px; /* Lebar saat memanjang */
-            background-color: #F0F8FF; /* light-bg */
+            width: 140px;
+            background-color: #F0F8FF;
+            /* light-bg */
+
+            /* [PERBAIKAN] Pindahkan ikon ke kiri saat hover */
+            justify-content: flex-start;
+            padding-left: 21px;
         }
 
         html.dark .bottom-menu-link:hover {
-            background-color: #374151; /* gray-700 */
+            background-color: #374151;
+            /* gray-700 */
         }
 
         .bottom-menu-link:hover .bottom-menu-title {
             opacity: 1;
+            /* [PERBAIKAN] Beri max-width agar teks bisa muncul */
+            max-width: 100px;
             transform: translateX(0);
         }
 
-        /* EFEK AKTIF: HANYA WARNA BIRU (Tidak memanjang/tampil teks) */
+        /* EFEK AKTIF: HANYA WARNA BIRU */
         .bottom-menu-link.active {
-            background-color: #2563EB; /* deep-blue */
-            color: white; /* Ikon menjadi putih */
-        }
-        
-        html.dark .bottom-menu-link.active {
-             background-color: #3b82f6; /* blue-500 */
+            background-color: #2563EB;
+            /* deep-blue */
+            color: white;
+            /* Ikon menjadi putih */
+            /* [PERBAIKAN] Pastikan ikon tetap di tengah saat aktif */
+            justify-content: center;
+            padding-left: 0;
         }
 
-        /* Hover di atas tombol aktif (Override warna hover standar) */
-        .bottom-menu-link.active:hover {
-            background-color: #1d4ed8; /* Biru lebih gelap */
-            color: white; /* Pastikan ikon dan teks tetap putih */
+        html.dark .bottom-menu-link.active {
+            background-color: #3b82f6;
+            /* blue-500 */
         }
+
+        /* Hover di atas tombol aktif */
+        .bottom-menu-link.active:hover {
+            background-color: #1d4ed8;
+            /* Biru lebih gelap */
+            color: white;
+
+            /* [PERBAIKAN] Pindahkan ikon ke kiri lagi saat hover */
+            justify-content: flex-start;
+            padding-left: 21px;
+        }
+
         html.dark .bottom-menu-link.active:hover {
             background-color: #2563EB;
+        }
+
+        /* --- GAYA FAB TERINTEGRASI --- */
+
+        #integrated-fab-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Tombol FAB baru saat aktif (menu terbuka) */
+        #integrated-fab-wrapper.active #integrated-fab-toggle {
+            background-color: #dc2626;
+            /* Merah */
+            color: white;
+            /* [PERBAIKAN] Pastikan padding & justify kembali saat hover */
+            justify-content: flex-start;
+            padding-left: 21px;
+        }
+
+        /* [PERBAIKAN] Putar HANYA ikon di dalam tombol, bukan seluruh tombol */
+        #integrated-fab-wrapper.active #integrated-fab-toggle .bottom-menu-icon {
+            transform: rotate(135deg);
+            /* 135deg = 90 (plus) + 45 (menjadi X) */
+        }
+
+        /* Kontainer pop-up */
+        #integrated-fab-menu {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            pointer-events: none;
+        }
+
+        /* Tombol anak (WhatsApp, dll) */
+        .bottom-fab-child {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: 0;
+            transform: scale(0.5);
+            pointer-events: none;
+        }
+
+        /* Saat menu FAB aktif, tampilkan anak-anaknya */
+        #integrated-fab-wrapper.active #integrated-fab-menu {
+            pointer-events: auto;
+        }
+
+        #integrated-fab-wrapper.active .bottom-fab-child {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Animasi Radial (Mengelilingi Kanan Atas) */
+        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(1) {
+            transform: translate(10px, -65px) scale(1);
+        }
+
+        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(2) {
+            transform: translate(60px, -60px) scale(1);
+        }
+
+        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(3) {
+            transform: translate(90px, -25px) scale(1);
+        }
+
+        #integrated-fab-wrapper.active .bottom-fab-child:nth-child(4) {
+            transform: translate(120px, 15px) scale(1);
         }
 
         /* --- AKHIR GAYA LOADER --- */
@@ -1410,40 +1438,7 @@
 
 <body class="text-gray-800 antialiased">
 
-    <div id="fab-container" class="fab-container">
-        <a href="https://wa.me/6287766107867" target="_blank" rel="noopener noreferrer" class="fab-child fab-child-1"
-            style="background-color: #25D366;" aria-label="Hubungi via WhatsApp">
-            <i data-lucide="message-square-text" class="w-6 h-6"></i>
-            <span class="fab-child-label">WhatsApp</span>
-        </a>
-        <a href="https://twitter.com/Aveeeryxn" target="_blank" rel="noopener noreferrer" class="fab-child fab-child-2"
-            style="background-color: #000000;" aria-label="Kunjungi Twitter Aveeeryxn">
-            <i data-lucide="twitter" class="w-6 h-6"></i>
-            <span class="fab-child-label">X (Twitter)</span>
-        </a>
-        <a href="https://tiktok.com/@Aerlyxn" target="_blank" rel="noopener noreferrer" class="fab-child fab-child-3"
-            style="background-color: #EE1D52;" aria-label="Kunjungi TikTok Aerlyxn">
-            <i data-lucide="music" class="w-6 h-6"></i>
-            <span class="fab-child-label">TikTok</span>
-        </a>
-        <button onclick="toggleChatbot()" class="fab-child fab-child-4" style="background-color: #6366f1;"
-            aria-label="Buka Chatbot">
-            <i data-lucide="bot" class="w-6 h-6"></i>
-            <span class="fab-child-label">Aunty Jane (Bot)</span>
-        </button>
 
-        <button id="fab-main" onclick="toggleFab(event)" class="fab-main" aria-label="Toggle Menu Kontak">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="currentColor"
-                    opacity="0.15" />
-                <path d="M8 12.5L11 15.5L16 9.5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
-            <i data-lucide="plus" id="fab-icon-plus" class="w-8 h-8 absolute transition-all duration-300"></i>
-            <i data-lucide="x" id="fab-icon-close"
-                class="w-8 h-8 absolute transition-all duration-300 scale-0 opacity-0"></i>
-        </button>
-    </div>
     <div id="chatbot-overlay" class="chatbot-overlay">
         <div class="chatbot-header">
             <div>
@@ -1478,18 +1473,18 @@
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
 
-              <a href="#" class="flex items-center group">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-        class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110 mr-2">
-        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
-            fill="currentColor" opacity="0.15" />
-        <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
-            stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700" />
-    </svg>
-    <span class="animated-hover-text text-xl font-extrabold tracking-tight" data-text="Akun Bareng">
-        Akun Bareng
-    </span>
-</a>
+                <a href="#" class="flex items-center group">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110 mr-2">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
+                            fill="currentColor" opacity="0.15" />
+                        <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700" />
+                    </svg>
+                    <span class="animated-hover-text text-xl font-extrabold tracking-tight" data-text="Akun Bareng">
+                        Akun Bareng
+                    </span>
+                </a>
             </div>
             <nav class="hidden md:flex space-x-6">
                 <a href="#produk"
@@ -2132,29 +2127,57 @@
     </main>
 
     <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 p-4 z-[60] block">
-        
+
         <div class="bottom-menu-container">
-            
-            <a href="#" class="bottom-menu-link active" aria-label="Home">
+
+            <a href="#" class="bottom-menu-link active" data-menu-item="true" aria-label="Home">
                 <i data-lucide="home" class="bottom-menu-icon"></i>
                 <span class="bottom-menu-title">Home</span>
             </a>
-            
-            <a href="#produk" class="bottom-menu-link" aria-label="Produk">
+
+            <a href="#produk" class="bottom-menu-link" data-menu-item="true" aria-label="Produk">
                 <i data-lucide="shopping-bag" class="bottom-menu-icon"></i>
                 <span class="bottom-menu-title">Produk</span>
             </a>
-            
-            <a href="listorder.html" class="bottom-menu-link" aria-label="Daftar Pesanan">
+
+            <a href="listorder.html" class="bottom-menu-link" data-menu-item="true" aria-label="Daftar Pesanan">
                 <i data-lucide="list-ordered" class="bottom-menu-icon"></i>
                 <span class="bottom-menu-title">Pesanan</span>
             </a>
 
-            <a href="profil.html" class="bottom-menu-link" aria-label="Profil Pengguna">
+            <a href="profil.html" class="bottom-menu-link" data-menu-item="true" aria-label="Profil Pengguna">
                 <i data-lucide="user" class="bottom-menu-icon"></i>
                 <span class="bottom-menu-title">Profil</span>
             </a>
 
+            <div id="integrated-fab-wrapper" class="relative">
+                <button id="integrated-fab-toggle" class="bottom-menu-link" aria-label="Buka Menu Kontak">
+                    <i data-lucide="plus" class="bottom-menu-icon transition-transform duration-300"></i>
+                    <span class="bottom-menu-title">Kontak</span>
+                </button>
+
+                <div id="integrated-fab-menu" class="absolute bottom-4 right-4 w-auto h-auto pointer-events-none">
+                    <a href="https://wa.me/6287766107867" target="_blank" rel="noopener noreferrer"
+                        class="bottom-fab-child" style="background-color: #25D366; transition-delay: 0.1s;"
+                        aria-label="Hubungi via WhatsApp">
+                        <i data-lucide="message-square-text" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://twitter.com/Aveeeryxn" target="_blank" rel="noopener noreferrer"
+                        class="bottom-fab-child" style="background-color: #000000; transition-delay: 0.15s;"
+                        aria-label="Kunjungi Twitter Aveeeryxn">
+                        <i data-lucide="twitter" class="w-6 h-6"></i>
+                    </a>
+                    <a href="https://tiktok.com/@Aerlyxn" target="_blank" rel="noopener noreferrer"
+                        class="bottom-fab-child" style="background-color: #EE1D52; transition-delay: 0.2s;"
+                        aria-label="Kunjungi TikTok Aerlyxn">
+                        <i data-lucide="music" class="w-6 h-6"></i>
+                    </a>
+                    <button onclick="toggleChatbot()" class="bottom-fab-child"
+                        style="background-color: #6366f1; transition-delay: 0.25s;" aria-label="Buka Chatbot">
+                        <i data-lucide="bot" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
     <footer class="bg-gray-800 text-white py-12 relative z-20 dark:bg-gray-900 dark:text-gray-200">
@@ -3299,27 +3322,50 @@
                 const bottomBar = document.getElementById('bottom-bar');
                 if (!bottomBar) return;
 
-                const links = bottomBar.querySelectorAll('.bottom-menu-link');
-                
-                links.forEach(link => {
-                    link.addEventListener('click', function() {
-                        // 1. Hapus .active dari semua link
-                        links.forEach(l => l.classList.remove('active'));
-                        
-                        // 2. Tambahkan .active ke link yang diklik
+                const navLinks = bottomBar.querySelectorAll('[data-menu-item="true"]');
+                const fabWrapper = document.getElementById('integrated-fab-wrapper');
+                const fabToggle = document.getElementById('integrated-fab-toggle');
+
+                if (!fabToggle || !fabWrapper) return;
+
+                // 1. Logika untuk tombol navigasi (Home, Produk, dll.)
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        // Hapus .active dari semua link navigasi
+                        navLinks.forEach(l => l.classList.remove('active'));
+
+                        // Tambahkan .active ke link yang diklik
                         this.classList.add('active');
-                        
-                        // 3. (Opsional) Cek jika ini link internal (bukan navigasi)
-                        // Jika ya, tutup menu lain (FAB) agar tidak tumpang tindih
-                        const href = this.getAttribute('href');
-                        if (href && href.startsWith('#')) {
-                            closeFabMenu(); // Panggil fungsi FAB yang sudah ada
-                        }
+
+                        // [PENTING] Tutup menu FAB jika sedang terbuka
+                        fabWrapper.classList.remove('active');
                     });
                 });
+
+                // 2. Logika untuk tombol FAB (Kontak)
+                fabToggle.addEventListener('click', function (event) {
+                    event.stopPropagation(); // Hentikan klik agar tidak ditangkap document
+                    fabWrapper.classList.toggle('active');
+                });
             }
-            // Panggil fungsi ini
+
+            // [TAMBAHKAN FUNGSI BARU INI]
+            // Fungsi untuk menutup menu FAB saat klik di luar
+            function initFabMenuClose() {
+                const fabWrapper = document.getElementById('integrated-fab-wrapper');
+                if (!fabWrapper) return;
+
+                document.addEventListener('click', function (event) {
+                    // Cek apakah klik BUKAN di dalam wrapper FAB
+                    if (!fabWrapper.contains(event.target) && fabWrapper.classList.contains('active')) {
+                        fabWrapper.classList.remove('active');
+                    }
+                });
+            }
+
+            // Panggil kedua fungsi baru
             initBottomMenu();
+            initFabMenuClose();
         });
 
         // Memastikan fungsi navigasi global tersedia

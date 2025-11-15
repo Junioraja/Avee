@@ -685,7 +685,8 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima Terima kasih!
 
             // 6. Isi Rincian Biaya
             document.getElementById('summary-package-name').textContent = `${selectedApp} - ${selectedItem.package_name}`;
-            document.getElementById('summary-duration').textContent = selectedItem.duration;
+            document.getElementById('summary-duration').textContent = selectedItem.duration || 'N/A'; // Pertahankan fallback N/A
+            document.getElementById('summary-unit-price').textContent = formatRupiah(selectedItem.price);
 
             // Inisialisasi Kuantitas dan Harga
             currentQuantity = 1;

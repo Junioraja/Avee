@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konfirmasi Pesanan - Avee Premium Store</title>
+    <!-- Memuat Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat ikon Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Memuat Font Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -24,9 +27,6 @@
                         'card-bg': '#FFFFFF',
                         'text-primary': '#1F2937',
                         'accent-wa': '#25D366',
-                        'brand-netflix': '#E50914', // Warna Brand (Tambahan)
-                        'brand-canva': '#00C4CC',
-                        'brand-viu': '#FF7120',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -44,39 +44,110 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F0F8FF;
+            /* light-bg */
             color: #1F2937;
+            /* text-primary */
         }
 
         html.dark body {
             background-color: #111827;
+            /* gray-900 */
             color: #d1d5db;
+            /* gray-300 */
         }
-        /* Style untuk menyembunyikan div saat error */
-        .error-hidden { display: none !important; }
 
-        .accordion-item .accordion-question { transition: background-color 0.2s ease; }
-        .accordion-item .accordion-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding-top: 0; padding-bottom: 0; }
-        .accordion-item.active .accordion-answer { max-height: 500px; padding-top: 1rem; padding-bottom: 1.5rem; }
-        .accordion-item .accordion-toggle { transition: transform 0.3s ease-in-out; }
-        .accordion-item.active .accordion-toggle { transform: rotate(180deg); }
-        .accordion-item.active .accordion-question { background-color: #FFFFFF; }
-        html.dark .accordion-item.active .accordion-question { background-color: #1f2937; }
+        /* Gaya Accordion (Tab Grup) */
+        .accordion-item .accordion-question {
+            transition: background-color 0.2s ease;
+        }
 
-        .payment-button { transition: all 0.2s ease; border: 2px solid #E5E7EB; }
-        html.dark .payment-button { border: 2px solid #4B5563; }
-        .payment-button.active { border-color: #2563EB; background-color: #EFF6FF; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2); }
-        html.dark .payment-button.active { border-color: #3B82F6; background-color: #1F2937; }
+        .accordion-item .accordion-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
 
-        .payment-content { display: none; animation: fadeIn 0.5s ease; }
-        .payment-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .accordion-item.active .accordion-answer {
+            max-height: 500px;
+            /* Cukup besar untuk konten */
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .accordion-item .accordion-toggle {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .accordion-item.active .accordion-toggle {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active .accordion-question {
+            background-color: #FFFFFF;
+            /* card-bg */
+        }
+
+        html.dark .accordion-item.active .accordion-question {
+            background-color: #1f2937;
+            /* gray-800 */
+        }
+
+        /* Gaya Tombol Metode Pembayaran */
+        .payment-button {
+            transition: all 0.2s ease;
+            border: 2px solid #E5E7EB;
+            /* gray-200 */
+        }
+
+        html.dark .payment-button {
+            border: 2px solid #4B5563;
+            /* gray-600 */
+        }
+
+        .payment-button.active {
+            border-color: #2563EB;
+            /* deep-blue */
+            background-color: #EFF6FF;
+            /* blue-50 */
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+
+        html.dark .payment-button.active {
+            border-color: #3B82F6;
+            /* blue-500 */
+            background-color: #1F2937;
+            /* gray-800 */
+        }
+
+        /* Konten Pembayaran Tersembunyi */
+        .payment-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .payment-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body class="antialiased">
 
-    <div id="notification-container" class="fixed top-4 right-4 z-[100]"></div>
-
+    <!-- Header Sederhana -->
     <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
             <a href="index.html" class="flex items-center space-x-2 group">
@@ -104,133 +175,129 @@
 
     <main class="container mx-auto max-w-4xl p-4 my-8">
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div class="space-y-8">
 
-            <div class="sm:col-span-2 space-y-6">
-
-                <div id="product-header-card" class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-                    <div id="product-banner" class="h-48 w-full bg-gray-200 dark:bg-gray-700">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                <div id="product-banner" class="h-48 w-full bg-gray-200 dark:bg-gray-700">
+                </div>
+                <div class="flex items-center p-6">
+                    <img id="product-logo" src="https://placehold.co/64x64/E5E7EB/A1A1AA?text=..." alt="Logo Produk"
+                        class="w-16 h-16 rounded-lg mr-4 border border-gray-100 dark:border-gray-700">
+                    <div>
+                        <h1 id="product-name" class="text-3xl font-bold text-gray-900 dark:text-gray-100">Memuat...
+                        </h1>
+                        <p class="text-gray-500 dark:text-gray-400">Konfirmasi pesanan Anda</p>
                     </div>
-                    <div class="flex items-center p-6">
-                        <img id="product-logo" src="https://placehold.co/64x64/E5E7EB/A1A1AA?text=..." alt="Logo Produk"
-                            class="w-16 h-16 rounded-lg mr-4 border border-gray-100 dark:border-gray-700">
-                        <div>
-                            <h1 id="product-name" class="text-3xl font-bold text-gray-900 dark:text-gray-100">Memuat...
-                            </h1>
-                            <p class="text-gray-500 dark:text-gray-400">Konfirmasi pesanan Anda</p>
+                </div>
+            </div>
+
+            <div id="accordion-container" class="space-y-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+
+                <div class="accordion-item border-b dark:border-gray-700 active">
+                    <button class="accordion-question w-full flex justify-between items-center text-left py-4">
+                        <span class="text-xl font-semibold text-deep-blue dark:text-blue-400">Informasi Paket</span>
+                        <i data-lucide="chevron-down"
+                            class="accordion-toggle w-5 h-5 text-deep-blue dark:text-blue-400"></i>
+                    </button>
+                    <div class="accordion-answer pr-4">
+                        <div id="info-content" class="text-gray-700 dark:text-gray-300 space-y-2">
+                            <p>Memuat detail paket...</p>
                         </div>
                     </div>
                 </div>
 
-                <div id="accordion-container" class="space-y-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-
-                    <div class="accordion-item border-b dark:border-gray-700 active">
-                        <button class="accordion-question w-full flex justify-between items-center text-left py-4">
-                            <span class="text-xl font-semibold text-deep-blue dark:text-blue-400">Informasi Paket</span>
-                            <i data-lucide="chevron-down"
-                                class="accordion-toggle w-5 h-5 text-deep-blue dark:text-blue-400"></i>
-                        </button>
-                        <div class="accordion-answer pr-4">
-                            <div id="info-content" class="text-gray-700 dark:text-gray-300 space-y-2">
-                                <p>Memuat detail paket...</p>
-                            </div>
-                        </div>
+                <div class="accordion-item border-b dark:border-gray-700">
+                    <button class="accordion-question w-full flex justify-between items-center text-left py-4">
+                        <span class="text-xl font-semibold text-deep-blue dark:text-blue-400">Skema
+                            Berlangganan</span>
+                        <i data-lucide="chevron-down"
+                            class="accordion-toggle w-5 h-5 text-deep-blue dark:text-blue-400"></i>
+                    </button>
+                    <div class="accordion-answer pr-4">
+                        <ol class="list-decimal list-inside text-gray-700 dark:text-gray-300 space-y-3">
+                            <li>Pilih **Metode Pembayaran** di bawah (QRIS, DANA, dll).</li>
+                            <li>Lakukan pembayaran sesuai instruksi.</li>
+                            <li>Klik tombol **"Order via WhatsApp"** di halaman ini.</li>
+                            <li>Anda akan diarahkan ke WhatsApp. Kirim format pesanan yang sudah otomatis terisi.</li>
+                            <li>Jika sudah bayar, **lampirkan bukti pembayaran** di chat WA.</li>
+                            <li>Tunggu 5-10 menit, admin akan segera memproses pesanan dan mengirimkan detail akun Anda.
+                            </li>
+                        </ol>
                     </div>
+                </div>
 
-                    <div class="accordion-item border-b dark:border-gray-700">
-                        <button class="accordion-question w-full flex justify-between items-center text-left py-4">
-                            <span class="text-xl font-semibold text-deep-blue dark:text-blue-400">Skema
-                                Berlangganan</span>
-                            <i data-lucide="chevron-down"
-                                class="accordion-toggle w-5 h-5 text-deep-blue dark:text-blue-400"></i>
-                        </button>
-                        <div class="accordion-answer pr-4">
-                            <ol class="list-decimal list-inside text-gray-700 dark:text-gray-300 space-y-3">
-                                <li>Pilih **Metode Pembayaran** di bawah (QRIS, DANA, dll).</li>
-                                <li>Lakukan pembayaran sesuai instruksi.</li>
-                                <li>Klik tombol **"Order via WhatsApp"** di halaman ini.</li>
-                                <li>Anda akan diarahkan ke WhatsApp. Kirim format pesanan yang sudah otomatis terisi.</li>
-                                <li>Jika sudah bayar, **lampirkan bukti pembayaran** di chat WA.</li>
-                                <li>Tunggu 5-10 menit, admin akan segera memproses pesanan dan mengirimkan detail akun Anda.
-                                </li>
-                            </ol>
+                <div class="accordion-item">
+                    <button class="accordion-question w-full flex justify-between items-center text-left py-4">
+                        <span class="text-xl font-semibold text-deep-blue dark:text-blue-400">Pilih Metode
+                            Pembayaran</span>
+                        <i data-lucide="chevron-down"
+                            class="accordion-toggle w-5 h-5 text-deep-blue dark:text-blue-400"></i>
+                    </button>
+                    <div class="accordion-answer pr-4">
+                        <div class="flex flex-wrap gap-3 mb-4">
+                            <button onclick="selectPayment('QRIS', this)"
+                                class="payment-button active rounded-lg py-2 px-4 font-medium flex items-center gap-2">
+                                <i data-lucide="qr-code" class="w-4 h-4"></i> QRIS
+                            </button>
+                            <button onclick="selectPayment('DANA', this)"
+                                class="payment-button rounded-lg py-2 px-4 font-medium">DANA</button>
+                            <button onclick="selectPayment('GoPay', this)"
+                                class="payment-button rounded-lg py-2 px-4 font-medium">GoPay</button>
+                            <button onclick="selectPayment('BCA', this)"
+                                class="payment-button rounded-lg py-2 px-4 font-medium">BCA</button>
                         </div>
-                    </div>
 
-                    <div class="accordion-item">
-                        <button class="accordion-question w-full flex justify-between items-center text-left py-4">
-                            <span class="text-xl font-semibold text-deep-blue dark:text-blue-400">Pilih Metode
-                                Pembayaran</span>
-                            <i data-lucide="chevron-down"
-                                class="accordion-toggle w-5 h-5 text-deep-blue dark:text-blue-400"></i>
-                        </button>
-                        <div class="accordion-answer pr-4">
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                <button onclick="selectPayment('QRIS', this)"
-                                    class="payment-button active rounded-lg py-2 px-4 font-medium flex items-center gap-2">
-                                    <i data-lucide="qr-code" class="w-4 h-4"></i> QRIS
-                                </button>
-                                <button onclick="selectPayment('DANA', this)"
-                                    class="payment-button rounded-lg py-2 px-4 font-medium">DANA</button>
-                                <button onclick="selectPayment('GoPay', this)"
-                                    class="payment-button rounded-lg py-2 px-4 font-medium">GoPay</button>
-                                <button onclick="selectPayment('BCA', this)"
-                                    class="payment-button rounded-lg py-2 px-4 font-medium">BCA</button>
+                        <div id="payment-details-container" class="mt-4">
+                            <div id="payment-QRIS"
+                                class="payment-content active p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center">
+                                <p class="font-medium mb-2 dark:text-gray-200">Scan QRIS (Semua E-Wallet & M-Banking)
+                                </p>
+                                <img src="qrisavee.jpeg" alt="QRIS Code" class="mx-auto rounded-lg" id="qris-image">
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">a.n TOKO FAMSS OK1341772</p>
                             </div>
-
-                            <div id="payment-details-container" class="mt-4">
-                                <div id="payment-QRIS"
-                                    class="payment-content active p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center">
-                                    <p class="font-medium mb-2 dark:text-gray-200">Scan QRIS (Semua E-Wallet & M-Banking)
-                                    </p>
-                                    <img src="qrisavee.jpeg" alt="QRIS Code" class="mx-auto rounded-lg" id="qris-image">
-                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">a.n TOKO FAMSS OK1341772</p>
+                            <div id="payment-DANA" class="payment-content p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <p class="font-medium dark:text-gray-200">Transfer DANA ke:</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <p id="dana-account"
+                                        class="text-2xl font-bold text-deep-blue dark:text-blue-400 select-all">
+                                        0877-6610-7867</p>
+                                    <button onclick="copyToClipboard('dana-account')"
+                                        class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-md flex items-center text-sm">
+                                        <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Salin
+                                    </button>
                                 </div>
-                                <div id="payment-DANA" class="payment-content p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <p class="font-medium dark:text-gray-200">Transfer DANA ke:</p>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <p id="dana-account"
-                                            class="text-2xl font-bold text-deep-blue dark:text-blue-400 select-all">
-                                            0877-6610-7867</p>
-                                        <button onclick="copyToClipboard('dana-account')"
-                                            class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-md flex items-center text-sm">
-                                            <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Salin
-                                        </button>
-                                    </div>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">a.n Felicia</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">a.n Felicia</p>
+                            </div>
+                            <div id="payment-GoPay" class="payment-content p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <p class="font-medium dark:text-gray-200">Transfer GoPay ke:</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <p id="gopay-account"
+                                        class="text-2xl font-bold text-deep-blue dark:text-blue-400 select-all">
+                                        0877-6610-7867</p>
+                                    <button onclick="copyToClipboard('gopay-account')"
+                                        class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-md flex items-center text-sm">
+                                        <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Salin
+                                    </button>
                                 </div>
-                                <div id="payment-GoPay" class="payment-content p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <p class="font-medium dark:text-gray-200">Transfer GoPay ke:</p>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <p id="gopay-account"
-                                            class="text-2xl font-bold text-deep-blue dark:text-blue-400 select-all">
-                                            0877-6610-7867</p>
-                                        <button onclick="copyToClipboard('gopay-account')"
-                                            class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-md flex items-center text-sm">
-                                            <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Salin
-                                        </button>
-                                    </div>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">a.n Avee</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">a.n Avee</p>
+                            </div>
+                            <div id="payment-BCA" class="payment-content p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <p class="font-medium dark:text-gray-200">Transfer Bank BCA ke:</p>
+                                <div class="flex items-center justify-between mt-2">
+                                    <p id="bca-account"
+                                        class="text-2xl font-bold text-deep-blue dark:text-blue-400 select-all">123 456
+                                        7890</p>
+                                    <button onclick="copyToClipboard('bca-account')"
+                                        class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-md flex items-center text-sm">
+                                        <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Salin
+                                    </button>
                                 </div>
-                                <div id="payment-BCA" class="payment-content p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <p class="font-medium dark:text-gray-200">Transfer Bank BCA ke:</p>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <p id="bca-account"
-                                            class="text-2xl font-bold text-deep-blue dark:text-blue-400 select-all">123 456
-                                            7890</p>
-                                        <button onclick="copyToClipboard('bca-account')"
-                                            class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-md flex items-center text-sm">
-                                            <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Salin
-                                        </button>
-                                    </div>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">a.n Avee</p>
-                                </div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">a.n Avee</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mt-8">
                 <h2 class="text-2xl font-bold mb-4 border-b dark:border-gray-700 pb-2 text-gray-900 dark:text-gray-100">
                     Rincian Biaya</h2>
@@ -287,6 +354,7 @@
         </div>
     </main>
 
+    <!-- DATA JAVASCRIPT (Disalin dari index.html) -->
     <script>
         // ====== [JAVASCRIPT LENGKAP UNTUK order.html] ======
 
@@ -295,13 +363,14 @@
         let selectedItem = null; // Ini akan menampung objek produk lengkap dari API
         let currentQuantity = 1;
         let selectedPaymentMethod = 'QRIS'; // Default
-        // Perbaikan URL: Hapus /api di belakang (karena fetchProductDetails menambahkannya)
-        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app'; 
+        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app';
 
         // --- Fungsi Helper ---
         const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
 
         function showNotification(message, type = 'error') {
+            // Implementasi notifikasi toast atau alert
+            console.log(`[${type.toUpperCase()}] ${message}`);
             const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
             const container = document.getElementById('notification-container') || document.body;
 
@@ -309,20 +378,68 @@
             toast.className = `fixed top-4 right-4 z-[100] p-4 rounded-lg shadow-lg text-white font-medium ${color} transition transform duration-300 translate-x-full`;
             toast.textContent = message;
 
-            document.body.appendChild(toast);
+            container.appendChild(toast);
 
+            // Animasi masuk
             setTimeout(() => toast.classList.remove('translate-x-full'), 10);
+
+            // Animasi keluar
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'scale-90');
                 toast.addEventListener('transitionend', () => toast.remove());
             }, 4000);
         }
-        
+
+        // --- LOGIKA DARK MODE ---
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+
+        // --- LOGIKA ACCORDION (FAQ) ---
+        function initAccordion() {
+            const container = document.getElementById('accordion-container');
+            if (!container) return;
+
+            container.addEventListener('click', function (e) {
+                const questionButton = e.target.closest('.accordion-question');
+                if (!questionButton) return;
+
+                const faqItem = questionButton.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Tutup semua item
+                container.querySelectorAll('.accordion-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Buka yang diklik (jika sebelumnya tidak aktif)
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+                lucide.createIcons();
+            });
+        }
+
         function copyToClipboard(elementId) {
             const element = document.getElementById(elementId);
             if (!element) return;
-            const textToCopy = element.textContent.replace(/[^0-9A-Z]/gi, ''); 
-            
+
+            // Ambil teks tanpa format (menghilangkan spasi berlebih)
+            const textToCopy = element.textContent.replace(/[^0-9A-Z]/gi, '');
+
+            // Gunakan modern API (navigator.clipboard)
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(textToCopy).then(() => {
                     showNotification('Nomor berhasil disalin!', 'success');
@@ -331,9 +448,10 @@
                     showNotification('Gagal menyalin. Silakan salin manual.', 'error');
                 });
             } else {
+                // Fallback untuk browser lama atau HTTP (tidak disarankan)
                 const textArea = document.createElement("textarea");
                 textArea.value = textToCopy;
-                textArea.style.position = "fixed"; 
+                textArea.style.position = "fixed";
                 document.body.appendChild(textArea);
                 textArea.focus();
                 textArea.select();
@@ -347,54 +465,34 @@
             }
         }
 
-        // --- LOGIKA UTAMA ---
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        }
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            lucide.createIcons();
-        }
-
-        function initAccordion() {
-            const container = document.getElementById('accordion-container');
-            if (!container) return;
-            container.addEventListener('click', function (e) {
-                const questionButton = e.target.closest('.accordion-question');
-                if (!questionButton) return;
-                const faqItem = questionButton.parentElement;
-                const isActive = faqItem.classList.contains('active');
-                container.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
-                if (!isActive) faqItem.classList.add('active');
-                lucide.createIcons();
-            });
-        }
-
+        // --- LOGIKA PEMILIHAN PEMBAYARAN ---
         function selectPayment(method, buttonElement) {
             selectedPaymentMethod = method;
+
+            // Update status tombol
             document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('active'));
             buttonElement.classList.add('active');
+
+            // Tampilkan konten yang sesuai
             document.querySelectorAll('.payment-content').forEach(content => content.classList.remove('active'));
             const content = document.getElementById(`payment-${method}`);
             if (content) content.classList.add('active');
         }
 
+        // --- LOGIKA KUANTITAS & HARGA ---
         function updateQuantity(change) {
             if (!selectedItem) return;
+
             let newQty = currentQuantity + change;
+
             if (newQty < 1) newQty = 1;
+            // Cek stok (contoh)
             if (selectedItem.stock !== null && selectedItem.stock !== undefined && newQty > selectedItem.stock) {
                 showNotification(`Stok hanya tersisa ${selectedItem.stock}!`, 'error');
                 newQty = selectedItem.stock;
             }
-            if (newQty > 10) newQty = 10;
+            if (newQty > 10) newQty = 10; // Batas maks umum
+
             currentQuantity = newQty;
             document.getElementById('quantity-display').textContent = currentQuantity;
             updateTotal();
@@ -404,6 +502,7 @@
             if (!selectedItem) return;
             const unitPrice = selectedItem.price;
             const totalPrice = unitPrice * currentQuantity;
+
             document.getElementById('summary-unit-price').textContent = formatRupiah(unitPrice);
             document.getElementById('summary-total-price').textContent = formatRupiah(totalPrice);
         }
@@ -411,15 +510,17 @@
         // --- FUNGSI KRITIS: Ambil Data dari API Berdasarkan Kode Produk ---
         async function fetchProductDetails(itemCode) {
             try {
-                // MENGHILANGKAN DUPLIKASI /api/api
-                const response = await fetch(`${API_BASE_URL}/api/products`); 
+                // Ambil semua produk (karena endpoint GET /api/products/:code mungkin belum ada)
+                const response = await fetch(`${API_BASE_URL}/products`);
 
                 if (!response.ok) {
                     const errData = await response.json();
-                    throw new Error(errData.error || `Gagal mengambil data produk (Status: ${response.status})`);
+                    throw new Error(errData.error || 'Gagal mengambil data produk dari server.');
                 }
 
                 const products = await response.json();
+
+                // Cari produk berdasarkan product_code (yang dikirim dari index.html)
                 const item = products.find(p => p.product_code === itemCode);
 
                 if (item) {
@@ -427,6 +528,7 @@
                 } else {
                     throw new Error(`Item Code "${itemCode}" tidak ditemukan di database.`);
                 }
+
             } catch (error) {
                 console.error("Error fetching product details:", error);
                 showNotification(`Gagal memuat detail produk: ${error.message}`, 'error');
@@ -436,8 +538,8 @@
 
         // --- LOGIKA PENGIRIMAN PESANAN (KE WA DAN DB) ---
         async function submitOrder() {
-            if (!selectedItem || !selectedItem.product_code) {
-                showNotification('Gagal: Detail paket belum dimuat atau Kode Produk hilang.', 'error');
+            if (!selectedItem) {
+                showNotification('Gagal: Detail paket belum dimuat.', 'error');
                 return;
             }
             if (currentQuantity < 1) {
@@ -445,24 +547,38 @@
                 return;
             }
 
+
+
             const total = selectedItem.price * currentQuantity;
-            const userId = localStorage.getItem('userId') || null;
+            const userInfoString = localStorage.getItem('userInfo');
+            let userId = null;
+            if (userInfoString) {
+                try {
+                    const userInfo = JSON.parse(userInfoString);
+                    userId = userInfo.userId;
+                } catch (e) {
+                    console.error('Error parsing userInfo:', e);
+                    showNotification('Gagal memproses ID pengguna. Coba login ulang.', 'error');
+                    // Jika Anda ingin memaksa login untuk order, uncomment baris di bawah:
+                    // return; 
+                }
+            }
 
             const orderData = {
                 userId: userId,
                 totalAmount: total,
                 items: [{
-                    // Kirim ID internal (numeric) dan productCode (string)
-                    productId: selectedItem.id, 
-                    productCode: selectedItem.product_code, 
+                    // KUNCI PERBAIKAN: 
+                    // Kita mengirim ID internal (numeric) dan productCode (string)
+                    productId: selectedItem.id,
+                    productCode: selectedItem.product_code, // <--- INI PENTING! (string)
                     quantity: currentQuantity,
                     unitPrice: selectedItem.price
                 }]
             };
 
             try {
-                // Panggil endpoint POST /api/orders
-                const response = await fetch(`${API_BASE_URL}/api/orders`, {
+                const response = await fetch(`${API_BASE_URL}/orders`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(orderData)
@@ -472,9 +588,10 @@
 
                 if (response.ok) {
                     showNotification(`Pesanan #${data.orderId} berhasil dicatat. Lanjutkan ke WhatsApp.`, 'success');
+                    // Lanjutkan ke WhatsApp dengan ID Pesanan dari server
                     generateWaLink(data.orderId);
                 } else {
-                    showNotification(`Gagal menyimpan order ke DB: ${data.error || 'Terjadi kesalahan server.'}`, 'error');
+                    showNotification(`Gagal menyimpan order ke DB: ${data.error}`, 'error');
                 }
             } catch (error) {
                 console.error('API Error:', error);
@@ -485,25 +602,28 @@
         function generateWaLink(orderId = 'BELUM_DICATAT') {
             if (!selectedItem) return;
             const total = selectedItem.price * currentQuantity;
+
+            // Pastikan nomor WA Anda sudah benar di sini
             const waNumber = '6287766107867';
 
             const message = `
 Halo Avee, saya ingin memesan paket berikut:
 --------------------------------
-ID Pesanan   : ${orderId}
-Produk       : ${selectedApp}
-Paket        : ${selectedItem.package_name}
-Durasi       : ${selectedItem.duration}
-Jumlah       : ${currentQuantity}
-Total Harga  : ${formatRupiah(total)}
+ID Pesanan   : ${orderId}
+Produk       : ${selectedApp}
+Paket        : ${selectedItem.package_name}
+Durasi       : ${selectedItem.duration}
+Jumlah       : ${currentQuantity}
+Total Harga  : ${formatRupiah(total)}
 --------------------------------
 Metode Pembayaran : ${selectedPaymentMethod}
 
 Mohon info ketersediaan dan instruksi pembayarannya. Terima kasih!
 (Jika sudah bayar, mohon lampirkan bukti transfer di bawah ini)
-    `.trim().replace(/\n/g, '%0A').replace(/ /g, '%20');
+    `.trim().replace(/\n/g, '%0A').replace(/ /g, '%20');
 
             const waLink = `https://wa.me/${waNumber}?text=${message}`;
+
             window.open(waLink, '_blank');
         }
 
@@ -535,6 +655,8 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima kasih!
 
             // 3. Isi variabel global dari data API
             selectedApp = selectedItem.app_name;
+            // Ambil warna (jika Anda mendefinisikannya di tailwind.config di order.html)
+            // Jika tidak, gunakan warna default atau dari data API
             const brandColor = tailwind.config.theme.extend.colors[`brand-${selectedApp.toLowerCase().replace('+', '').replace(' ', '')}`] || '#2563EB';
 
             // 4. Isi Banner, Logo, dan Judul
@@ -555,11 +677,11 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima kasih!
 
             // 5. Isi Info Paket
             document.getElementById('info-content').innerHTML = `
-                <p><strong>Kode Produk:</strong> ${selectedItem.product_code}</p>
-                <p><strong>Paket:</strong> ${selectedItem.package_name}</p>
-                <p><strong>Deskripsi:</strong> ${selectedItem.description || 'Informasi tidak tersedia.'}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Pastikan Anda telah membaca dan memahami detail paket sebelum memesan.</p>
-            `;
+        <p><strong>Kode Produk:</strong> ${selectedItem.product_code}</p>
+        <p><strong>Paket:</strong> ${selectedItem.package_name}</p>
+        <p><strong>Deskripsi:</strong> ${selectedItem.description || 'Informasi tidak tersedia.'}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Pastikan Anda telah membaca dan memahami detail paket sebelum memesan.</p>
+    `;
 
             // 6. Isi Rincian Biaya
             document.getElementById('summary-package-name').textContent = `${selectedApp} - ${selectedItem.package_name}`;
@@ -578,7 +700,6 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima kasih!
         });
 
         // Daftarkan fungsi global
-        window.copyToClipboard = copyToClipboard; 
         window.toggleTheme = toggleTheme;
         window.selectPayment = selectPayment;
         window.updateQuantity = updateQuantity;

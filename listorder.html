@@ -2,2159 +2,1346 @@
 <html lang="id" class="light">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Pesanan - Akun Bareng</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <script>
-        // Konfigurasi Tailwind (Sama seperti index.html)
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'soft-blue': '#C8E6F7',
-                        'deep-blue': '#2563EB',
-                        'light-bg': '#F0F8FF',
-                        'card-bg': '#FFFFFF',
-                        'text-primary': '#1F2937',
-                        'accent-wa': '#25D366',
-                        'accent-x': '#000000',
-                        'accent-tiktok': '#EE1D52',
-                        'brand-netflix': '#E50914',
-                        'brand-disney': '#113CCF',
-                        'brand-youtube': '#FF0000',
-                        'brand-viu': '#FF7120',
-                        'brand-wetv': '#00B3FF',
-                        'brand-iqiyi': '#409930',
-                        'brand-vidio': '#FF6600',
-                        'brand-canva': '#00C4CC',
-                        'brand-vplus': '#FF0000',
-                        'brand-aprime': '#232F3E',
-                        'brand-hbo': '#5402F0',
-                        'brand-vsco': '#000000',
-                        'brand-picsart': '#FF4C68',
-                        'brand-lroom': '#3D335A',
-                        'brand-resso': '#FF0050',
-                        'brand-bstation': '#00A1D6',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
-                        'lg-soft': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                        'hover-strong-blue': '0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* ==========================================================================
-         [PENTING] Ini adalah SEMUA CSS dari index.html (Blok 1-19)
-         Ditambah CSS baru (Blok 20) di bagian paling bawah
-         ==========================================================================
-        */
-
-        /* --- 1. GRADASI LATAR BELAKANG MENYELURH (BODY) --- */
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #1f2937;
-            transition: background-color 0.5s, color 0.5s;
-            background: linear-gradient(to bottom, #e4f0ff 0%, #ffffff 500px, #f0f8ff 1000px, #ffffff 1500px, #e4f0ff 2000px, #ffffff 3000px);
-            background-attachment: fixed;
-        }
-
-        html.dark body {
-            color: #d1d5db;
-            background: #111827;
-            background-image: linear-gradient(to bottom, #1f2937 0%, #111827 500px, #1f2937 1000px, #111827 1500px, #1f2937 2000px, #111827 3000px);
-        }
-
-        :root {
-            --color-avee-primary: #3b82f6;
-            --color-avee-light: #93c5fd;
-        }
-
-        /* --- 2. GAYA KARTU DAN INTERAKSI UMUM --- */
-        .card-product {
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(147, 197, 253, 0.5);
-            position: relative;
-            animation: subtleFloat 4s ease-in-out infinite alternate;
-            will-change: transform, box-shadow;
-        }
-
-        html.dark .card-product {
-            background-color: #1f2937;
-            border-color: rgba(55, 65, 81, 0.5);
-            box-shadow: 0 8px 16px -4px rgba(255, 255, 255, 0.05), 0 4px 6px -2px rgba(255, 255, 255, 0.03);
-        }
-
-        .card-product:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25);
-            animation-play-state: paused;
-        }
-
-        @keyframes subtleFloat {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .category-card {
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px -8px rgba(59, 130, 246, 0.35), 0 4px 6px -4px rgba(59, 130, 246, 0.2);
-        }
-
-        /* --- 3. EFEK REFLEKSI/GLOSSY PADA CARD --- */
-        .card-product::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
-            pointer-events: none;
-            transition: opacity 0.5s;
-            opacity: 0.8;
-        }
-
-        html.dark .card-product::before {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.03) 60%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        /* --- 4. GAYA HEADER DENGAN BLUR-ON-SCROLL --- */
-        .navbar-blur {
-            transition: all 0.5s ease-in-out;
-            background-color: transparent;
-            box-shadow: none;
-        }
-
-        .navbar-blur.scrolled {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.15);
-        }
-
-        html.dark .navbar-blur.scrolled {
-            background-color: rgba(31, 41, 55, 0.95);
-            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.4);
-        }
-
-        /* --- 5. ANIMASI SCROLL-APPEAR KUSTOM --- */
-        @keyframes fadeInSlide {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .scroll-appear {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .scroll-appear.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 6. ANIMASI PARTIKEL GELEMBUNG & HERO --- */
-        .bubble-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes floatBubble {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.7;
-            }
-
-            90% {
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: translateY(-10vh) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        .bubble {
-            position: absolute;
-            background-color: rgba(147, 197, 253, 0.4);
-            border-radius: 50%;
-            animation: floatBubble 15s infinite linear;
-            will-change: transform, opacity;
-        }
-
-        html.dark .bubble {
-            background-color: rgba(75, 85, 99, 0.3);
-        }
-
-        .floating-card {
-            transition: transform 0.1s linear;
-            will-change: transform;
-        }
-
-        /* --- 7. EFEK Latar Belakang Bintang Berkelip --- */
-        .particle-container-stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0.2;
-                transform: scale(0.8);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-        }
-
-        .star-particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background-color: #93c5fd;
-            border-radius: 50%;
-            animation: twinkle 4s infinite ease-in-out;
-            opacity: 0;
-        }
-
-        html.dark .star-particle {
-            background-color: #60a5fa;
-        }
-
-        .star-particle.star-sm {
-            width: 2px;
-            height: 2px;
-        }
-
-        .star-particle.star-lg {
-            width: 4px;
-            height: 4px;
-        }
-
-        /* --- 8. GAYA MODAL & LAINNYA --- */
-        .modal-content-container {
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .collapse-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
-        }
-
-        .collapse-content.open {
-            max-height: 500px;
-        }
-
-        html.dark .bg-gray-50 {
-            background-color: #1f2937;
-        }
-
-        html.dark .text-gray-600 {
-            color: #9ca3af;
-        }
-
-        html.dark .text-gray-900 {
-            color: #f3f4f6;
-        }
-
-        html.dark .text-gray-700 {
-            color: #d1d5db;
-        }
-
-        html.dark .bg-white {
-            background-color: #374151;
-        }
-
-        html.dark .bg-blue-600 {
-            background-color: #3b82f6;
-        }
-
-        html.dark .text-blue-600 {
-            color: #60a5fa;
-        }
-
-        html.dark .bg-blue-50 {
-            background-color: #1f2937;
-        }
-
-        html.dark .bg-blue-100 {
-            background-color: #374151;
-        }
-
-        /* --- 9. EFEK Testimoni Carousel --- */
-        .testimonial-carousel {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            transition: transform 0.5s ease-in-out;
-            will-change: transform;
-            white-space: nowrap;
-        }
-
-        .testimonial-card-wrapper {
-            position: relative;
-            flex-shrink: 0;
-            width: 80%;
-            max-width: 380px;
-            padding: 0 10px;
-            box-sizing: border-box;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-            white-space: normal;
-            transform: scale(0.9);
-            opacity: 0.6;
-            z-index: 10;
-        }
-
-        .testimonial-card-wrapper.active {
-            transform: scale(1.05);
-            opacity: 1;
-            z-index: 20;
-        }
-
-        .testimonial-card-wrapper.active .testimonial-card-content {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
-        }
-
-        html.dark .testimonial-card-wrapper.active .testimonial-card-content {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (min-width: 768px) {
-            .testimonial-card-wrapper {
-                width: 33.3333%;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .testimonial-card-wrapper {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            .testimonial-card-wrapper.active {
-                transform: scale(1);
-            }
-        }
-
-        /* --- 10. EFEK Payment Marquee --- */
-        .payment-marquee-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-        }
-
-        .payment-logo-wrapper {
-            display: flex;
-            width: max-content;
-            animation: marquee 30s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% {
-                transform: translateX(0%);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        @keyframes float-payment {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .payment-logo-marquee {
-            flex-shrink: 0;
-            width: 150px;
-            margin: 0 15px;
-            height: 80px;
-            background-color: #ffffff;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: float-payment 3s ease-in-out infinite alternate;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .payment-logo-marquee:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            animation-play-state: paused;
-        }
-
-        .payment-logo-marquee img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-        }
-
-        html.dark .payment-logo-marquee {
-            background-color: #374151;
-            border-color: #4b5563;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* --- 11. EFEK Filter Kategori --- */
-        .filter-button {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .filter-button.active {
-            background-color: #2563EB;
-            color: white;
-            border-color: #93c5fd;
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
-        }
-
-        html.dark .filter-button.active {
-            background-color: #3b82f6;
-            border-color: #2563EB;
-        }
-
-        /* --- 12. GAYA FAQ Accordion --- */
-        .faq-item .faq-question {
-            transition: background-color 0.2s ease;
-        }
-
-        .faq-item .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding-top: 1rem;
-            padding-bottom: 1.5rem;
-        }
-
-        .faq-item .faq-toggle {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(180deg);
-        }
-
-        .faq-item.active .faq-question {
-            background-color: #F0F8FF;
-        }
-
-        html.dark .faq-item.active .faq-question {
-            background-color: #1f2937;
-        }
-
-        /* --- 13. KOSONG (FAB LAMA DIHAPUS) --- */
-        /* --- 14. GAYA CHATBOT --- */
-        .chatbot-overlay {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            z-index: 100;
-            width: 90%;
-            max-width: 400px;
-            height: 600px;
-            max-height: 80vh;
-            border-radius: 1rem;
-            background-color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.3s ease-in-out;
-            pointer-events: none;
-        }
-
-        .chatbot-overlay.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
-        html.dark .chatbot-overlay {
-            background-color: #1f2937;
-        }
-
-        .chatbot-header {
-            background-color: #2563EB;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chatbot-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            background-color: #F0F8FF;
-        }
-
-        html.dark .chatbot-messages {
-            background-color: #111827;
-        }
-
-        .chat-bubble {
-            padding: 0.75rem 1rem;
-            border-radius: 1rem;
-            max-width: 80%;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        .chat-bubble-bot {
-            background-color: #e5e7eb;
-            color: #1f2937;
-            align-self: flex-start;
-            border-bottom-left-radius: 0.25rem;
-        }
-
-        html.dark .chat-bubble-bot {
-            background-color: #374151;
-            color: #f3f4f6;
-        }
-
-        .chat-bubble-user {
-            background-color: #3b82f6;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .chatbot-form {
-            display: flex;
-            padding: 0.75rem;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        html.dark .chatbot-form {
-            border-top-color: #374151;
-        }
-
-        .chatbot-input {
-            flex-grow: 1;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            padding: 0.6rem 0.75rem;
-            margin-right: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        html.dark .chatbot-input {
-            background-color: #4b5563;
-            border-color: #4b5563;
-            color: white;
-        }
-
-        .chat-bubble-bot.typing {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #9ca3af;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            80%,
-            100% {
-                transform: scale(0);
-            }
-
-            40% {
-                transform: scale(1.0);
-            }
-        }
-
-        .chatbot-send {
-            background-color: #2563EB;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            padding: 0 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .chatbot-send:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* --- 15. GAYA LOADER ANIMASI --- */
-        .loader {
-            width: 6em;
-            height: 6em;
-        }
-
-        .loader-ring {
-            animation: ringA 2s linear infinite;
-        }
-
-        .loader-ring-a {
-            stroke: #3b82f6;
-        }
-
-        .loader-ring-b {
-            animation-name: ringB;
-            stroke: #2563EB;
-        }
-
-        .loader-ring-c {
-            animation-name: ringC;
-            stroke: #3b82f6;
-        }
-
-        .loader-ring-d {
-            animation-name: ringD;
-            stroke: #2563EB;
-        }
-
-        @keyframes ringA {
-
-            from,
-            4% {
-                stroke-dasharray: 0 660;
-                stroke-width: 20;
-                stroke-dashoffset: -330;
-            }
-
-            12% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -335;
-            }
-
-            32% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -595;
-            }
-
-            40%,
-            54% {
-                stroke-dasharray: 0 660;
-                stroke-width: 20;
-                stroke-dashoffset: -660;
-            }
-
-            62% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -665;
-            }
-
-            82% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -925;
-            }
-
-            90%,
-            to {
-                stroke-dasharray: 0 660;
-                stroke-width: 20;
-                stroke-dashoffset: -990;
-            }
-        }
-
-        @keyframes ringB {
-
-            from,
-            12% {
-                stroke-dasharray: 0 220;
-                stroke-width: 20;
-                stroke-dashoffset: -110;
-            }
-
-            20% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -115;
-            }
-
-            40% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -195;
-            }
-
-            48%,
-            62% {
-                stroke-dasharray: 0 220;
-                stroke-width: 20;
-                stroke-dashoffset: -220;
-            }
-
-            70% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -225;
-            }
-
-            90% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -305;
-            }
-
-            98%,
-            to {
-                stroke-dasharray: 0 220;
-                stroke-width: 20;
-                stroke-dashoffset: -330;
-            }
-        }
-
-        @keyframes ringC {
-            from {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: 0;
-            }
-
-            8% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -5;
-            }
-
-            28% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -175;
-            }
-
-            36%,
-            58% {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -220;
-            }
-
-            66% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -225;
-            }
-
-            86% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -395;
-            }
-
-            94%,
-            to {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -440;
-            }
-        }
-
-        @keyframes ringD {
-
-            from,
-            8% {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: 0;
-            }
-
-            16% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -5;
-            }
-
-            36% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -175;
-            }
-
-            44%,
-            50% {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -220;
-            }
-
-            58% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -225;
-            }
-
-            78% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -395;
-            }
-
-            86%,
-            to {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -440;
-            }
-        }
-
-        /* --- 16. GAYA TEKS ANIMASI (HERO) --- */
-        .animated-text-container {
-            --bg-color: transparent;
-            background-color: var(--bg-color);
-            padding: 0.5rem 1rem;
-            border-radius: 1.25rem;
-            width: 100%;
-        }
-
-        .animated-text-loader {
-            color: #4b5563;
-            font-family: "Inter", sans-serif;
-            font-weight: 500;
-            font-size: 1.25rem;
-            -webkit-box-sizing: content-box;
-            box-sizing: content-box;
-            height: 30px;
-            padding: 5px 10px;
-            display: flex;
-            border-radius: 8px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .animated-text-loader {
-                justify-content: flex-start;
-            }
-        }
-
-        html.dark .animated-text-loader {
-            color: #9ca3af;
-        }
-
-        .words {
-            overflow: hidden;
-            position: relative;
-            height: 100%;
-        }
-
-        .word {
-            display: block;
-            height: 100%;
-            padding-left: 0.25rem;
-            color: #2563EB;
-            animation: spin_4991 6s infinite;
-        }
-
-        @keyframes spin_4991 {
-            0% {
-                transform: translateY(0);
-            }
-
-            8% {
-                transform: translateY(-2%);
-            }
-
-            18% {
-                transform: translateY(0);
-            }
-
-            20% {
-                transform: translateY(-102%);
-            }
-
-            28% {
-                transform: translateY(-100%);
-            }
-
-            38% {
-                transform: translateY(-98%);
-            }
-
-            40% {
-                transform: translateY(-202%);
-            }
-
-            48% {
-                transform: translateY(-200%);
-            }
-
-            58% {
-                transform: translateY(-198%);
-            }
-
-            60% {
-                transform: translateY(-302%);
-            }
-
-            68% {
-                transform: translateY(-300%);
-            }
-
-            78% {
-                transform: translateY(-298%);
-            }
-
-            80% {
-                transform: translateY(-402%);
-            }
-
-            88% {
-                transform: translateY(-400%);
-            }
-
-            100% {
-                transform: translateY(-400%);
-            }
-        }
-
-        /* --- 17. GAYA HOVER TEKS ANIMASI (HEADER) --- */
-        .animated-hover-text {
-            --default-color-light: #1f2937;
-            --default-color-dark: #f3f4f6;
-            --animation-color: #3b82f6;
-            --highlight-width: 0%;
-            position: relative;
-            text-transform: uppercase;
-            color: var(--default-color-light);
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        html.dark .animated-hover-text {
-            color: var(--default-color-dark);
-        }
-
-        .group:hover .animated-hover-text {
-            color: var(--animation-color);
-            text-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-        }
-
-        .animated-hover-text::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            height: 3px;
-            background-color: var(--animation-color);
-            width: var(--highlight-width);
-            transition: width 0.3s ease-out;
-        }
-
-        .group:hover .animated-hover-text::after {
-            --highlight-width: 100%;
-        }
-
-        /* --- 18. GAYA BOTTOM MENU BAR --- */
-        .bottom-menu-container {
-            padding: 0.5rem;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
-            width: auto;
-            max-width: 400px;
-            margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            position: relative;
-        }
-
-        html.dark .bottom-menu-container {
-            background-color: rgba(31, 41, 55, 0.95);
-            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
-            border-color: rgba(55, 65, 81, 0.5);
-        }
-
-        .bottom-menu-link {
-            display: inline-flex;
-            flex-direction: row;
-            align-items: center;
-            width: 70px;
-            height: 50px;
-            border-radius: 8px;
-            position: relative;
-            z-index: 1;
-            text-decoration: none;
-            color: #4b5563;
-            overflow: hidden;
-            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease, justify-content 0.3s ease;
-            box-sizing: border-box;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            justify-content: center;
-        }
-
-        html.dark .bottom-menu-link {
-            color: #d1d5db;
-        }
-
-        .bottom-menu-icon {
-            width: 28px;
-            height: 28px;
-            display: block;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .bottom-menu-title {
-            display: block;
-            text-align: left;
-            font-size: 0.875rem;
-            font-weight: 500;
-            white-space: nowrap;
-            margin-left: 10px;
-            opacity: 0;
-            max-width: 0;
-            transform: translateX(10px);
-            transition: opacity 0.2s ease, max-width 0.3s ease 0.1s, transform 0.2s ease;
-        }
-
-        .bottom-menu-link:hover {
-            width: 150px;
-            background-color: #F0F8FF;
-            justify-content: flex-start;
-            padding-left: 21px;
-        }
-
-        html.dark .bottom-menu-link:hover {
-            background-color: #374151;
-        }
-
-        .bottom-menu-link:hover .bottom-menu-title {
-            opacity: 1;
-            max-width: 100px;
-            transform: translateX(0);
-        }
-
-        .bottom-menu-link.active {
-            background-color: #2563EB;
-            color: white;
-            justify-content: center;
-            padding-left: 0;
-        }
-
-        html.dark .bottom-menu-link.active {
-            background-color: #3b82f6;
-        }
-
-        .bottom-menu-link.active:hover {
-            background-color: #1d4ed8;
-            color: white;
-            width: 150px;
-            justify-content: flex-start;
-            padding-left: 21px;
-        }
-
-        html.dark .bottom-menu-link.active:hover {
-            background-color: #2563EB;
-        }
-
-        /* GAYA FAB TERINTEGRASI (Mobile-First) */
-        #integrated-fab-wrapper {
-            position: relative;
-            z-index: 10;
-        }
-
-        #integrated-fab-wrapper.active #integrated-fab-toggle {
-            background-color: #dc2626;
-            color: white;
-        }
-
-        #integrated-fab-wrapper.active #integrated-fab-toggle .bottom-menu-icon {
-            transform: rotate(135deg);
-        }
-
-        #integrated-fab-menu {
-            position: absolute;
-            bottom: 75px;
-            right: 10px;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column-reverse;
-        }
-
-        .bottom-fab-child {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            margin-bottom: 12px;
-            opacity: 0;
-            transform: scale(0.5);
-            pointer-events: none;
-        }
-
-        #integrated-fab-wrapper.active #integrated-fab-menu {
-            pointer-events: auto;
-        }
-
-        #integrated-fab-wrapper.active .bottom-fab-child {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-
-        @media (min-width: 768px) {
-            #integrated-fab-menu {
-                bottom: 20px;
-                right: 20px;
-                display: block;
-            }
-
-            .bottom-fab-child {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                margin-bottom: 0;
-                opacity: 0;
-                transform: scale(0.5);
-            }
-
-            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(1) {
-                transform: translate(10px, -65px) scale(1);
-            }
-
-            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(2) {
-                transform: translate(60px, -60px) scale(1);
-            }
-
-            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(3) {
-                transform: translate(90px, -25px) scale(1);
-            }
-
-            #integrated-fab-wrapper.active .bottom-fab-child:nth-child(4) {
-                transform: translate(120px, 15px) scale(1);
-            }
-        }
-
-        /* --- 19. ANIMASI BINTANG JATUH (METEOR) --- */
-        .night {
-            position: fixed;
-            width: 200vw;
-            height: 200vh;
-            transform: rotate(45deg);
-            top: -50vh;
-            left: -50vw;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .shooting_star {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-            border-radius: 999px;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
-            animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite;
-        }
-
-        html:not(.dark) .shooting_star {
-            background: linear-gradient(-45deg, rgba(96, 165, 250, 1), rgba(96, 165, 250, 0));
-            filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.8));
-        }
-
-        .shooting_star::before,
-        .shooting_star::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(-45deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-            border-radius: 100%;
-            animation: shining 3s ease-in-out infinite;
-        }
-
-        html:not(.dark) .shooting_star::before,
-        html:not(.dark) .shooting_star::after {
-            background: linear-gradient(-45deg, rgba(96, 165, 250, 0), rgba(96, 165, 250, 1), rgba(96, 165, 250, 0));
-        }
-
-        .shooting_star::before {
-            transform: translateX(50%) rotateZ(45deg);
-        }
-
-        .shooting_star::after {
-            transform: translateX(50%) rotateZ(-45deg);
-        }
-
-        .shooting_star.blue {
-            background: linear-gradient(-45deg, rgba(95, 145, 255, 1), rgba(95, 145, 255, 0));
-            filter: drop-shadow(0 0 8px rgba(105, 155, 255, 1));
-        }
-
-        .shooting_star.blue::before,
-        .shooting_star.blue::after {
-            background: linear-gradient(-45deg, rgba(95, 145, 255, 0), rgba(95, 145, 255, 1), rgba(95, 145, 255, 0));
-        }
-
-        .shooting_star.purple {
-            background: linear-gradient(-45deg, rgba(200, 95, 255, 1), rgba(200, 95, 255, 0));
-            filter: drop-shadow(0 0 8px rgba(200, 105, 255, 1));
-        }
-
-        .shooting_star.purple::before,
-        .shooting_star.purple::after {
-            background: linear-gradient(-45deg, rgba(200, 95, 255, 0), rgba(200, 95, 255, 1), rgba(200, 95, 255, 0));
-        }
-
-        .shooting_star.gold {
-            background: linear-gradient(-45deg, rgba(255, 215, 95, 1), rgba(255, 215, 95, 0));
-            filter: drop-shadow(0 0 8px rgba(255, 225, 105, 1));
-        }
-
-        .shooting_star.gold::before,
-        .shooting_star.gold::after {
-            background: linear-gradient(-45deg, rgba(255, 215, 95, 0), rgba(255, 215, 95, 1), rgba(255, 215, 95, 0));
-        }
-
-        @keyframes tail {
-            0% {
-                width: 0;
-            }
-
-            30% {
-                width: 150px;
-            }
-
-            100% {
-                width: 0;
-            }
-        }
-
-        @keyframes shining {
-            0% {
-                width: 0;
-            }
-
-            50% {
-                width: 50px;
-            }
-
-            100% {
-                width: 0;
-            }
-        }
-
-        @keyframes shooting {
-            0% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-
-            70% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateX(800px);
-                opacity: 0;
-            }
-        }
-
-        /* --- [BARU] 20. GAYA HALAMAN ORDER --- */
-        .order-filter-button {
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-        }
-
-        .order-filter-button.active {
-            color: #2563EB;
-            /* deep-blue */
-            border-bottom-color: #2563EB;
-        }
-
-        html.dark .order-filter-button.active {
-            color: #60a5fa;
-            /* Teks Biru Cerah */
-            border-bottom-color: #60a5fa;
-        }
-
-        .order-card {
-            transition: all 0.3s ease;
-        }
-
-        .order-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.2);
-        }
-
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            /* 12px */
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-selesai {
-            background-color: #dcfce7;
-            color: #166534;
-        }
-
-        /* Green */
-        .status-pending {
-            background-color: #fef9c3;
-            color: #854d0e;
-        }
-
-        /* Yellow */
-        .status-proses {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
-
-        /* Blue */
-        .status-dibatalkan {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Red */
-
-        html.dark .status-selesai {
-            background-color: #166534;
-            color: #dcfce7;
-        }
-
-        html.dark .status-pending {
-            background-color: #854d0e;
-            color: #fef9c3;
-        }
-
-        html.dark .status-proses {
-            background-color: #0369a1;
-            color: #e0f2fe;
-        }
-
-        html.dark .status-dibatalkan {
-            background-color: #991b1b;
-            color: #fee2e2;
-        }
-
-        .account-detail-field {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f3f4f6;
-            /* gray-100 */
-            border-radius: 0.5rem;
-            /* rounded-lg */
-            padding: 0.75rem 1rem;
-            /* p-3 p-4 */
-        }
-
-        html.dark .account-detail-field {
-            background-color: #374151;
-            /* gray-700 */
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesanan - Akun Bareng</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script>
+        // Konfigurasi Tailwind (Ditinggalkan sama)
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-blue': '#C8E6F7',
+                        'deep-blue': '#2563EB',
+                        'light-bg': '#F0F8FF',
+                        'card-bg': '#FFFFFF',
+                        'text-primary': '#1F2937',
+                        'accent-wa': '#25D366',
+                        'accent-x': '#000000',
+                        'accent-tiktok': '#EE1D52',
+                        'brand-netflix': '#E50914',
+                        'brand-disney': '#113CCF',
+                        'brand-youtube': '#FF0000',
+                        'brand-viu': '#FF7120',
+                        'brand-wetv': '#00B3FF',
+                        'brand-iqiyi': '#409930',
+                        'brand-vidio': '#FF6600',
+                        'brand-canva': '#00C4CC',
+                        'brand-vplus': '#FF0000',
+                        'brand-aprime': '#232F3E',
+                        'brand-hbo': '#5402F0',
+                        'brand-vsco': '#000000',
+                        'brand-picsart': '#FF4C68',
+                        'brand-lroom': '#3D335A',
+                        'brand-resso': '#FF0050',
+                        'brand-bstation': '#00A1D6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                        'lg-soft': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'hover-strong-blue': '0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ==========================================================================
+         CSS dari Index.html - Ditempatkan di sini
+         ==========================================================================
+        */
+
+        /* --- 1. GRADASI LATAR BELAKANG MENYELURH (BODY) --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+            transition: background-color 0.5s, color 0.5s;
+            background: linear-gradient(to bottom, #e4f0ff 0%, #ffffff 500px, #f0f8ff 1000px, #ffffff 1500px, #e4f0ff 2000px, #ffffff 3000px);
+            background-attachment: fixed;
+        }
+
+        html.dark body {
+            color: #d1d5db;
+            background: #111827;
+            background-image: linear-gradient(to bottom, #1f2937 0%, #111827 500px, #1f2937 1000px, #111827 1500px, #1f2937 2000px, #111827 3000px);
+        }
+
+        :root {
+            --color-avee-primary: #3b82f6;
+            --color-avee-light: #93c5fd;
+        }
+
+        /* --- 2. GAYA KARTU DAN INTERAKSI UMUM --- */
+        .card-product {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(147, 197, 253, 0.5);
+            position: relative;
+            animation: subtleFloat 4s ease-in-out infinite alternate;
+            will-change: transform, box-shadow;
+        }
+
+        html.dark .card-product {
+            background-color: #1f2937;
+            border-color: rgba(55, 65, 81, 0.5);
+            box-shadow: 0 8px 16px -4px rgba(255, 255, 255, 0.05), 0 4px 6px -2px rgba(255, 255, 255, 0.03);
+        }
+
+        .card-product:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25);
+            animation-play-state: paused;
+        }
+
+        @keyframes subtleFloat {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .category-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 40px -8px rgba(59, 130, 246, 0.35), 0 4px 6px -4px rgba(59, 130, 246, 0.2);
+        }
+
+        /* --- 3. EFEK REFLEKSI/GLOSSY PADA CARD --- */
+        .card-product::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            transition: opacity 0.5s;
+            opacity: 0.8;
+        }
+
+        html.dark .card-product::before {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.03) 60%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        /* --- 4. GAYA HEADER DENGAN BLUR-ON-SCROLL --- */
+        .navbar-blur {
+            transition: all 0.5s ease-in-out;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        .navbar-blur.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        html.dark .navbar-blur.scrolled {
+            background-color: rgba(31, 41, 55, 0.95);
+            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- 5. ANIMASI SCROLL-APPEAR KUSTOM --- */
+        @keyframes fadeInSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-appear {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-appear.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 6. ANIMASI PARTIKEL GELEMBUNG & HERO --- */
+        .bubble-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatBubble {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.7;
+            }
+
+            90% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .bubble {
+            position: absolute;
+            background-color: rgba(147, 197, 253, 0.4);
+            border-radius: 50%;
+            animation: floatBubble 15s infinite linear;
+            will-change: transform, opacity;
+        }
+
+        html.dark .bubble {
+            background-color: rgba(75, 85, 99, 0.3);
+        }
+
+        .floating-card {
+            transition: transform 0.1s linear;
+            will-change: transform;
+        }
+
+        /* --- 7. EFEK Latar Belakang Bintang Berkelip --- */
+        .particle-container-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .star-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #93c5fd;
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        html.dark .star-particle {
+            background-color: #60a5fa;
+        }
+
+        .star-particle.star-sm {
+            width: 2px;
+            height: 2px;
+        }
+
+        .star-particle.star-lg {
+            width: 4px;
+            height: 4px;
+        }
+
+        /* --- 8. GAYA MODAL & LAINNYA --- */
+        .modal-content-container {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .collapse-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .collapse-content.open {
+            max-height: 500px;
+        }
+
+        html.dark .bg-gray-50 {
+            background-color: #1f2937;
+        }
+
+        html.dark .text-gray-600 {
+            color: #9ca3af;
+        }
+
+        html.dark .text-gray-900 {
+            color: #f3f4f6;
+        }
+
+        html.dark .text-gray-700 {
+            color: #d1d5db;
+        }
+
+        html.dark .bg-white {
+            background-color: #374151;
+        }
+
+        html.dark .bg-blue-600 {
+            background-color: #3b82f6;
+        }
+
+        html.dark .text-blue-600 {
+            color: #60a5fa;
+        }
+
+        html.dark .bg-blue-50 {
+            background-color: #1f2937;
+        }
+
+        html.dark .bg-blue-100 {
+            background-color: #374151;
+        }
+
+        /* --- 9. EFEK Testimoni Carousel --- */
+        .testimonial-carousel {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+            white-space: nowrap;
+        }
+
+        .testimonial-card-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            width: 80%;
+            max-width: 380px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+            white-space: normal;
+            transform: scale(0.9);
+            opacity: 0.6;
+            z-index: 10;
+        }
+
+        .testimonial-card-wrapper.active {
+            transform: scale(1.05);
+            opacity: 1;
+            z-index: 20;
+        }
+
+        .testimonial-card-wrapper.active .testimonial-card-content {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        html.dark .testimonial-card-wrapper.active .testimonial-card-content {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .testimonial-card-wrapper {
+                width: 33.3333%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .testimonial-card-wrapper {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .testimonial-card-wrapper.active {
+                transform: scale(1);
+            }
+        }
+
+        /* --- 10. EFEK Payment Marquee --- */
+        .payment-marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+
+        .payment-logo-wrapper {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes float-payment {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .payment-logo-marquee {
+            flex-shrink: 0;
+            width: 150px;
+            margin: 0 15px;
+            height: 80px;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float-payment 3s ease-in-out infinite alternate;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .payment-logo-marquee:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            animation-play-state: paused;
+        }
+
+        .payment-logo-marquee img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        html.dark .payment-logo-marquee {
+            background-color: #374151;
+            border-color: #4b5563;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- 11. EFEK Filter Kategori --- */
+        .filter-button {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .filter-button.active {
+            background-color: #2563EB;
+            color: white;
+            border-color: #93c5fd;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+        }
+
+        html.dark .filter-button.active {
+            background-color: #3b82f6;
+            border-color: #2563EB;
+        }
+
+        /* --- 12. GAYA FAQ Accordion --- */
+        .faq-item .faq-question {
+            transition: background-color 0.2s ease;
+        }
+
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item .faq-toggle {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-question {
+            background-color: #F0F8FF;
+        }
+
+        html.dark .faq-item.active .faq-question {
+            background-color: #1f2937;
+        }
+
+        /* --- 13. KOSONG (FAB LAMA DIHAPUS) --- */
+        /* --- 14. GAYA CHATBOT --- */
+        .chatbot-overlay {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+            width: 90%;
+            max-width: 400px;
+            height: 600px;
+            max-height: 80vh;
+            border-radius: 1rem;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s ease-in-out;
+            pointer-events: none;
+        }
+
+        .chatbot-overlay.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        html.dark .chatbot-overlay {
+            background-color: #1f2937;
+        }
+
+        .chatbot-header {
+            background-color: #2563EB;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background-color: #F0F8FF;
+        }
+
+        html.dark .chatbot-messages {
+            background-color: #111827;
+        }
+
+        .chat-bubble {
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            max-width: 80%;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .chat-bubble-bot {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            align-self: flex-start;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        html.dark .chat-bubble-bot {
+            background-color: #374151;
+            color: #f3f4f6;
+        }
+
+        .chat-bubble-user {
+            background-color: #3b82f6;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .chatbot-form {
+            display: flex;
+            padding: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        html.dark .chatbot-form {
+            border-top-color: #374151;
+        }
+
+        .chatbot-input {
+            flex-grow: 1;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            margin-right: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        html.dark .chatbot-input {
+            background-color: #4b5563;
+            border-color: #4b5563;
+            color: white;
+        }
+
+        .chat-bubble-bot.typing {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1.0);
+            }
+        }
+
+        .chatbot-send {
+            background-color: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .chatbot-send:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* --- 15. GAYA LOADER ANIMASI --- */
+        .loader {
+            width: 6em;
+            height: 6em;
+        }
+
+        .loader-ring {
+            animation: ringA 2s linear infinite;
+        }
+
+        .loader-ring-a {
+            stroke: #3b82f6;
+        }
+
+        .loader-ring-b {
+            animation-name: ringB;
+            stroke: #2563EB;
+        }
+
+        .loader-ring-c {
+            animation-name: ringC;
+            stroke: #3b82f6;
+        }
+
+        .loader-ring-d {
+            animation-name: ringD;
+            stroke: #2563EB;
+        }
+
+        @keyframes ringA {
+
+            from,
+            4% {
+                stroke-dasharray: 0 660;
+                stroke-width: 20;
+                stroke-dashoffset: -330;
+            }
+
+            12% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -335;
+            }
+
+            32% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -595;
+            }
+
+            40%,
+            54% {
+                stroke-dasharray: 0 660;
+                stroke-width: 20;
+                stroke-dashoffset: -660;
+            }
+
+            62% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -665;
+            }
+
+            82% {
+                stroke-dasharray: 60 600;
+                stroke-width: 30;
+                stroke-dashoffset: -925;
+            }
+
+            90%,
+            to {
+                stroke-dasharray: 0 660;
+                stroke-width: 20;
+                stroke-dashoffset: -990;
+            }
+        }
+
+        @keyframes ringB {
+
+            from,
+            12% {
+                stroke-dasharray: 0 220;
+                stroke-width: 20;
+                stroke-dashoffset: -110;
+            }
+
+            20% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -115;
+            }
+
+            40% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -195;
+            }
+
+            48%,
+            62% {
+                stroke-dasharray: 0 220;
+                stroke-width: 20;
+                stroke-dashoffset: -220;
+            }
+
+            70% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -225;
+            }
+
+            90% {
+                stroke-dasharray: 20 200;
+                stroke-width: 30;
+                stroke-dashoffset: -305;
+            }
+
+            98%,
+            to {
+                stroke-dasharray: 0 220;
+                stroke-width: 20;
+                stroke-dashoffset: -330;
+            }
+        }
+
+        @keyframes ringC {
+            from {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: 0;
+            }
+
+            8% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -5;
+            }
+
+            28% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -175;
+            }
+
+            36%,
+            58% {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -220;
+            }
+
+            66% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -225;
+            }
+
+            86% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -395;
+            }
+
+            94%,
+            to {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -440;
+            }
+        }
+
+        @keyframes ringD {
+
+            from,
+            8% {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: 0;
+            }
+
+            16% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -5;
+            }
+
+            36% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -175;
+            }
+
+            44%,
+            50% {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -220;
+            }
+
+            58% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -225;
+            }
+
+            78% {
+                stroke-dasharray: 40 400;
+                stroke-width: 30;
+                stroke-dashoffset: -395;
+            }
+
+            86%,
+            to {
+                stroke-dasharray: 0 440;
+                stroke-width: 20;
+                stroke-dashoffset: -440;
+            }
+        }
+
+        /* --- 16. GAYA TEKS ANIMASI (HERO) --- */
+        .animated-text-container {
+            --bg-color: transparent;
+            background-color: var(--bg-color);
+            padding: 0.5rem 1rem;
+            border-radius: 1.25rem;
+            width: 100%;
+        }
+
+        .animated-text-loader {
+            color: #4b5563;
+            font-family: "Inter", sans-serif;
+            font-weight: 500;
+            font-size: 1.25rem;
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+            height: 30px;
+            padding: 5px 10px;
+            display: flex;
+            border-radius: 8px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .animated-text-loader {
+                justify-content: flex-start;
+            }
+        }
+
+        html.dark .animated-text-loader {
+            color: #9ca3af;
+        }
+
+        .words {
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+        }
+
+        .word {
+            display: block;
+            height: 100%;
+            padding-left: 0.25rem;
+            color: #2563EB;
+            animation: spin_4991 6s infinite;
+        }
+
+        @keyframes spin_4991 {
+            0% {
+                transform: translateY(0);
+            }
+
+            8% {
+                transform: translateY(-2%);
+            }
+
+            18% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(-102%);
+            }
+
+            28% {
+                transform: translateY(-100%);
+            }
+
+            38% {
+                transform: translateY(-98%);
+            }
+
+            40% {
+                transform: translateY(-202%);
+            }
+
+            48% {
+                transform: translateY(-200%);
+            }
+
+            58% {
+                transform: translateY(-198%);
+            }
+
+            60% {
+                transform: translateY(-302%);
+            }
+
+            68% {
+                transform: translateY(-300%);
+            }
+
+            78% {
+                transform: translateY(-298%);
+            }
+
+            80% {
+                transform: translateY(-402%);
+            }
+
+            88% {
+                transform: translateY(-400%);
+            }
+
+            100% {
+                transform: translateY(-400%);
+            }
+        }
+
+        /* --- 17. GAYA HOVER TEKS ANIMASI (HEADER) --- */
+        .animated-hover-text {
+            --default-color-light: #1f2937;
+            --default-color-dark: #f3f4f6;
+            --animation-color: #3b82f6;
+            --highlight-width: 0%;
+            position: relative;
+            text-transform: uppercase;
+            color: var(--default-color-light);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        html.dark .animated-hover-text {
+            color: var(--default-color-dark);
+        }
+
+        .group:hover .animated-hover-text {
+            color: var(--animation-color);
+            text-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+        }
+
+        .animated-hover-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            height: 3px;
+            background-color: var(--animation-color);
+            width: var(--highlight-width);
+            transition: width 0.3s ease-out;
+        }
+
+        .group:hover .animated-hover-text::after {
+            --highlight-width: 100%;
+        }
+
+        /* --- 18. GAYA BOTTOM MENU BAR --- */
+        .bottom-menu-container {
+            padding: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
+            width: auto;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        html.dark .bottom-menu-container {
+            background-color: rgba(31, 41, 55, 0.95);
+            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
+            border-color: rgba(55, 65, 81, 0.5);
+        }
+
+        .bottom-menu-link {
+            /* PENTING: Gunakan <a> untuk link antar halaman */
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            width: 70px;
+            height: 50px;
+            border-radius: 8px;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            color: #4b5563;
+            overflow: hidden;
+            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease, justify-content 0.3s ease;
+            box-sizing: border-box;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            justify-content: center;
+        }
+
+        html.dark .bottom-menu-link {
+            color: #d1d5db;
+        }
+
+        .bottom-menu-icon {
+            width: 28px;
+            height: 28px;
+            display: block;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .bottom-menu-title {
+            display: block;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            margin-left: 10px;
+            opacity: 0;
+            max-width: 0;
+            transform: translateX(10px);
+            transition: opacity 0.2s ease, max-width 0.3s ease 0.1s, transform 0.2s ease;
+        }
+
+        .bottom-menu-link:hover {
+            width: 150px;
+            background-color: #F0F8FF;
+            justify-content: flex-start;
+            padding-left: 21px;
+        }
+
+        html.dark .bottom-menu-link:hover {
+            background-color: #374151;
+        }
+
+        .bottom-menu-link:hover .bottom-menu-title {
+            opacity: 1;
+            max-width: 100px;
+            transform: translateX(0);
+        }
+
+        .bottom-menu-link.active {
+            background-color: #2563EB;
+            color: white;
+            justify-content: center;
+            padding-left: 0;
+        }
+
+        html.dark .bottom-menu-link.active {
+            background-color: #3b82f6;
+        }
+
+        .bottom-menu-link.active:hover {
+            background-color: #1d4ed8;
+            color: white;
+            width: 150px;
+            justify-content: flex-start;
+            padding-left: 21px;
+        }
+
+        html.dark .bottom-menu-link.active:hover {
+            background-color: #2563EB;
+        }
+
+        /* GAYA FAB TERINTEGRASI (Mobile-First) */
+        #integrated-fab-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        #integrated-fab-wrapper.active #integrated-fab-toggle {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        #integrated-fab-wrapper.active #integrated-fab-toggle .bottom-menu-icon {
+            transform: rotate(45deg);
+        }
+
+        .fab-menu-item {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+            bottom: 50px;
+        }
+
+        #integrated-fab-wrapper.active .fab-menu-item {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        #integrated-fab-wrapper.active .fab-menu-item:nth-child(1) {
+            bottom: 70px;
+            transition-delay: 0.1s;
+        }
+
+        #integrated-fab-wrapper.active .fab-menu-item:nth-child(2) {
+            bottom: 120px;
+            transition-delay: 0.15s;
+        }
+
+        /* --- 20. GAYA KHUSUS HALAMAN ORDER --- */
+
+        .order-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--border-color, #2563EB);
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-pending {
+            --border-color: #f59e0b;
+            color: #f59e0b;
+        }
+
+        .status-processing {
+            --border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .status-completed {
+            --border-color: #10b981;
+            color: #10b981;
+        }
+    </style>
 </head>
 
-<body class="text-gray-800 antialiased">
+<body class="min-h-screen pt-4 pb-28">
 
-    <header id="main-header" class="sticky top-0 z-50 navbar-blur">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-            <div class="flex items-center space-x-2">
-                <a href="index.html" class="flex items-center group">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="text-blue-600 transition duration-300 group-hover:rotate-12 group-hover:scale-110 mr-2">
-                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
-                            fill="currentColor" opacity="0.15" />
-                        <path d="M8 12.5L11 15.5L16 9.5" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
-                            stroke-linejoin="round" class="transition duration-500 group-hover:stroke-blue-700" />
-                    </svg>
-                    <span class="animated-hover-text text-xl font-extrabold tracking-tight" data-text="Akun Bareng">
-                        Akun Bareng
-                    </span>
-                </a>
-            </div>
-            <nav class="hidden md:flex space-x-6">
-                <a href="index.html#produk"
-                    class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Produk</a>
-                <a href="index.html#kategori"
-                    class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Kategori</a>
-                <a href="index.html#testimoni"
-                    class="nav-link text-gray-600 hover:text-blue-600 font-medium relative transition duration-200 dark:text-gray-300 dark:hover:text-blue-400">Testimoni</a>
-            </nav>
-            <div class="flex items-center space-x-3">
-                <button id="theme-toggle" onclick="toggleTheme()"
-                    class="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-full transition duration-200 hover:bg-blue-50 dark:hover:bg-gray-700">
-                    <i data-lucide="moon" id="moon-icon" class="w-5 h-5 block dark:hidden"></i>
-                    <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden dark:block"></i>
-                </button>
-                <div id="auth-logged-out">
-                    <button id="auth-button" onclick="showAuthModal('login')"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-lg shadow-blue-300 transform transition duration-200 hover:scale-105 active:scale-95">
-                        Masuk
-                    </button>
-                </div>
-                <div id="auth-logged-in" class="hidden flex items-center space-x-3">
-                    <button onclick="handleLogout()"
-                        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full shadow-lg transition duration-200 hover:scale-105 active:scale-95">
-                        Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div class="container mx-auto max-w-lg px-4">
+        <h1 class="text-3xl font-bold text-center mb-6 pt-4 text-deep-blue dark:text-soft-blue">Riwayat Pesanan</h1>
+        <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Semua pesanan Anda tercatat di sini.</p>
 
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16 relative z-10 min-h-screen">
+        <div id="order-list" class="space-y-4">
+                        <div class="order-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 status-completed">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="font-bold text-lg text-text-primary dark:text-white">NETFLIX PREMIUM 1 BULAN</span>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">#TRX20241028001</p>
+                    </div>
+                    <span class="text-sm font-semibold status-completed">Selesai</span>
+                </div>
+                <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                    <p class="text-sm text-gray-700 dark:text-gray-300">Total Bayar: <span class="font-bold text-deep-blue dark:text-soft-blue">Rp 55.000</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Tanggal: 28 Okt 2024</p>
+                </div>
+            </div>
+                                    <div class="order-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 status-processing">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="font-bold text-lg text-text-primary dark:text-white">CANVA PRO LIFETIME</span>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">#TRX20241029002</p>
+                    </div>
+                    <span class="text-sm font-semibold status-processing">Diproses</span>
+                </div>
+                <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                    <p class="text-sm text-gray-700 dark:text-gray-300">Total Bayar: <span class="font-bold text-deep-blue dark:text-soft-blue">Rp 30.000</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Tanggal: 29 Okt 2024</p>
+                </div>
+            </div>
+                                </div>
 
-        <h1
-            class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-8 scroll-appear text-center md:text-left">
-            Riwayat Pesanan</h1>
+    </div>
 
-        <div class="flex items-center border-b border-gray-200 dark:border-gray-700 mb-6 scroll-appear">
-            <button onclick="filterOrders('Semua', this)"
-                class="order-filter-button active py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
-                Semua
-            </button>
-            <button onclick="filterOrders('Pending', this)"
-                class="order-filter-button py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
-                Pending
-            </button>
-            <button onclick="filterOrders('Selesai', this)"
-                class="order-filter-button py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
-                Selesai
-            </button>
-            <button onclick="filterOrders('Dibatalkan', this)"
-                class="order-filter-button py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
-                Dibatalkan
-            </button>
-        </div>
+        <div class="fixed bottom-0 left-0 right-0 z-50 p-4">
+        <nav class="bottom-menu-container">
+            <a href="index.html" class="bottom-menu-link" data-path="index.html">
+                <i data-lucide="home" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Beranda</span>
+            </a>
 
-        <div id="order-list-container" class="space-y-4">
-            <div id="order-loading" class="text-center py-16 text-gray-500 dark:text-gray-400">
-                <i data-lucide="loader" class="w-8 h-8 mx-auto animate-spin mb-2"></i>
-                Memuat riwayat pesanan Anda...
-            </div>
-        </div>
-    </main>
+                        <a href="riwayat_pesanan.html" class="bottom-menu-link" data-path="riwayat_pesanan.html">
+                <i data-lucide="receipt-text" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">List Order</span>
+            </a>
 
-    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 p-4 z-[60] block">
-        <div class="bottom-menu-container">
-            <a href="index.html" class="bottom-menu-link" data-menu-item="true" aria-label="Home">
-                <i data-lucide="home" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">Home</span>
-            </a>
-            <a href="index.html#produk" class="bottom-menu-link" data-menu-item="true" aria-label="Produk">
-                <i data-lucide="shopping-bag" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">Produk</span>
-            </a>
-            <a href="listorder.html" class="bottom-menu-link active" data-menu-item="true" aria-label="Daftar Pesanan">
-                <i data-lucide="list-ordered" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">Pesanan</span>
-            </a>
-            <a href="profil.html" class="bottom-menu-link" data-menu-item="true" aria-label="Profil Pengguna">
-                <i data-lucide="user" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">Profil</span>
-            </a>
-            <div id="integrated-fab-wrapper" class="relative">
-                <button id="integrated-fab-toggle" class="bottom-menu-link" aria-label="Buka Menu Kontak">
-                    <i data-lucide="plus" class="bottom-menu-icon transition-transform duration-300"></i>
-                    <span class="bottom-menu-title">Kontak</span>
-                </button>
-                <div id="integrated-fab-menu" class="absolute bottom-4 right-4 w-auto h-auto pointer-events-none">
-                </div>
-            </div>
-        </div>
-    </nav>
+                        <a href="akun.html" class="bottom-menu-link" data-path="akun.html">
+                <i data-lucide="user" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Akun</span>
+            </a>
 
-    <footer class="bg-gray-800 text-white py-12 relative z-20 dark:bg-gray-900 dark:text-gray-200">
-    </footer>
+                        <div id="integrated-fab-wrapper">
+                <button id="integrated-fab-toggle" class="bottom-menu-link active bg-accent-wa text-white" onclick="toggleFab(event)">
+                    <i data-lucide="message-square" class="bottom-menu-icon transition-transform"></i>
+                </button>
+                
+                                <a href="admin.html" class="fab-menu-item p-3 bg-blue-500 rounded-full shadow-lg text-white">
+                    <i data-lucide="shield"></i>
+                </a>
 
-    <div id="order-detail-modal"
-        class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-[70] transition-opacity duration-300"
-        onclick="closeDetailModal(event)">
-        <div class="modal-content-container bg-white w-full max-w-lg rounded-2xl p-6 shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800"
-            onclick="event.stopPropagation()">
-            <button onclick="closeDetailModal()"
-                class="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 transition">
-                <i data-lucide="x" class="w-6 h-6 dark:text-gray-400"></i>
-            </button>
+                                <a href="https://wa.me/628123456789" target="_blank" class="fab-menu-item p-3 bg-accent-wa rounded-full shadow-lg text-white">
+                    <i data-lucide="whatsapp"></i>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+        <script>
+        // Logika untuk mengaktifkan Bottom Menu Bar yang sesuai
+        function initBottomMenu() {
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            const links = document.querySelectorAll('.bottom-menu-link');
 
-            <h2 id="order-detail-title" class="text-3xl font-bold mb-4 text-deep-blue dark:text-blue-400">Detail Pesanan
-            </h2>
-            <div id="order-detail-status" class="mb-4"></div>
+            links.forEach(link => {
+                link.classList.remove('active');
+                const linkPath = link.getAttribute('data-path');
 
-            <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
-                <div>
-                    <span class="font-semibold text-gray-700 dark:text-gray-300">Tanggal:</span>
-                    <p id="detail-tanggal" class="text-gray-600 dark:text-gray-400">...</p>
-                </div>
-                <div>
-                    <span class="font-semibold text-gray-700 dark:text-gray-300">Metode Pembayaran:</span>
-                    <p id="detail-metode" class="text-gray-600 dark:text-gray-400">...</p>
-                </div>
-            </div>
-
-            <h3 class="font-bold text-lg mb-2 dark:text-gray-200">Rincian Item</h3>
-            <div id="order-detail-items" class="space-y-2 mb-4">
-            </div>
-
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-1">
-                <div class="flex justify-between text-gray-600 dark:text-gray-400">
-                    <span>Subtotal:</span>
-                    <span id="detail-subtotal">Rp0</span>
-                </div>
-                <div class="flex justify-between text-gray-600 dark:text-gray-400">
-                    <span>Diskon:</span>
-                    <span id="detail-diskon">-Rp0</span>
-                </div>
-                <div class="flex justify-between text-lg font-bold text-gray-900 dark:text-gray-100">
-                    <span>Total:</span>
-                    <span id="detail-total">Rp0</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="account-detail-modal"
-        class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-[80] transition-opacity duration-300"
-        onclick="closeAccountModal(event)">
-        <div class="modal-content-container bg-white w-full max-w-md rounded-2xl p-6 shadow-lg-soft relative transform transition-all duration-300 scale-95 opacity-0 dark:bg-gray-800"
-            onclick="event.stopPropagation()">
-            <button onclick="closeAccountModal()"
-                class="absolute top-4 right-4 p-2 text-gray-500 hover:text-red-500 transition">
-                <i data-lucide="x" class="w-6 h-6 dark:text-gray-400"></i>
-            </button>
-
-            <h2 id="account-detail-title" class="text-3xl font-bold mb-4 text-deep-blue dark:text-blue-400 mt-4">Detail
-                Akun Anda</h2>
-            <p
-                class="text-sm text-gray-600 dark:text-gray-400 mb-4 bg-yellow-50 dark:bg-gray-700 p-3 rounded-lg border border-yellow-200 dark:border-gray-600">
-                <i data-lucide="alert-triangle"
-                    class="w-4 h-4 inline-block mr-1 text-yellow-600 dark:text-yellow-400"></i>
-                Harap jangan bagikan data ini kepada siapa pun. Ubah password Anda jika memungkinkan.
-            </p>
-
-            <div class="space-y-3">
-                <div>
-                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">Email / Username Akun</label>
-                    <div class="account-detail-field">
-                        <span id="account-email"
-                            class="font-semibold text-gray-800 dark:text-gray-100 break-all">...</span>
-                        <button onclick="copyAccountDetail('account-email')"
-                            class="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition ml-2 flex-shrink-0"
-                            title="Salin Email">
-                            <i data-lucide="copy" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-                <div>
-                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">Password Akun</label>
-                    <div class="account-detail-field">
-                        <span id="account-password"
-                            class="font-semibold text-gray-800 dark:text-gray-100 break-all">...</span>
-                        <button onclick="copyAccountDetail('account-password')"
-                            class="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition ml-2 flex-shrink-0"
-                            title="Salin Password">
-                            <i data-lucide="copy" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-                <div id="account-profile-field" class="hidden">
-                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">Profil (Sharing)</label>
-                    <div class="account-detail-field">
-                        <span id="account-profile"
-                            class="font-semibold text-gray-800 dark:text-gray-100 break-all">...</span>
-                        <button onclick="copyAccountDetail('account-profile')"
-                            class="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition ml-2 flex-shrink-0"
-                            title="Salin Profil">
-                            <i data-lucide="copy" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-                <div id="account-pin-field" class="hidden">
-                    <label class="text-sm font-medium text-gray-500 dark:text-gray-400">PIN / Password Profil</label>
-                    <div class="account-detail-field">
-                        <span id="account-pin"
-                            class="font-semibold text-gray-800 dark:text-gray-100 break-all">...</span>
-                        <button onclick="copyAccountDetail('account-pin')"
-                            class="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition ml-2 flex-shrink-0"
-                            title="Salin PIN">
-                            <i data-lucide="copy" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="notification-container" class="fixed top-20 right-4 z-[100] space-y-2"></div>
-
-    <div id="auth-modal"
-        class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center p-4 z-[70] transition-opacity duration-300"
-        onclick="closeAuthModal(event)">
-    </div>
-
-
-    <script>
-        // --- [SALIN SEMUA JS DARI index.html KE SINI] ---
-        // (Saya akan menyertakan fungsi-fungsi UTAMA yang diperlukan agar halaman ini berfungsi)
-
-        // URL API Backend Anda
-        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
-
-        // [BARU] Variabel global untuk menyimpan data pesanan
-        let allOrders = [];
-        let currentOrderFilter = 'Semua';
-
-        // --- HELPER FUNCTIONS (Disalin) ---
-        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-
-        function showNotification(message, type = 'success') {
-            const container = document.getElementById('notification-container');
-            if (!container) return;
-            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-            const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
-            const toast = document.createElement('div');
-            toast.innerHTML = html;
-            const toastEl = toast.firstElementChild;
-            container.appendChild(toastEl);
-            setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
-            setTimeout(() => {
-                toastEl.classList.add('opacity-0', 'scale-90');
-                toastEl.addEventListener('transitionend', () => toastEl.remove());
-            }, 3000);
-        }
-
-        // --- LOGIKA DARK MODE (Disalin) ---
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            lucide.createIcons();
-        }
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const html = document.documentElement;
-            if (savedTheme === 'dark') html.classList.add('dark');
-            else html.classList.remove('dark');
-        }
-
-        // --- ANIMASI BLUR HEADER (Disalin) ---
-        function toggleHeaderBlur() {
-            const header = document.getElementById('main-header');
-            if (!header) return;
-            const scrollThreshold = 50;
-            if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        }
-
-        // --- ANIMASI UNDERLINE NAV (Disalin) ---
-        function initNavLinks() {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.style.position = 'relative';
-                const underline = document.createElement('span');
-                underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
-                underline.style.width = '0%';
-                underline.style.transition = 'width 0.3s ease-out';
-                link.appendChild(underline);
-                link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
-                link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
-            });
-        }
-
-        // --- ANIMASI SCROLL-APPEAR (Disalin) ---
-        let staticObserver;
-        function initScrollAppear(reset = false) {
-            if (staticObserver && reset) staticObserver.disconnect();
-            const scrollAppearElements = document.querySelectorAll('.scroll-appear');
-            if (!staticObserver || reset) {
-                staticObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const target = entry.target;
-                        if (entry.isIntersecting) {
-                            target.classList.add('active');
-                            staticObserver.unobserve(target);
-                        }
-                    });
-                }, { rootMargin: '0px', threshold: 0.1 });
-            }
-            scrollAppearElements.forEach(element => {
-                if (reset) element.classList.remove('active');
-                staticObserver.observe(element);
-            });
-        }
-
-        // --- LOGIKA AUTENTIKASI (Disalin, diperlukan untuk header) ---
-        function showAuthModal(mode = 'login') {
-            console.log("Membuka modal auth...");
-            alert("Silakan Login di halaman Home.");
-        }
-        function closeAuthModal(event = null) { /* ... (Salin dari index.html) ... */ }
-        function handleLogout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userRole');
-            showNotification('Anda telah Logout.', 'success');
-            updateAuthStatus();
-            window.location.href = 'index.html'; // Kembali ke home setelah logout
-        }
-        function updateAuthStatus() {
-            const token = localStorage.getItem('token');
-            const authLoggedOutDiv = document.getElementById('auth-logged-out');
-            const authLoggedInDiv = document.getElementById('auth-logged-in');
-            if (!authLoggedOutDiv || !authLoggedInDiv) return;
-
-            if (token) {
-                authLoggedOutDiv.classList.add('hidden');
-                authLoggedInDiv.classList.remove('hidden');
-                authLoggedInDiv.classList.add('flex');
-            } else {
-                authLoggedOutDiv.classList.remove('hidden');
-                authLoggedInDiv.classList.add('hidden');
-                authLoggedInDiv.classList.remove('flex');
-            }
-            lucide.createIcons();
-        }
-
-        // --- LOGIKA BOTTOM MENU BAR (Disalin) ---
-        function initBottomMenu() {
-            const bottomBar = document.getElementById('bottom-bar');
-            if (!bottomBar) return;
-            const navLinks = bottomBar.querySelectorAll('[data-menu-item="true"]');
-            const fabWrapper = document.getElementById('integrated-fab-wrapper');
-            const fabToggle = document.getElementById('integrated-fab-toggle');
-            if (!fabToggle || !fabWrapper) return;
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    if (this.getAttribute('href').startsWith('#')) {
-                        navLinks.forEach(l => l.classList.remove('active'));
-                        this.classList.add('active');
-                        fabWrapper.classList.remove('active');
-                    }
-                });
-            });
-            fabToggle.addEventListener('click', function (event) {
-                event.stopPropagation();
-                fabWrapper.classList.toggle('active');
-            });
-        }
-
-        function initFabMenuClose() {
-            const fabWrapper = document.getElementById('integrated-fab-wrapper');
-            if (!fabWrapper) return;
-            document.addEventListener('click', function (event) {
-                if (!fabWrapper.contains(event.target) && fabWrapper.classList.contains('active')) {
-                    fabWrapper.classList.remove('active');
-                }
-            });
-        }
-
-        // --- [BARU] FUNGSI KHUSUS HALAMAN ORDER ---
-
-        // Tambahkan ini di awal tag <script> di listorder.html
-        function checkAuthAndLoad() {
-            // 1. Ambil data pengguna dari Local Storage
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
-            // 2. Cek apakah ada token dan ID pengguna
-            if (!userInfo || !userInfo.token || !userInfo.userId) {
-                // Jika token tidak ada, redirect ke beranda (halaman login)
-                window.location.href = 'index.html';
-                return; // Hentikan eksekusi skrip selanjutnya
-            }
-
-            // 3. Jika token ada, kita asumsikan valid dan lanjutkan memuat riwayat pesanan
-            API_BASE_URL = 'http://localhost:5000'; // Pastikan URL ini benar
-            loadOrderHistory(userInfo.token);
-        }
-
-        // Panggil fungsi ini saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', checkAuthAndLoad);
-
-        // 1. Memuat Riwayat Pesanan
-        async function loadOrderHistory() {
-            // Pastikan token diambil dari Local Storage
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const token = userInfo ? userInfo.token : null;
-
-            if (!token) {
-                // Jika token tidak ada, langsung arahkan ke login
-                window.location.href = 'index.html';
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/orders/myhistory`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // PASTIKAN HEADER AUTHORIZATION INI BENAR:
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                // Backend (server Node.js) akan merespons 401 jika token kedaluwarsa/invalid.
-                if (response.status === 401) {
-                    // Jika 401, redirect ke beranda (tapi tidak me-logout secara eksplisit)
-                    throw new Error('Unauthorized');
+                // Menghindari konflik dengan FAB/WA Button yang memiliki kelas 'active' bawaan
+                if (link.closest('#integrated-fab-wrapper')) {
+                    return; 
                 }
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Gagal memuat data pesanan.');
-                }
+                // Cek jika path link sama dengan path halaman saat ini
+                if (linkPath && linkPath === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        }
 
-                const orders = await response.json();
-                renderOrders(orders); // Fungsi untuk menampilkan data
+        // Logika FAB/WA Button
+        function toggleFab(event) {
+            event.stopPropagation(); // Mencegah event klik menyebar
+            const fabWrapper = document.getElementById('integrated-fab-wrapper');
+            fabWrapper.classList.toggle('active');
+        }
 
-            } catch (error) {
-                console.error('Error saat memuat riwayat pesanan:', error);
+        // Logika untuk menutup FAB saat mengklik di luar
+        function initFabMenuClose() {
+            const fabWrapper = document.getElementById('integrated-fab-wrapper');
+            document.addEventListener('click', (event) => {
+                // Cek apakah klik BUKAN di dalam wrapper FAB
+                if (fabWrapper && !fabWrapper.contains(event.target) && fabWrapper.classList.contains('active')) {
+                    fabWrapper.classList.remove('active');
+                }
+            });
+        }
 
-                // JIKA 401, kita harus arahkan pengguna ke beranda
-                if (error.message.includes('Unauthorized')) {
-                    // Karena tidak ada logout() eksplisit, pengguna hanya kembali ke beranda
-                    // dan akan diarahkan ke modal login oleh kode di index.html.
-                    window.location.href = 'index.html';
-                    return;
-                }
+        // --- INISIALISASI SAAT HALAMAN DIMUAT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Panggil fungsi perbaikan navigasi
+            initBottomMenu();
 
-                // Tampilkan pesan error di UI
-                document.getElementById('orders-container').innerHTML = `
-            <div class="p-4 text-center text-red-600 bg-red-100 rounded-lg">
-                <strong>Gagal mengambil riwayat pesanan:</strong> ${error.message}
-            </div>
-        `;
-            }
-        }
-        // 2. Render Daftar Pesanan
-        function renderOrderList(filter = 'Semua') {
-            const container = document.getElementById('order-list-container');
-            container.innerHTML = ''; // Kosongkan
+            // Panggil fungsi FAB
+            initFabMenuClose();
 
-            const filteredOrders = allOrders.filter(order => filter === 'Semua' || order.status === filter);
+            // Muat ikon Lucide
+            lucide.createIcons();
+        });
+    </script>
 
-            if (filteredOrders.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 text-gray-500 dark:text-gray-400">Tidak ada pesanan dengan status "${filter}".</div>`;
-                return;
-            }
-
-            filteredOrders.forEach((order, index) => {
-                const statusClass = `status-${order.status.toLowerCase()}`;
-                const itemSummary = order.items && order.items.length > 0 ? `${order.items[0].product_name} (${order.items[0].duration})` : 'Detail tidak tersedia';
-                const otherItems = order.items && order.items.length > 1 ? ` + ${order.items.length - 1} item lainnya` : '';
-                const orderDate = new Date(order.order_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
-
-                let actionButtons = '';
-                if (order.status === 'Selesai') {
-                    actionButtons = `<button onclick="openAccountModal(this)" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">Lihat Akun</button>`;
-                } else if (order.status === 'Pending') {
-                    actionButtons = `<button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">Bayar Sekarang</button>`;
-                }
-
-                const cardHtml = `
-                    <div class="order-card bg-white dark:bg-gray-800 rounded-xl shadow-soft border border-gray-100 dark:border-gray-700 p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 scroll-appear" 
-                         style="animation-delay: ${index * 0.1}s;"
-                         data-order='${JSON.stringify(order)}'>
-                        
-                        <div class="flex-grow">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="font-bold text-lg text-blue-600 dark:text-blue-400">${order.id}</span>
-                                <span class="status-badge ${statusClass} md:hidden">${order.status}</span>
-                            </div>
-                            <p class="font-semibold text-gray-800 dark:text-gray-200">${itemSummary}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">${otherItems}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">${orderDate}</p>
-                        </div>
-                        
-                        <div class="flex-shrink-0 flex md:flex-col items-end justify-between md:items-end">
-                            <span class="font-bold text-xl text-gray-900 dark:text-gray-100">${formatRupiah(order.total_amount)}</span>
-                            <span class="status-badge ${statusClass} hidden md:block mt-1">${order.status}</span>
-                        </div>
-                        
-                        <div class="flex-shrink-0 flex gap-2 border-t md:border-t-0 md:border-l border-gray-100 dark:border-gray-700 pt-4 md:pt-0 md:pl-6">
-                            <button onclick="openDetailModal(this)" class="bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 text-sm">
-                                Detail
-                            </button>
-                            ${actionButtons}
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += cardHtml;
-            });
-
-            initScrollAppear(true); // Aktifkan animasi untuk kartu baru
-            lucide.createIcons();
-        }
-
-        // 3. Fungsi Filter
-        function filterOrders(status, buttonEl) {
-            currentOrderFilter = status;
-            document.querySelectorAll('.order-filter-button').forEach(btn => btn.classList.remove('active'));
-            buttonEl.classList.add('active');
-            renderOrderList(status);
-        }
-
-        // 4. Logika Modal Detail Pesanan
-        function openDetailModal(buttonEl) {
-            const orderData = JSON.parse(buttonEl.closest('.order-card').dataset.order);
-
-            document.getElementById('order-detail-title').textContent = `Detail Pesanan ${orderData.id}`;
-            document.getElementById('order-detail-status').innerHTML = `<span class="status-badge status-${orderData.status.toLowerCase()}">${orderData.status}</span>`;
-            document.getElementById('detail-tanggal').textContent = new Date(orderData.order_date).toLocaleString('id-ID');
-            document.getElementById('detail-metode').textContent = orderData.payment_method || 'N/A';
-
-            // Isi item
-            const itemsContainer = document.getElementById('order-detail-items');
-            itemsContainer.innerHTML = '';
-            let subtotal = 0;
-            orderData.items.forEach(item => {
-                itemsContainer.innerHTML += `
-                    <div class="flex justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-md">
-                        <span class="text-gray-700 dark:text-gray-300">${item.product_name} (${item.duration})</span>
-                        <span class="font-semibold text-gray-800 dark:text-gray-100">${formatRupiah(item.price)}</span>
-                    </div>
-                `;
-                subtotal += item.price;
-            });
-
-            // Isi Total
-            const diskon = subtotal - orderData.total_amount;
-            document.getElementById('detail-subtotal').textContent = formatRupiah(subtotal);
-            document.getElementById('detail-diskon').textContent = `-${formatRupiah(diskon)}`;
-            document.getElementById('detail-total').textContent = formatRupiah(orderData.total_amount);
-
-            // Tampilkan Modal
-            const modal = document.getElementById('order-detail-modal');
-            const modalContent = modal.querySelector('.modal-content-container');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                modal.classList.add('opacity-100');
-                modalContent.classList.remove('opacity-0', 'scale-95');
-                modalContent.classList.add('opacity-100', 'scale-100');
-            }, 10);
-            lucide.createIcons();
-        }
-
-        function closeDetailModal(event = null) {
-            if (event && event.target !== document.getElementById('order-detail-modal')) return;
-            const modal = document.getElementById('order-detail-modal');
-            const modalContent = modal.querySelector('.modal-content-container');
-            modal.classList.remove('opacity-100');
-            modalContent.classList.remove('opacity-100', 'scale-100');
-            modalContent.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
-        }
-
-        // 5. Logika Modal Lihat Akun
-        function openAccountModal(buttonEl) {
-            const orderData = JSON.parse(buttonEl.closest('.order-card').dataset.order);
-            const item = orderData.items[0]; // Asumsi 1 item per 1 akun
-
-            document.getElementById('account-detail-title').textContent = `Detail Akun: ${item.product_name}`;
-
-            // Isi data akun (ini harus ada di data JSON dari backend)
-            document.getElementById('account-email').textContent = orderData.account_email || 'Error';
-            document.getElementById('account-password').textContent = orderData.account_password || 'Error';
-
-            // Tampilkan/sembunyikan field sharing
-            const profileField = document.getElementById('account-profile-field');
-            const pinField = document.getElementById('account-pin-field');
-
-            if (orderData.account_profile) {
-                document.getElementById('account-profile').textContent = orderData.account_profile;
-                profileField.classList.remove('hidden');
-            } else {
-                profileField.classList.add('hidden');
-            }
-
-            if (orderData.account_pin) {
-                document.getElementById('account-pin').textContent = orderData.account_pin;
-                pinField.classList.remove('hidden');
-            } else {
-                pinField.classList.add('hidden');
-            }
-
-            // Tampilkan Modal
-            const modal = document.getElementById('account-detail-modal');
-            const modalContent = modal.querySelector('.modal-content-container');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                modal.classList.add('opacity-100');
-                modalContent.classList.remove('opacity-0', 'scale-95');
-                modalContent.classList.add('opacity-100', 'scale-100');
-            }, 10);
-            lucide.createIcons();
-        }
-
-        function closeAccountModal(event = null) {
-            if (event && event.target !== document.getElementById('account-detail-modal')) return;
-            const modal = document.getElementById('account-detail-modal');
-            const modalContent = modal.querySelector('.modal-content-container');
-            modal.classList.remove('opacity-100');
-            modalContent.classList.remove('opacity-100', 'scale-100');
-            modalContent.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
-        }
-
-        // 6. Helper Salin Akun
-        function copyAccountDetail(elementId) {
-            const text = document.getElementById(elementId).textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                showNotification('Berhasil disalin!', 'success');
-            }, () => {
-                showNotification('Gagal menyalin.', 'error');
-            });
-        }
-
-
-        // --- INISIALISASI HALAMAN ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Muat fungsi-fungsi global
-            loadTheme();
-            lucide.createIcons();
-            initScrollAppear();
-            toggleHeaderBlur();
-            window.addEventListener('scroll', toggleHeaderBlur);
-            initNavLinks();
-            updateAuthStatus();
-            initBottomMenu();
-            initFabMenuClose();
-
-            // 2. Muat data khusus halaman ini
-            loadOrderHistory();
-
-            // 3. Atur active state menu bar bawah
-            document.querySelectorAll('#bottom-bar .bottom-menu-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            const orderLink = document.querySelector('a[href="listorder.html"].bottom-menu-link');
-            if (orderLink) {
-                orderLink.classList.add('active');
-            }
-        });
-
-        // Daftarkan fungsi global
-        window.toggleTheme = toggleTheme;
-        window.handleLogout = handleLogout;
-        window.showAuthModal = showAuthModal;
-        window.closeAuthModal = closeAuthModal;
-        window.initBottomMenu = initBottomMenu;
-        window.initFabMenuClose = initFabMenuClose;
-
-        // Daftarkan fungsi baru halaman ini
-        window.filterOrders = filterOrders;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.openAccountModal = openAccountModal;
-        window.closeAccountModal = closeAccountModal;
-        window.copyAccountDetail = copyAccountDetail;
-    </script>
 </body>
 
 </html>

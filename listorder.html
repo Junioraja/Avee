@@ -1928,25 +1928,25 @@
             filterOrders(currentOrderFilter);
 
         } catch (error) {
-            console.error('Error saat memuat riwayat pesanan:', error);
+        console.error('Error saat memuat riwayat pesanan:', error);
 
-            // JIKA 401, kita harus arahkan pengguna ke beranda
-            if (error.message.includes('Unauthorized')) {
-                showNotification('Sesi Anda telah berakhir. Silakan login kembali.', 'error');
-                // Hapus token lokal agar proses login ulang bersih
-                localStorage.removeItem('userInfo');
-                window.location.href = 'index.html'; 
-                return;
-            }
-
-            // Tampilkan pesan error di UI
+        // UBAH LOGIKA 401 INI UNTUK DEBUGGING:
+        if (error.message.includes('Unauthorized')) {
+            // JANGAN LAKUKAN REDIRECT DAN PENGHAPUSAN TOKEN
+            // Cukup tampilkan notifikasi error
+            
+            const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
             if (container) {
                 container.innerHTML = `
                     <div class="p-4 text-center text-red-600 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-300">
-                        <strong>Gagal mengambil riwayat pesanan:</strong> ${error.message}
+                        <strong>GAGAL OAUTH:</strong> Token Anda ditolak oleh server. Harap coba login kembali.
+                        <p class="text-sm mt-2">(${error.message})</p>
                     </div>
                 `;
             }
+            showNotification('Gagal memuat. Token ditolak server (401).', 'error');
+            return; // Hentikan eksekusi
+        }
         }
     }
 

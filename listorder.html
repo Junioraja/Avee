@@ -1358,17 +1358,22 @@
                 opacity: 0;
             }
         }
+        
+        /* --- [PERBAIKAN UI] 20. GAYA HALAMAN ORDER --- */
 
-        /* --- [BARU] 20. GAYA HALAMAN ORDER --- */
+        /* [PERBAIKAN TAB] CSS ini sekarang akan bekerja karena JS-nya sudah benar */
         .order-filter-button {
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
+            padding-bottom: 0.75rem; /* 12px */
+            margin-bottom: -2px; /* Menutupi border-b container */
         }
 
         .order-filter-button.active {
             color: #2563EB;
             /* deep-blue */
             border-bottom-color: #2563EB;
+            font-weight: 600; /* Dibuat bold saat aktif */
         }
 
         html.dark .order-filter-button.active {
@@ -1377,70 +1382,76 @@
             border-bottom-color: #60a5fa;
         }
 
+        /* [UI BARU] GAYA KARTU PESANAN */
         .order-card {
+            background-color: #FFFFFF; /* bg-white */
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* shadow-soft */
             transition: all 0.3s ease;
+            overflow: hidden; /* Penting untuk border-l */
+            display: flex; /* Menggunakan flex untuk layout */
+            flex-direction: column;
+        }
+        
+        html.dark .order-card {
+            background-color: #1f2937; /* dark:bg-gray-800 */
+            border-color: #374151; /* dark:border-gray-700 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .order-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.2);
         }
-
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            /* 12px */
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        
+        html.dark .order-card:hover {
+             box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.1);
         }
 
-        .status-selesai {
-            background-color: #dcfce7;
-            color: #166534;
+        /* [UI BARU] Garis penanda status di kiri kartu */
+        .order-card-Pending { border-left: 5px solid #f59e0b; } /* Kuning */
+        .order-card-DIPROSES { border-left: 5px solid #3b82f6; } /* Biru */
+        .order-card-SELESAI { border-left: 5px solid #22c55e; } /* Hijau */
+        .order-card-DIBATALKAN { border-left: 5px solid #ef4444; } /* Merah */
+
+        /* [UI BARU] Tombol Aksi */
+        .order-button {
+            padding: 0.5rem 1rem; /* py-2 px-4 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600; /* font-semibold */
+            font-size: 0.875rem; /* text-sm */
+            transition: all 0.2s ease;
+        }
+        .order-button-detail {
+            background-color: #2563EB; /* bg-deep-blue */
+            color: white;
+        }
+        .order-button-detail:hover {
+            background-color: #1d4ed8; /* hover:bg-blue-700 */
+        }
+        .order-button-cancel {
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #ef4444; /* text-red-600 */
+            border: 1px solid #fee2e2; /* border-red-100 */
+        }
+        .order-button-cancel:hover {
+            background-color: #fee2e2; /* hover:bg-red-100 */
+        }
+        html.dark .order-button-cancel {
+             background-color: #374151; /* dark:bg-gray-700 */
+             color: #f87171; /* dark:text-red-400 */
+             border-color: #4b5563; /* dark:border-gray-600 */
+        }
+        html.dark .order-button-cancel:hover {
+            background-color: #991b1b; /* dark:hover:bg-red-900 */
         }
 
-        /* Green */
-        .status-pending {
-            background-color: #fef9c3;
-            color: #854d0e;
-        }
 
-        /* Yellow */
-        .status-proses {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
+        /* CSS Badge Status (TIDAK DIPAKAI, karena kita pakai dari JS) */
+        /* .status-badge { ... } */
 
-        /* Blue */
-        .status-dibatalkan {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Red */
-
-        html.dark .status-selesai {
-            background-color: #166534;
-            color: #dcfce7;
-        }
-
-        html.dark .status-pending {
-            background-color: #854d0e;
-            color: #fef9c3;
-        }
-
-        html.dark .status-proses {
-            background-color: #0369a1;
-            color: #e0f2fe;
-        }
-
-        html.dark .status-dibatalkan {
-            background-color: #991b1b;
-            color: #fee2e2;
-        }
-
+        /* CSS Modal Detail Akun */
         .account-detail-field {
             display: flex;
             justify-content: space-between;
@@ -1519,22 +1530,22 @@
                 class="order-filter-button active py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
                 Semua
             </button>
-            <button onclick="filterOrders('Pending', this)"
+            <button onclick="filterOrders('MENUNGGU_PEMBAYARAN', this)"
                 class="order-filter-button py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
                 Pending
             </button>
-            <button onclick="filterOrders('Selesai', this)"
+            <button onclick="filterOrders('SELESAI', this)"
                 class="order-filter-button py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
                 Selesai
             </button>
-            <button onclick="filterOrders('Dibatalkan', this)"
+            <button onclick="filterOrders('DIBATALKAN', this)"
                 class="order-filter-button py-3 px-4 md:px-6 font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600">
                 Dibatalkan
             </button>
         </div>
 
-        <div id="order-list-container" class="space-y-4">
-            <div id="order-loading" class="text-center py-16 text-gray-500 dark:text-gray-400">
+        <div id="order-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div id="order-loading" class="text-center py-16 text-gray-500 dark:text-gray-400 md:col-span-2">
                 <i data-lucide="loader" class="w-8 h-8 mx-auto animate-spin mb-2"></i>
                 Memuat riwayat pesanan Anda...
             </div>
@@ -1700,466 +1711,566 @@
 
 
     <script>
-        // URL API Backend Anda (Sesuaikan dengan URL Backend Anda yang sesungguhnya)
-        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
+    // URL API Backend Anda (Sesuaikan dengan URL Backend Anda yang sesungguhnya)
+    const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api'; 
+    
+    // [BARU] Variabel global untuk menyimpan data pesanan
+    let allOrders = [];
+    let currentOrderFilter = 'Semua';
 
-        // [BARU] Variabel global untuk menyimpan data pesanan
-        let allOrders = [];
-        let currentOrderFilter = 'Semua';
+    // ====================================================================
+    // --- HELPER FUNCTIONS (Disalin dari index.html) ---
+    // ====================================================================
 
-        // ====================================================================
-        // --- HELPER FUNCTIONS (Disalin dari index.html) ---
-        // ====================================================================
+    const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
 
-        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+    function showNotification(message, type = 'success') {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+        const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+        const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
+        const toast = document.createElement('div');
+        toast.innerHTML = html;
+        const toastEl = toast.firstElementChild;
+        container.appendChild(toastEl);
+        setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
+        setTimeout(() => {
+            toastEl.classList.add('opacity-0', 'scale-90');
+            toastEl.addEventListener('transitionend', () => toastEl.remove());
+        }, 3000);
+    }
 
-        function showNotification(message, type = 'success') {
-            const container = document.getElementById('notification-container');
-            if (!container) return;
-            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-            const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
-            const toast = document.createElement('div');
-            toast.innerHTML = html;
-            const toastEl = toast.firstElementChild;
-            container.appendChild(toastEl);
-            setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
-            setTimeout(() => {
-                toastEl.classList.add('opacity-0', 'scale-90');
-                toastEl.addEventListener('transitionend', () => toastEl.remove());
-            }, 3000);
+    // --- LOGIKA DARK MODE (Disalin) ---
+    function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        lucide.createIcons();
+    }
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const html = document.documentElement;
+        if (savedTheme === 'dark') html.classList.add('dark');
+        else html.classList.remove('dark');
+    }
+
+    // --- ANIMASI BLUR HEADER (Disalin) ---
+    function toggleHeaderBlur() {
+        const header = document.getElementById('main-header');
+        if (!header) return;
+        const scrollThreshold = 50;
+        if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+    }
+
+    // --- ANIMASI UNDERLINE NAV (Disalin) ---
+    function initNavLinks() {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.style.position = 'relative';
+            const underline = document.createElement('span');
+            underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
+            underline.style.width = '0%';
+            underline.style.transition = 'width 0.3s ease-out';
+            link.appendChild(underline);
+            link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
+            link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
+        });
+    }
+
+    // --- ANIMASI SCROLL-APPEAR (Disalin) ---
+    let staticObserver;
+    function initScrollAppear(reset = false) {
+        if (staticObserver && reset) staticObserver.disconnect();
+        const scrollAppearElements = document.querySelectorAll('.scroll-appear');
+        if (!staticObserver || reset) {
+            staticObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const target = entry.target;
+                    if (entry.isIntersecting) {
+                        target.classList.add('active');
+                        staticObserver.unobserve(target);
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
         }
+        scrollAppearElements.forEach(element => {
+            if (reset) element.classList.remove('active');
+            staticObserver.observe(element);
+        });
+    }
 
-        // --- LOGIKA DARK MODE (Disalin) ---
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            lucide.createIcons();
+    // --- LOGIKA AUTENTIKASI (Disalin, diperlukan untuk header) ---
+    function showAuthModal(mode = 'login') {
+        console.log("Membuka modal auth...");
+        // Di halaman listorder, cukup arahkan pengguna kembali ke index.html
+        alert("Silakan Login di halaman Beranda.");
+        window.location.href = 'index.html'; 
+    }
+    function closeAuthModal(event = null) { /* Modal tidak ada di halaman ini, jadi kosongkan atau salin dari index.html */ }
+    
+    function handleLogout() {
+        localStorage.removeItem('userInfo'); // Pastikan menghapus userInfo
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        showNotification('Anda telah Logout.', 'success');
+        // Update status UI sebelum redirect
+        updateAuthStatus(); 
+        // Redirect ke home setelah logout
+        window.location.href = 'index.html'; 
+    }
+    
+    function updateAuthStatus() {
+        // Cek token dari Local Storage
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        const token = userInfo ? userInfo.token : (localStorage.getItem('token') || null);
+        
+        const authLoggedOutDiv = document.getElementById('auth-logged-out');
+        const authLoggedInDiv = document.getElementById('auth-logged-in');
+        
+        if (!authLoggedOutDiv || !authLoggedInDiv) return;
+
+        if (token) {
+            authLoggedOutDiv.classList.add('hidden');
+            authLoggedInDiv.classList.remove('hidden');
+            authLoggedInDiv.classList.add('flex');
+        } else {
+            authLoggedOutDiv.classList.remove('hidden');
+            authLoggedInDiv.classList.add('hidden');
+            authLoggedInDiv.classList.remove('flex');
         }
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const html = document.documentElement;
-            if (savedTheme === 'dark') html.classList.add('dark');
-            else html.classList.remove('dark');
+        lucide.createIcons();
+    }
+
+    // --- LOGIKA BOTTOM MENU BAR (Disalin) ---
+    function initBottomMenu() {
+        // ... (Fungsi initBottomMenu, initFabMenuClose)
+        // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
+    }
+
+    function initFabMenuClose() {
+        // ... (Fungsi initFabMenuClose)
+        // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
+    }
+
+    // ====================================================================
+    // --- FUNGSI KHUSUS HALAMAN ORDER (Diperbaiki) ---
+    // ====================================================================
+
+    // [PERBAIKAN UI] Fungsi untuk mengubah format status menjadi teks yang lebih baik
+    // (Ini SAMA seperti sebelumnya, tidak perlu diubah)
+    function getStatusBadge(status) {
+        switch (status) {
+            case 'MENUNGGU_PEMBAYARAN':
+                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Menunggu Pembayaran</span>';
+            case 'DIPROSES':
+                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Diproses</span>';
+            case 'SELESAI':
+                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Selesai</span>';
+            case 'DIBATALKAN':
+                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Dibatalkan</span>';
+            default:
+                return `<span class->${status}</span>`;
         }
+    }
+    
+    // [UI BARU] Ikon untuk setiap kartu
+    const productIcons = {
+        "Netflix": "clapperboard", "Disney+ Hotstar": "film", "YouTube Premium": "youtube", "Viu": "monitor", "WeTV": "tv",
+        "IQIYI": "airplay", "Vidio": "video", "Vision+": "radio", "Amazon Prime": "package", "HBO Go": "camera",
+        "VSCO": "image", "Picsart": "scissors", "Lightroom": "sun", "Resso": "music", "Bstation": "globe", "Canva": "palette",
+        "Spotify": "headphones", "Alight Motion": "film", "CapCut Pro": "video", "ChatGPT-4": "brain",
+        "Grammarly Premium": "book-check", "Quillbot Premium": "feather", "Quizlet Plus": "graduation-cap",
+        "Youku": "tv", "MovieBox": "film", "GagaOOLala": "tv", "Mango TV": "tv", "Fizzo": "book-open"
+    };
 
-        // --- ANIMASI BLUR HEADER (Disalin) ---
-        function toggleHeaderBlur() {
-            const header = document.getElementById('main-header');
-            if (!header) return;
-            const scrollThreshold = 50;
-            if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        }
-
-        // --- ANIMASI UNDERLINE NAV (Disalin) ---
-        function initNavLinks() {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.style.position = 'relative';
-                const underline = document.createElement('span');
-                underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
-                underline.style.width = '0%';
-                underline.style.transition = 'width 0.3s ease-out';
-                link.appendChild(underline);
-                link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
-                link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
-            });
-        }
-
-        // --- ANIMASI SCROLL-APPEAR (Disalin) ---
-        let staticObserver;
-        function initScrollAppear(reset = false) {
-            if (staticObserver && reset) staticObserver.disconnect();
-            const scrollAppearElements = document.querySelectorAll('.scroll-appear');
-            if (!staticObserver || reset) {
-                staticObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const target = entry.target;
-                        if (entry.isIntersecting) {
-                            target.classList.add('active');
-                            staticObserver.unobserve(target);
-                        }
-                    });
-                }, { rootMargin: '0px', threshold: 0.1 });
-            }
-            scrollAppearElements.forEach(element => {
-                if (reset) element.classList.remove('active');
-                staticObserver.observe(element);
-            });
-        }
-
-        // --- LOGIKA AUTENTIKASI (Disalin, diperlukan untuk header) ---
-        function showAuthModal(mode = 'login') {
-            console.log("Membuka modal auth...");
-            // Di halaman listorder, cukup arahkan pengguna kembali ke index.html
-            alert("Silakan Login di halaman Beranda.");
-            window.location.href = 'index.html';
-        }
-        function closeAuthModal(event = null) { /* Modal tidak ada di halaman ini, jadi kosongkan atau salin dari index.html */ }
-
-        function handleLogout() {
-            localStorage.removeItem('userInfo'); // Pastikan menghapus userInfo
-            localStorage.removeItem('token');
-            localStorage.removeItem('userRole');
-            showNotification('Anda telah Logout.', 'success');
-            // Update status UI sebelum redirect
-            updateAuthStatus();
-            // Redirect ke home setelah logout
-            window.location.href = 'index.html';
-        }
-
-        function updateAuthStatus() {
-            // Cek token dari Local Storage
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const token = userInfo ? userInfo.token : null;
-
-            const authLoggedOutDiv = document.getElementById('auth-logged-out');
-            const authLoggedInDiv = document.getElementById('auth-logged-in');
-
-            if (!authLoggedOutDiv || !authLoggedInDiv) return;
-
-            if (token) {
-                authLoggedOutDiv.classList.add('hidden');
-                authLoggedInDiv.classList.remove('hidden');
-                authLoggedInDiv.classList.add('flex');
-                // Tampilkan nama/username jika ada
-                const userEmail = userInfo ? userInfo.email : 'Pengguna';
-                const usernameDisplay = document.getElementById('username-display');
-                if (usernameDisplay) usernameDisplay.textContent = userEmail.split('@')[0];
-            } else {
-                authLoggedOutDiv.classList.remove('hidden');
-                authLoggedInDiv.classList.add('hidden');
-                authLoggedInDiv.classList.remove('flex');
-            }
-            lucide.createIcons();
-        }
-
-        // --- LOGIKA BOTTOM MENU BAR (Disalin) ---
-        function initBottomMenu() {
-            // ... (Fungsi initBottomMenu, initFabMenuClose)
-            // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
-        }
-
-        function initFabMenuClose() {
-            // ... (Fungsi initFabMenuClose)
-            // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
-        }
-
-        // ====================================================================
-        // --- FUNGSI KHUSUS HALAMAN ORDER (Diperbaiki) ---
-        // ====================================================================
-
-        // Fungsi untuk mengubah format status menjadi teks yang lebih baik
-        function getStatusBadge(status) {
-            switch (status) {
-                case 'MENUNGGU_PEMBAYARAN':
-                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Menunggu Pembayaran</span>';
-                case 'DIPROSES':
-                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Diproses</span>';
-                case 'SELESAI':
-                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Selesai</span>';
-                case 'DIBATALKAN':
-                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Dibatalkan</span>';
-                default:
-                    return status;
-            }
-        }
-
-        // 1. Memuat Riwayat Pesanan
-        async function loadOrderHistory() {
-            // Tampilkan loading state
-            const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
-            if (container) {
-                container.innerHTML = `
-                <div class="flex justify-center items-center py-10">
-                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Memuat riwayat pesanan...
+    // 1. Memuat Riwayat Pesanan
+    async function loadOrderHistory() {
+        const container = document.getElementById('order-list-container');
+        if (container) {
+             container.innerHTML = `
+                <div id="order-loading" class="text-center py-16 text-gray-500 dark:text-gray-400 md:col-span-2">
+                    <i data-lucide="loader" class="w-8 h-8 mx-auto animate-spin mb-2"></i>
+                    Memuat riwayat pesanan Anda...
                 </div>
             `;
-            }
+            lucide.createIcons();
+        }
+        
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        const token = userInfo ? userInfo.token : (localStorage.getItem('token') || null);
 
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            const token = userInfo ? userInfo.token : null;
-
-            // **PERBAIKAN UTAMA**: Jika token tidak ada, JANGAN REDIRECT CEPAT
-            if (!token) {
-                if (container) {
-                    container.innerHTML = `
-                    <div class="text-center py-16 text-gray-500 dark:text-gray-400">
+        if (!token) {
+            if (container) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-gray-500 dark:text-gray-400 md:col-span-2">
                         <p class="mb-4 text-lg font-semibold">Anda harus login untuk melihat riwayat pesanan.</p>
                         <a href="index.html" class="text-blue-600 hover:underline font-medium">Klik di sini untuk Login/Kembali ke Beranda</a>
                     </div>
                 `;
-                }
-                // Nonaktifkan tombol filter karena tidak ada data
-                document.querySelectorAll('.filter-button').forEach(btn => btn.disabled = true);
-                return;
             }
-            // Aktifkan kembali tombol filter
-            document.querySelectorAll('.filter-button').forEach(btn => btn.disabled = false);
+            document.querySelectorAll('.order-filter-button').forEach(btn => btn.disabled = true);
+            return;
+        }
+        document.querySelectorAll('.order-filter-button').forEach(btn => btn.disabled = false);
 
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/orders/myhistory`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.status === 401) {
-                    // Token kedaluwarsa, paksa redirect ke login
-                    throw new Error('Unauthorized');
+        try {
+            const response = await fetch(`${API_BASE_URL}/orders/myhistory`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
+            });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Gagal memuat data pesanan.');
-                }
+            if (response.status === 401) {
+                // Token kedaluwarsa, paksa redirect ke login
+                throw new Error('Unauthorized');
+            }
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Gagal memuat data pesanan.');
+            }
 
-                const data = await response.json();
-                allOrders = data.orders || []; // Asumsi data.orders berisi array pesanan
+            const data = await response.json();
+            allOrders = data.orders || [];
+            
+            filterOrders(currentOrderFilter, document.querySelector('.order-filter-button.active'));
 
-                // Inisialisasi tampilan pesanan
-                filterOrders(currentOrderFilter);
-
-            } catch (error) {
-                console.error('Error saat memuat riwayat pesanan:', error);
-
-                // UBAH LOGIKA 401 INI UNTUK DEBUGGING:
-                if (error.message.includes('Unauthorized')) {
-                    // JANGAN LAKUKAN REDIRECT DAN PENGHAPUSAN TOKEN
-                    // Cukup tampilkan notifikasi error
-
-                    const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
-                    if (container) {
-                        container.innerHTML = `
-                    <div class="p-4 text-center text-red-600 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-300">
-                        <strong>GAGAL OAUTH:</strong> Token Anda ditolak oleh server. Harap coba login kembali.
-                        <p class="text-sm mt-2">(${error.message})</p>
-                    </div>
-                `;
-                    }
-                    showNotification('Gagal memuat. Token ditolak server (401).', 'error');
-                    return; // Hentikan eksekusi
-                }
+        } catch (error) {
+            console.error('Error saat memuat riwayat pesanan:', error);
+            if (error.message.includes('Unauthorized')) {
+                // Hapus token lama dan redirect
+                localStorage.removeItem('userInfo');
+                localStorage.removeItem('token');
+                localStorage.removeItem('userRole');
+                showNotification('Sesi Anda habis. Silakan login kembali.', 'error');
+                setTimeout(() => window.location.href = 'index.html', 2000);
             }
         }
+    }
 
-        // 2. Render Pesanan
-        function renderOrders(ordersToRender) {
-            const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
-            if (!container) return;
+    // 2. Render Pesanan (VERSI UI BARU)
+    function renderOrders(ordersToRender) {
+        const container = document.getElementById('order-list-container');
+        if (!container) return;
+        
+        // Hapus loading spinner
+        const loadingEl = document.getElementById('order-loading');
+        if (loadingEl) loadingEl.remove();
 
-            if (ordersToRender.length === 0) {
-                container.innerHTML = `
-                <div class="text-center py-10 text-gray-500 dark:text-gray-400">
+        if (ordersToRender.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-10 text-gray-500 dark:text-gray-400 md:col-span-2">
                     <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-3"></i>
                     <p>Tidak ada riwayat pesanan untuk status "${currentOrderFilter}".</p>
                 </div>
             `;
-                lucide.createIcons();
-                return;
+            lucide.createIcons();
+            return;
+        }
+
+        const html = ordersToRender.map(order => {
+            // Ambil data (Sama seperti perbaikan sebelumnya)
+            const date = new Date(order.order_date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            const total = order.total_amount || 0;
+            const firstItem = (order.items && order.items.length > 0) ? order.items[0] : {};
+            const productName = firstItem.product_name || 'Produk Tidak Diketahui';
+            const duration = firstItem.duration || '-';
+            
+            // [FITUR BARU] Hitung Poin (Rp 1000 = 10 poin -> Total / 100)
+            const points = Math.floor(total / 100);
+
+            // [UI BARU] Tentukan ikon dan border
+            const appName = productName.split(' ')[0]; // Ambil kata pertama (cth: "Netflix")
+            const iconName = productIcons[appName] || 'shopping-bag';
+            const statusClass = `order-card-${order.status || 'PENDING'}`; // Untuk border kiri
+
+            // [FITUR BARU] Tampilkan Tombol Batal jika statusnya memungkinkan
+            let actionButtons = `
+                <button onclick="openDetailModal('${order.id}')" class="order-button order-button-detail">
+                    Lihat Detail
+                </button>
+            `;
+            if (order.status === 'MENUNGGU_PEMBAYARAN' || order.status === 'DIPROSES') {
+                actionButtons = `
+                    <button onclick="cancelOrder(${order.id})" class="order-button order-button-cancel">
+                        Batalkan
+                    </button>
+                    <button onclick="openDetailModal('${order.id}')" class="order-button order-button-detail">
+                        Lihat Detail
+                    </button>
+                `;
             }
 
-            const html = ordersToRender.map(order => {
-
-                // --- [PERBAIKAN] ---
-                // 1. Ambil data dari backend dengan nama yang benar
-                const date = new Date(order.order_date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                const total = order.total_amount || 0;
-
-                // 2. Ambil data produk dari dalam array 'items'
-                const firstItem = (order.items && order.items.length > 0) ? order.items[0] : {};
-                const productName = firstItem.product_name || 'Produk Tidak Diketahui';
-                const duration = firstItem.duration || '-';
-                // --- [AKHIR PERBAIKAN] ---
-
-                return `
-                <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md scroll-appear">
-                    <div class="flex justify-between items-start mb-2 border-b dark:border-gray-700 pb-2">
-                        <div>
-                            <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">ID Pesanan: #${order.id.toString().substring(order.id.toString().length - 8).toUpperCase()}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">${date}</p>
+            // [UI BARU] HTML Kartu yang sudah didesain ulang
+            return `
+                <div class="order-card ${statusClass} scroll-appear">
+                    <div class="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700/50">
+                        <div class="flex items-center gap-2">
+                             <i data-lucide="${iconName}" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                             <div class="font-semibold text-gray-800 dark:text-gray-100">
+                                 ID: #${order.id.toString().substring(order.id.toString().length - 8).toUpperCase()}
+                                 <p class="text-xs text-gray-500 dark:text-gray-400 font-normal">${date}</p>
+                             </div>
                         </div>
                         ${getStatusBadge(order.status)}
                     </div>
-                    <div class="mb-3">
-                        <p class="text-base font-bold text-text-primary dark:text-white">${productName}</p>
+                    
+                    <div class="p-4 flex-grow">
+                        <h3 class="text-xl font-bold text-text-primary dark:text-white">${productName}</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Durasi: ${duration}</p>
                     </div>
-                    <div class="flex justify-between items-center pt-2 border-t dark:border-gray-700">
-                        <span class="text-sm text-gray-700 dark:text-gray-300">Total Pembayaran:</span>
-                        <span class="text-base font-bold text-red-600 dark:text-red-400">${formatRupiah(total)}</span>
-                    </div>
-                    <div class="mt-3 text-right">
-                        <button onclick="openDetailModal('${order.id}')" class="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500">
-                            Lihat Detail
-                        </button>
+                    
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700/50">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-sm text-gray-700 dark:text-gray-300">Total Pembayaran:</span>
+                                <span class="block text-2xl font-bold text-red-600 dark:text-red-400">${formatRupiah(total)}</span>
+                            </div>
+                            <span class="text-sm font-semibold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/50 px-3 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="gem" class="w-4 h-4"></i> +${points} Poin
+                            </span>
+                        </div>
+                        <div class="flex justify-end items-center gap-3">
+                            ${actionButtons}
+                        </div>
                     </div>
                 </div>
             `;
-            }).join('');
+        }).join('');
 
-            container.innerHTML = html;
-            lucide.createIcons();
-            initScrollAppear(true); // Re-initialize scroll-appear for new elements
+        container.innerHTML = html;
+        lucide.createIcons();
+        initScrollAppear(true);
+    }
+
+    // 3. Filter Pesanan [PERBAIKAN TOTAL PADA FUNGSI INI]
+    function filterOrders(status, buttonElement) {
+        currentOrderFilter = status;
+
+        // [PERBAIKAN TAB] Hapus class 'active' dari semua tombol
+        document.querySelectorAll('.order-filter-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // [PERBAIKAN TAB] Tambahkan class 'active' HANYA ke tombol yang diklik
+        if (buttonElement) {
+            buttonElement.classList.add('active');
         }
 
-        // 3. Filter Pesanan
-        function filterOrders(status) {
-            currentOrderFilter = status;
+        let filtered = allOrders;
+        if (status !== 'Semua') {
+            filtered = allOrders.filter(order => order.status === status);
+        }
 
-            // Update tampilan tombol filter
-            document.querySelectorAll('.filter-button').forEach(btn => {
-                if (btn.textContent.trim() === status) {
-                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
-                    btn.classList.remove('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
-                } else {
-                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
-                    btn.classList.add('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
+        renderOrders(filtered);
+    }
+    
+    // 4. [FITUR BARU] Fungsi untuk membatalkan pesanan
+    async function cancelOrder(orderId) {
+        if (!confirm(`Yakin ingin membatalkan pesanan #${orderId}? Tindakan ini tidak dapat diurungkan.`)) {
+            return;
+        }
+
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        const token = userInfo ? userInfo.token : (localStorage.getItem('token') || null);
+        
+        if (!token) {
+            showNotification('Gagal membatalkan. Token tidak ditemukan.', 'error');
+            return;
+        }
+
+        try {
+            // Panggil API DELETE /api/orders/:id (dari orderRoutes.js)
+            const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
             });
-
-            let filtered = allOrders;
-            if (status !== 'Semua') {
-                // Mapping dari label UI ke status API
-                let apiStatus = status.toUpperCase().replace(/\s/g, '_');
-                // Menyesuaikan status yang lebih panjang
-                if (apiStatus === 'MENUNGGU_PEMBAYARAN') apiStatus = 'MENUNGGU_PEMBAYARAN';
-
-                filtered = allOrders.filter(order => order.status === apiStatus);
-            }
-
-            renderOrders(filtered);
-        }
-
-        // 4. Modal Detail Pesanan (Implementasi Sederhana)
-        function openDetailModal(orderId) {
-            const order = allOrders.find(o => o.id === parseInt(orderId));
-            if (!order) {
-                showNotification('Detail pesanan tidak ditemukan.', 'error');
-                return;
-            }
-
-            // Tampilkan Detail Modal di sini (Anda harus memiliki elemen modal di HTML)
-            const modal = document.getElementById('order-detail-modal');
-            const content = document.getElementById('order-detail-content');
-            if (!modal || !content) {
-                alert(`Detail Pesanan:\nID: #${order._id.substring(order._id.length - 8).toUpperCase()}\nProduk: ${order.productName}\nStatus: ${order.status}\nTotal: ${formatRupiah(order.totalPrice)}`);
-                return;
-            }
-
-            // Contoh rendering konten modal
-            content.innerHTML = `
-            <h3 class="text-xl font-bold mb-4 text-text-primary dark:text-white">Detail Pesanan #${order._id.substring(order._id.length - 8).toUpperCase()}</h3>
-            <div class="space-y-3">
-                <p class="flex justify-between border-b pb-1 dark:border-gray-700"><span class="font-medium">Status:</span> ${getStatusBadge(order.status)}</p>
-                <p class="flex justify-between border-b pb-1 dark:border-gray-700"><span class="font-medium">Produk:</span> ${order.productName}</p>
-                <p class="flex justify-between border-b pb-1 dark:border-gray-700"><span class="font-medium">Durasi:</span> ${order.duration}</p>
-                <p class="flex justify-between border-b pb-1 dark:border-gray-700"><span class="font-medium">Akun Diterima:</span> ${order.accountData || 'Menunggu Diproses'}</p>
-                <p class="flex justify-between border-b pb-1 dark:border-gray-700"><span class="font-medium">Tgl Pesan:</span> ${new Date(order.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
-                <p class="flex justify-between border-b pb-1 dark:border-gray-700 text-lg font-bold text-red-600 dark:text-red-400"><span class="font-bold text-text-primary dark:text-white">Total Bayar:</span> ${formatRupiah(order.totalPrice)}</p>
-            </div>
             
-            ${order.status === 'MENUNGGU_PEMBAYARAN' ?
-                    `<div class="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-yellow-800 dark:text-yellow-300">
-                    <p class="font-semibold">Instruksi Pembayaran:</p>
-                    <p>Silakan segera lakukan pembayaran ke rekening yang telah ditentukan.</p>
-                </div>
-                <button onclick="openAccountModal('${orderId}')" class="w-full mt-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
-                    Lihat Info Pembayaran
-                </button>`
-                    : ''}
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Gagal membatalkan pesanan.');
+            }
+
+            showNotification(data.message || 'Pesanan berhasil dibatalkan.', 'success');
             
-            ${order.status === 'SELESAI' && order.accountData ?
-                    `<button onclick="copyAccountDetail('${order.accountData}')" class="w-full mt-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
-                    Salin Detail Akun
-                </button>`
-                    : ''}
-        `;
-
-            modal.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeDetailModal() {
-            const modal = document.getElementById('order-detail-modal');
-            if (modal) modal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-
-        function copyAccountDetail(accountDetail) {
-            navigator.clipboard.writeText(accountDetail).then(() => {
-                showNotification('Detail akun berhasil disalin!', 'success');
-            }).catch(err => {
-                showNotification('Gagal menyalin detail akun.', 'error');
-                console.error('Gagal menyalin:', err);
-            });
-        }
-
-        function openAccountModal(orderId) {
-            // Logika untuk menampilkan rekening/metode pembayaran
-            // ... (Ini hanya contoh. Sesuaikan dengan data rekening Anda)
-            alert("Silakan transfer ke rekening Bank BCA xxxx a.n. Avee sebesar Total Pembayaran. Konfirmasi via WhatsApp.");
-        }
-
-        function closeAccountModal() {
-            // Logika untuk menutup modal rekening
-        }
-
-        // ====================================================================
-        // --- MAIN INITIALIZATION ---
-        // ====================================================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadTheme();
-            lucide.createIcons();
-            initScrollAppear();
-            toggleHeaderBlur();
-            window.addEventListener('scroll', toggleHeaderBlur);
-            initNavLinks();
-
-            // Panggil status autentikasi untuk header
-            updateAuthStatus();
-
-            // Panggil inisialisasi menu bar bawah
-            initBottomMenu();
-            initFabMenuClose();
-
-            // Muat data khusus halaman ini
+            // Muat ulang daftar pesanan
             loadOrderHistory();
 
-            // Atur active state menu bar bawah
-            document.querySelectorAll('#bottom-bar .bottom-menu-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            const orderLink = document.querySelector('a[href="listorder.html"].bottom-menu-link');
-            if (orderLink) {
-                orderLink.classList.add('active');
+        } catch (error) {
+            showNotification(error.message, 'error');
+        }
+    }
+
+
+    // 5. Modal Detail Pesanan (Implementasi Sederhana)
+    function openDetailModal(orderId) {
+        // [PERBAIKAN] Gunakan parseInt untuk mencocokkan ID (string dari HTML, number dari DB)
+        const order = allOrders.find(o => o.id === parseInt(orderId));
+        if (!order) {
+            showNotification('Detail pesanan tidak ditemukan.', 'error');
+            return;
+        }
+        
+        // Mengisi data modal
+        document.getElementById('order-detail-title').textContent = `Detail Pesanan #${order.id.toString().substring(order.id.toString().length - 8).toUpperCase()}`;
+        document.getElementById('order-detail-status').innerHTML = getStatusBadge(order.status);
+        document.getElementById('detail-tanggal').textContent = new Date(order.order_date).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' });
+        document.getElementById('detail-metode').textContent = order.payment_method || 'Belum Dipilih';
+        
+        // Mengisi item
+        const itemsContainer = document.getElementById('order-detail-items');
+        itemsContainer.innerHTML = order.items.map(item => `
+            <div class="flex justify-between p-2 bg-gray-100 dark:bg-gray-700 rounded-md">
+                <span>${item.product_name} (${item.duration})</span>
+                <span class="font-semibold">${formatRupiah(item.price)}</span>
+            </div>
+        `).join('');
+        
+        // Mengisi total
+        const total = order.total_amount || 0;
+        document.getElementById('detail-subtotal').textContent = formatRupiah(total);
+        document.getElementById('detail-total').textContent = formatRupiah(total);
+
+
+        // Tampilkan Modal
+        const modal = document.getElementById('order-detail-modal');
+        const content = modal.querySelector('.modal-content-container');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            content.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+        document.body.classList.add('overflow-hidden');
+        
+        // [BARU] Logika untuk menampilkan detail akun jika status SELESAI
+        const accountModal = document.getElementById('account-detail-modal');
+        if (order.status === 'SELESAI' && order.account_email) {
+            // Isi data akun ke modal akun
+            document.getElementById('account-email').textContent = order.account_email || '...';
+            document.getElementById('account-password').textContent = order.account_password || '...';
+            
+            const profileField = document.getElementById('account-profile-field');
+            const pinField = document.getElementById('account-pin-field');
+            
+            if (order.account_profile) {
+                document.getElementById('account-profile').textContent = order.account_profile;
+                profileField.classList.remove('hidden');
+            } else {
+                profileField.classList.add('hidden');
             }
+            
+             if (order.account_pin) {
+                document.getElementById('account-pin').textContent = order.account_pin;
+                pinField.classList.remove('hidden');
+            } else {
+                pinField.classList.add('hidden');
+            }
+            
+            // Tampilkan modal akun
+             const contentAcc = accountModal.querySelector('.modal-content-container');
+             accountModal.classList.remove('hidden');
+             accountModal.classList.add('flex');
+             setTimeout(() => {
+                accountModal.classList.add('opacity-100');
+                contentAcc.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+        } else {
+            // Sembunyikan modal akun jika status bukan Selesai
+            accountModal.classList.add('hidden');
+            accountModal.classList.remove('flex', 'opacity-100');
+        }
+    }
+
+    function closeDetailModal(event = null) {
+        if (event && event.target !== document.getElementById('order-detail-modal')) return;
+        const modal = document.getElementById('order-detail-modal');
+        const content = modal.querySelector('.modal-content-container');
+        modal.classList.remove('opacity-100');
+        content.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 300);
+        document.body.classList.remove('overflow-hidden');
+        
+        // Tutup juga modal akun jika terbuka
+        closeAccountModal();
+    }
+
+    function copyAccountDetail(elementId) {
+        const text = document.getElementById(elementId).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            showNotification('Detail akun berhasil disalin!', 'success');
+        }).catch(err => {
+            showNotification('Gagal menyalin detail akun.', 'error');
+            console.error('Gagal menyalin:', err);
         });
+    }
+    
+    function closeAccountModal(event = null) {
+        if (event && event.target !== document.getElementById('account-detail-modal')) return;
+        const modal = document.getElementById('account-detail-modal');
+        if (!modal) return;
+        const content = modal.querySelector('.modal-content-container');
+        modal.classList.remove('opacity-100');
+        content.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 300);
+    }
+    
+    // ====================================================================
+    // --- MAIN INITIALIZATION ---
+    // ====================================================================
 
-        // Daftarkan fungsi global
-        window.toggleTheme = toggleTheme;
-        window.handleLogout = handleLogout;
-        window.showAuthModal = showAuthModal;
-        window.closeAuthModal = closeAuthModal;
-        // window.initBottomMenu = initBottomMenu; // Sudah ada
-        // window.initFabMenuClose = initFabMenuClose; // Sudah ada
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTheme();
+        lucide.createIcons();
+        initScrollAppear();
+        toggleHeaderBlur();
+        window.addEventListener('scroll', toggleHeaderBlur);
+        initNavLinks();
+        
+        updateAuthStatus(); 
+        
+        // (Anda bisa menyalin fungsi initBottomMenu dan initFabMenuClose dari index.html jika perlu)
+        // initBottomMenu();
+        // initFabMenuClose();
 
-        // Daftarkan fungsi baru halaman ini
-        window.filterOrders = filterOrders;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.openAccountModal = openAccountModal;
-        window.closeAccountModal = closeAccountModal;
-        window.copyAccountDetail = copyAccountDetail;
-    </script>
+        loadOrderHistory();
+
+        // Atur active state menu bar bawah
+        document.querySelectorAll('#bottom-bar .bottom-menu-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        const orderLink = document.querySelector('a[href="listorder.html"].bottom-menu-link');
+        if (orderLink) {
+            orderLink.classList.add('active');
+        }
+    });
+
+    // Daftarkan fungsi global
+    window.toggleTheme = toggleTheme;
+    window.handleLogout = handleLogout;
+    window.showAuthModal = showAuthModal;
+    window.closeAuthModal = closeAuthModal;
+    // window.initBottomMenu = initBottomMenu;
+    // window.initFabMenuClose = initFabMenuClose;
+
+    // Daftarkan fungsi baru halaman ini
+    window.filterOrders = filterOrders;
+    window.openDetailModal = openDetailModal;
+    window.closeDetailModal = closeDetailModal;
+    window.closeAccountModal = closeAccountModal;
+    window.copyAccountDetail = copyAccountDetail;
+    window.cancelOrder = cancelOrder; // [BARU] Daftarkan fungsi cancel
+</script>
 </body>
 
 </html>

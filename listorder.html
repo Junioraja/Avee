@@ -2,1346 +2,666 @@
 <html lang="id" class="light">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Pesanan - Akun Bareng</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@0.323.0"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <script>
-        // Konfigurasi Tailwind (Ditinggalkan sama)
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'soft-blue': '#C8E6F7',
-                        'deep-blue': '#2563EB',
-                        'light-bg': '#F0F8FF',
-                        'card-bg': '#FFFFFF',
-                        'text-primary': '#1F2937',
-                        'accent-wa': '#25D366',
-                        'accent-x': '#000000',
-                        'accent-tiktok': '#EE1D52',
-                        'brand-netflix': '#E50914',
-                        'brand-disney': '#113CCF',
-                        'brand-youtube': '#FF0000',
-                        'brand-viu': '#FF7120',
-                        'brand-wetv': '#00B3FF',
-                        'brand-iqiyi': '#409930',
-                        'brand-vidio': '#FF6600',
-                        'brand-canva': '#00C4CC',
-                        'brand-vplus': '#FF0000',
-                        'brand-aprime': '#232F3E',
-                        'brand-hbo': '#5402F0',
-                        'brand-vsco': '#000000',
-                        'brand-picsart': '#FF4C68',
-                        'brand-lroom': '#3D335A',
-                        'brand-resso': '#FF0050',
-                        'brand-bstation': '#00A1D6',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
-                        'lg-soft': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                        'hover-strong-blue': '0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* ==========================================================================
-         CSS dari Index.html - Ditempatkan di sini
-         ==========================================================================
-        */
-
-        /* --- 1. GRADASI LATAR BELAKANG MENYELURH (BODY) --- */
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #1f2937;
-            transition: background-color 0.5s, color 0.5s;
-            background: linear-gradient(to bottom, #e4f0ff 0%, #ffffff 500px, #f0f8ff 1000px, #ffffff 1500px, #e4f0ff 2000px, #ffffff 3000px);
-            background-attachment: fixed;
-        }
-
-        html.dark body {
-            color: #d1d5db;
-            background: #111827;
-            background-image: linear-gradient(to bottom, #1f2937 0%, #111827 500px, #1f2937 1000px, #111827 1500px, #1f2937 2000px, #111827 3000px);
-        }
-
-        :root {
-            --color-avee-primary: #3b82f6;
-            --color-avee-light: #93c5fd;
-        }
-
-        /* --- 2. GAYA KARTU DAN INTERAKSI UMUM --- */
-        .card-product {
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(147, 197, 253, 0.5);
-            position: relative;
-            animation: subtleFloat 4s ease-in-out infinite alternate;
-            will-change: transform, box-shadow;
-        }
-
-        html.dark .card-product {
-            background-color: #1f2937;
-            border-color: rgba(55, 65, 81, 0.5);
-            box-shadow: 0 8px 16px -4px rgba(255, 255, 255, 0.05), 0 4px 6px -2px rgba(255, 255, 255, 0.03);
-        }
-
-        .card-product:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25);
-            animation-play-state: paused;
-        }
-
-        @keyframes subtleFloat {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .category-card {
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 40px -8px rgba(59, 130, 246, 0.35), 0 4px 6px -4px rgba(59, 130, 246, 0.2);
-        }
-
-        /* --- 3. EFEK REFLEKSI/GLOSSY PADA CARD --- */
-        .card-product::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0) 100%);
-            pointer-events: none;
-            transition: opacity 0.5s;
-            opacity: 0.8;
-        }
-
-        html.dark .card-product::before {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.03) 60%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        /* --- 4. GAYA HEADER DENGAN BLUR-ON-SCROLL --- */
-        .navbar-blur {
-            transition: all 0.5s ease-in-out;
-            background-color: transparent;
-            box-shadow: none;
-        }
-
-        .navbar-blur.scrolled {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.15);
-        }
-
-        html.dark .navbar-blur.scrolled {
-            background-color: rgba(31, 41, 55, 0.95);
-            box-shadow: 0 6px 12px -3px rgba(0, 0, 0, 0.4);
-        }
-
-        /* --- 5. ANIMASI SCROLL-APPEAR KUSTOM --- */
-        @keyframes fadeInSlide {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .scroll-appear {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .scroll-appear.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 6. ANIMASI PARTIKEL GELEMBUNG & HERO --- */
-        .bubble-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes floatBubble {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.7;
-            }
-
-            90% {
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: translateY(-10vh) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        .bubble {
-            position: absolute;
-            background-color: rgba(147, 197, 253, 0.4);
-            border-radius: 50%;
-            animation: floatBubble 15s infinite linear;
-            will-change: transform, opacity;
-        }
-
-        html.dark .bubble {
-            background-color: rgba(75, 85, 99, 0.3);
-        }
-
-        .floating-card {
-            transition: transform 0.1s linear;
-            will-change: transform;
-        }
-
-        /* --- 7. EFEK Latar Belakang Bintang Berkelip --- */
-        .particle-container-stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 0.2;
-                transform: scale(0.8);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-        }
-
-        .star-particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background-color: #93c5fd;
-            border-radius: 50%;
-            animation: twinkle 4s infinite ease-in-out;
-            opacity: 0;
-        }
-
-        html.dark .star-particle {
-            background-color: #60a5fa;
-        }
-
-        .star-particle.star-sm {
-            width: 2px;
-            height: 2px;
-        }
-
-        .star-particle.star-lg {
-            width: 4px;
-            height: 4px;
-        }
-
-        /* --- 8. GAYA MODAL & LAINNYA --- */
-        .modal-content-container {
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .collapse-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
-        }
-
-        .collapse-content.open {
-            max-height: 500px;
-        }
-
-        html.dark .bg-gray-50 {
-            background-color: #1f2937;
-        }
-
-        html.dark .text-gray-600 {
-            color: #9ca3af;
-        }
-
-        html.dark .text-gray-900 {
-            color: #f3f4f6;
-        }
-
-        html.dark .text-gray-700 {
-            color: #d1d5db;
-        }
-
-        html.dark .bg-white {
-            background-color: #374151;
-        }
-
-        html.dark .bg-blue-600 {
-            background-color: #3b82f6;
-        }
-
-        html.dark .text-blue-600 {
-            color: #60a5fa;
-        }
-
-        html.dark .bg-blue-50 {
-            background-color: #1f2937;
-        }
-
-        html.dark .bg-blue-100 {
-            background-color: #374151;
-        }
-
-        /* --- 9. EFEK Testimoni Carousel --- */
-        .testimonial-carousel {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            transition: transform 0.5s ease-in-out;
-            will-change: transform;
-            white-space: nowrap;
-        }
-
-        .testimonial-card-wrapper {
-            position: relative;
-            flex-shrink: 0;
-            width: 80%;
-            max-width: 380px;
-            padding: 0 10px;
-            box-sizing: border-box;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-            white-space: normal;
-            transform: scale(0.9);
-            opacity: 0.6;
-            z-index: 10;
-        }
-
-        .testimonial-card-wrapper.active {
-            transform: scale(1.05);
-            opacity: 1;
-            z-index: 20;
-        }
-
-        .testimonial-card-wrapper.active .testimonial-card-content {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
-        }
-
-        html.dark .testimonial-card-wrapper.active .testimonial-card-content {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (min-width: 768px) {
-            .testimonial-card-wrapper {
-                width: 33.3333%;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .testimonial-card-wrapper {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            .testimonial-card-wrapper.active {
-                transform: scale(1);
-            }
-        }
-
-        /* --- 10. EFEK Payment Marquee --- */
-        .payment-marquee-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-        }
-
-        .payment-logo-wrapper {
-            display: flex;
-            width: max-content;
-            animation: marquee 30s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% {
-                transform: translateX(0%);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        @keyframes float-payment {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .payment-logo-marquee {
-            flex-shrink: 0;
-            width: 150px;
-            margin: 0 15px;
-            height: 80px;
-            background-color: #ffffff;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: float-payment 3s ease-in-out infinite alternate;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .payment-logo-marquee:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            animation-play-state: paused;
-        }
-
-        .payment-logo-marquee img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-        }
-
-        html.dark .payment-logo-marquee {
-            background-color: #374151;
-            border-color: #4b5563;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* --- 11. EFEK Filter Kategori --- */
-        .filter-button {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .filter-button.active {
-            background-color: #2563EB;
-            color: white;
-            border-color: #93c5fd;
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
-        }
-
-        html.dark .filter-button.active {
-            background-color: #3b82f6;
-            border-color: #2563EB;
-        }
-
-        /* --- 12. GAYA FAQ Accordion --- */
-        .faq-item .faq-question {
-            transition: background-color 0.2s ease;
-        }
-
-        .faq-item .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding-top: 1rem;
-            padding-bottom: 1.5rem;
-        }
-
-        .faq-item .faq-toggle {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(180deg);
-        }
-
-        .faq-item.active .faq-question {
-            background-color: #F0F8FF;
-        }
-
-        html.dark .faq-item.active .faq-question {
-            background-color: #1f2937;
-        }
-
-        /* --- 13. KOSONG (FAB LAMA DIHAPUS) --- */
-        /* --- 14. GAYA CHATBOT --- */
-        .chatbot-overlay {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            z-index: 100;
-            width: 90%;
-            max-width: 400px;
-            height: 600px;
-            max-height: 80vh;
-            border-radius: 1rem;
-            background-color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.3s ease-in-out;
-            pointer-events: none;
-        }
-
-        .chatbot-overlay.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-
-        html.dark .chatbot-overlay {
-            background-color: #1f2937;
-        }
-
-        .chatbot-header {
-            background-color: #2563EB;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chatbot-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            background-color: #F0F8FF;
-        }
-
-        html.dark .chatbot-messages {
-            background-color: #111827;
-        }
-
-        .chat-bubble {
-            padding: 0.75rem 1rem;
-            border-radius: 1rem;
-            max-width: 80%;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        .chat-bubble-bot {
-            background-color: #e5e7eb;
-            color: #1f2937;
-            align-self: flex-start;
-            border-bottom-left-radius: 0.25rem;
-        }
-
-        html.dark .chat-bubble-bot {
-            background-color: #374151;
-            color: #f3f4f6;
-        }
-
-        .chat-bubble-user {
-            background-color: #3b82f6;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .chatbot-form {
-            display: flex;
-            padding: 0.75rem;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        html.dark .chatbot-form {
-            border-top-color: #374151;
-        }
-
-        .chatbot-input {
-            flex-grow: 1;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            padding: 0.6rem 0.75rem;
-            margin-right: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        html.dark .chatbot-input {
-            background-color: #4b5563;
-            border-color: #4b5563;
-            color: white;
-        }
-
-        .chat-bubble-bot.typing {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #9ca3af;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            80%,
-            100% {
-                transform: scale(0);
-            }
-
-            40% {
-                transform: scale(1.0);
-            }
-        }
-
-        .chatbot-send {
-            background-color: #2563EB;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            padding: 0 1rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .chatbot-send:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* --- 15. GAYA LOADER ANIMASI --- */
-        .loader {
-            width: 6em;
-            height: 6em;
-        }
-
-        .loader-ring {
-            animation: ringA 2s linear infinite;
-        }
-
-        .loader-ring-a {
-            stroke: #3b82f6;
-        }
-
-        .loader-ring-b {
-            animation-name: ringB;
-            stroke: #2563EB;
-        }
-
-        .loader-ring-c {
-            animation-name: ringC;
-            stroke: #3b82f6;
-        }
-
-        .loader-ring-d {
-            animation-name: ringD;
-            stroke: #2563EB;
-        }
-
-        @keyframes ringA {
-
-            from,
-            4% {
-                stroke-dasharray: 0 660;
-                stroke-width: 20;
-                stroke-dashoffset: -330;
-            }
-
-            12% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -335;
-            }
-
-            32% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -595;
-            }
-
-            40%,
-            54% {
-                stroke-dasharray: 0 660;
-                stroke-width: 20;
-                stroke-dashoffset: -660;
-            }
-
-            62% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -665;
-            }
-
-            82% {
-                stroke-dasharray: 60 600;
-                stroke-width: 30;
-                stroke-dashoffset: -925;
-            }
-
-            90%,
-            to {
-                stroke-dasharray: 0 660;
-                stroke-width: 20;
-                stroke-dashoffset: -990;
-            }
-        }
-
-        @keyframes ringB {
-
-            from,
-            12% {
-                stroke-dasharray: 0 220;
-                stroke-width: 20;
-                stroke-dashoffset: -110;
-            }
-
-            20% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -115;
-            }
-
-            40% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -195;
-            }
-
-            48%,
-            62% {
-                stroke-dasharray: 0 220;
-                stroke-width: 20;
-                stroke-dashoffset: -220;
-            }
-
-            70% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -225;
-            }
-
-            90% {
-                stroke-dasharray: 20 200;
-                stroke-width: 30;
-                stroke-dashoffset: -305;
-            }
-
-            98%,
-            to {
-                stroke-dasharray: 0 220;
-                stroke-width: 20;
-                stroke-dashoffset: -330;
-            }
-        }
-
-        @keyframes ringC {
-            from {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: 0;
-            }
-
-            8% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -5;
-            }
-
-            28% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -175;
-            }
-
-            36%,
-            58% {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -220;
-            }
-
-            66% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -225;
-            }
-
-            86% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -395;
-            }
-
-            94%,
-            to {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -440;
-            }
-        }
-
-        @keyframes ringD {
-
-            from,
-            8% {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: 0;
-            }
-
-            16% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -5;
-            }
-
-            36% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -175;
-            }
-
-            44%,
-            50% {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -220;
-            }
-
-            58% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -225;
-            }
-
-            78% {
-                stroke-dasharray: 40 400;
-                stroke-width: 30;
-                stroke-dashoffset: -395;
-            }
-
-            86%,
-            to {
-                stroke-dasharray: 0 440;
-                stroke-width: 20;
-                stroke-dashoffset: -440;
-            }
-        }
-
-        /* --- 16. GAYA TEKS ANIMASI (HERO) --- */
-        .animated-text-container {
-            --bg-color: transparent;
-            background-color: var(--bg-color);
-            padding: 0.5rem 1rem;
-            border-radius: 1.25rem;
-            width: 100%;
-        }
-
-        .animated-text-loader {
-            color: #4b5563;
-            font-family: "Inter", sans-serif;
-            font-weight: 500;
-            font-size: 1.25rem;
-            -webkit-box-sizing: content-box;
-            box-sizing: content-box;
-            height: 30px;
-            padding: 5px 10px;
-            display: flex;
-            border-radius: 8px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .animated-text-loader {
-                justify-content: flex-start;
-            }
-        }
-
-        html.dark .animated-text-loader {
-            color: #9ca3af;
-        }
-
-        .words {
-            overflow: hidden;
-            position: relative;
-            height: 100%;
-        }
-
-        .word {
-            display: block;
-            height: 100%;
-            padding-left: 0.25rem;
-            color: #2563EB;
-            animation: spin_4991 6s infinite;
-        }
-
-        @keyframes spin_4991 {
-            0% {
-                transform: translateY(0);
-            }
-
-            8% {
-                transform: translateY(-2%);
-            }
-
-            18% {
-                transform: translateY(0);
-            }
-
-            20% {
-                transform: translateY(-102%);
-            }
-
-            28% {
-                transform: translateY(-100%);
-            }
-
-            38% {
-                transform: translateY(-98%);
-            }
-
-            40% {
-                transform: translateY(-202%);
-            }
-
-            48% {
-                transform: translateY(-200%);
-            }
-
-            58% {
-                transform: translateY(-198%);
-            }
-
-            60% {
-                transform: translateY(-302%);
-            }
-
-            68% {
-                transform: translateY(-300%);
-            }
-
-            78% {
-                transform: translateY(-298%);
-            }
-
-            80% {
-                transform: translateY(-402%);
-            }
-
-            88% {
-                transform: translateY(-400%);
-            }
-
-            100% {
-                transform: translateY(-400%);
-            }
-        }
-
-        /* --- 17. GAYA HOVER TEKS ANIMASI (HEADER) --- */
-        .animated-hover-text {
-            --default-color-light: #1f2937;
-            --default-color-dark: #f3f4f6;
-            --animation-color: #3b82f6;
-            --highlight-width: 0%;
-            position: relative;
-            text-transform: uppercase;
-            color: var(--default-color-light);
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        html.dark .animated-hover-text {
-            color: var(--default-color-dark);
-        }
-
-        .group:hover .animated-hover-text {
-            color: var(--animation-color);
-            text-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
-        }
-
-        .animated-hover-text::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            height: 3px;
-            background-color: var(--animation-color);
-            width: var(--highlight-width);
-            transition: width 0.3s ease-out;
-        }
-
-        .group:hover .animated-hover-text::after {
-            --highlight-width: 100%;
-        }
-
-        /* --- 18. GAYA BOTTOM MENU BAR --- */
-        .bottom-menu-container {
-            padding: 0.5rem;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
-            width: auto;
-            max-width: 400px;
-            margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            position: relative;
-        }
-
-        html.dark .bottom-menu-container {
-            background-color: rgba(31, 41, 55, 0.95);
-            box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.3);
-            border-color: rgba(55, 65, 81, 0.5);
-        }
-
-        .bottom-menu-link {
-            /* PENTING: Gunakan <a> untuk link antar halaman */
-            display: inline-flex;
-            flex-direction: row;
-            align-items: center;
-            width: 70px;
-            height: 50px;
-            border-radius: 8px;
-            position: relative;
-            z-index: 1;
-            text-decoration: none;
-            color: #4b5563;
-            overflow: hidden;
-            transition: width 0.3s ease, background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease, justify-content 0.3s ease;
-            box-sizing: border-box;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            justify-content: center;
-        }
-
-        html.dark .bottom-menu-link {
-            color: #d1d5db;
-        }
-
-        .bottom-menu-icon {
-            width: 28px;
-            height: 28px;
-            display: block;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .bottom-menu-title {
-            display: block;
-            text-align: left;
-            font-size: 0.875rem;
-            font-weight: 500;
-            white-space: nowrap;
-            margin-left: 10px;
-            opacity: 0;
-            max-width: 0;
-            transform: translateX(10px);
-            transition: opacity 0.2s ease, max-width 0.3s ease 0.1s, transform 0.2s ease;
-        }
-
-        .bottom-menu-link:hover {
-            width: 150px;
-            background-color: #F0F8FF;
-            justify-content: flex-start;
-            padding-left: 21px;
-        }
-
-        html.dark .bottom-menu-link:hover {
-            background-color: #374151;
-        }
-
-        .bottom-menu-link:hover .bottom-menu-title {
-            opacity: 1;
-            max-width: 100px;
-            transform: translateX(0);
-        }
-
-        .bottom-menu-link.active {
-            background-color: #2563EB;
-            color: white;
-            justify-content: center;
-            padding-left: 0;
-        }
-
-        html.dark .bottom-menu-link.active {
-            background-color: #3b82f6;
-        }
-
-        .bottom-menu-link.active:hover {
-            background-color: #1d4ed8;
-            color: white;
-            width: 150px;
-            justify-content: flex-start;
-            padding-left: 21px;
-        }
-
-        html.dark .bottom-menu-link.active:hover {
-            background-color: #2563EB;
-        }
-
-        /* GAYA FAB TERINTEGRASI (Mobile-First) */
-        #integrated-fab-wrapper {
-            position: relative;
-            z-index: 10;
-        }
-
-        #integrated-fab-wrapper.active #integrated-fab-toggle {
-            background-color: #dc2626;
-            color: white;
-        }
-
-        #integrated-fab-wrapper.active #integrated-fab-toggle .bottom-menu-icon {
-            transform: rotate(45deg);
-        }
-
-        .fab-menu-item {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-            pointer-events: none;
-            position: absolute;
-            right: 0;
-            bottom: 50px;
-        }
-
-        #integrated-fab-wrapper.active .fab-menu-item {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        #integrated-fab-wrapper.active .fab-menu-item:nth-child(1) {
-            bottom: 70px;
-            transition-delay: 0.1s;
-        }
-
-        #integrated-fab-wrapper.active .fab-menu-item:nth-child(2) {
-            bottom: 120px;
-            transition-delay: 0.15s;
-        }
-
-        /* --- 20. GAYA KHUSUS HALAMAN ORDER --- */
-
-        .order-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--border-color, #2563EB);
-        }
-
-        .order-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-        }
-
-        .status-pending {
-            --border-color: #f59e0b;
-            color: #f59e0b;
-        }
-
-        .status-processing {
-            --border-color: #3b82f6;
-            color: #3b82f6;
-        }
-
-        .status-completed {
-            --border-color: #10b981;
-            color: #10b981;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesanan - Akun Bareng</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script>
+        // Konfigurasi Tailwind (Sama seperti index.html)
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-blue': '#C8E6F7',
+                        'deep-blue': '#2563EB',
+                        'light-bg': '#F0F8FF',
+                        'card-bg': '#FFFFFF',
+                        'text-primary': '#1F2937',
+                        'accent-wa': '#25D366',
+                        'accent-x': '#000000',
+                        'accent-tiktok': '#EE1D52',
+                        'brand-netflix': '#E50914',
+                        'brand-disney': '#113CCF',
+                        'brand-youtube': '#FF0000',
+                        'brand-viu': '#FF7120',
+                        'brand-wetv': '#00B3FF',
+                        'brand-iqiyi': '#409930',
+                        'brand-vidio': '#FF6600',
+                        'brand-canva': '#00C4CC',
+                        'brand-vplus': '#FF0000',
+                        'brand-aprime': '#232F3E',
+                        'brand-hbo': '#5402F0',
+                        'brand-vsco': '#000000',
+                        'brand-picsart': '#FF4C68',
+                        'brand-lroom': '#3D335A',
+                        'brand-resso': '#FF0050',
+                        'brand-bstation': '#00A1D6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                        'lg-soft': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'hover-strong-blue': '0 25px 45px -10px rgba(59, 130, 246, 0.4), 0 8px 10px -6px rgba(59, 130, 246, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ... (Semua CSS lama dari Index.html tetap di sini) ... */
+
+        /* GAYA BARU KHUSUS LIST ORDER */
+        .order-card-container {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid transparent;
+        }
+
+        .order-card-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .order-status {
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        /* Status colors */
+        .status-pending {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-processing {
+            background-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .status-completed {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+
+        html.dark .status-pending {
+            background-color: #433802;
+            color: #f59e0b;
+        }
+
+        html.dark .status-processing {
+            background-color: #1e3a8a;
+            color: #60a5fa;
+        }
+
+        html.dark .status-completed {
+            background-color: #064e3b;
+            color: #34d399;
+        }
+
+        html.dark .status-cancelled {
+            background-color: #7f1d1d;
+            color: #f87171;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen pt-4 pb-28">
+<body class="min-h-screen pt-16">
 
-    <div class="container mx-auto max-w-lg px-4">
-        <h1 class="text-3xl font-bold text-center mb-6 pt-4 text-deep-blue dark:text-soft-blue">Riwayat Pesanan</h1>
-        <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Semua pesanan Anda tercatat di sini.</p>
+    <div id="particle-container-stars" class="particle-container-stars"></div>
 
-        <div id="order-list" class="space-y-4">
-                        <div class="order-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 status-completed">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <span class="font-bold text-lg text-text-primary dark:text-white">NETFLIX PREMIUM 1 BULAN</span>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">#TRX20241028001</p>
-                    </div>
-                    <span class="text-sm font-semibold status-completed">Selesai</span>
-                </div>
-                <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
-                    <p class="text-sm text-gray-700 dark:text-gray-300">Total Bayar: <span class="font-bold text-deep-blue dark:text-soft-blue">Rp 55.000</span></p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Tanggal: 28 Okt 2024</p>
-                </div>
-            </div>
-                                    <div class="order-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 status-processing">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <span class="font-bold text-lg text-text-primary dark:text-white">CANVA PRO LIFETIME</span>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">#TRX20241029002</p>
-                    </div>
-                    <span class="text-sm font-semibold status-processing">Diproses</span>
-                </div>
-                <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
-                    <p class="text-sm text-gray-700 dark:text-gray-300">Total Bayar: <span class="font-bold text-deep-blue dark:text-soft-blue">Rp 30.000</span></p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Tanggal: 29 Okt 2024</p>
-                </div>
-            </div>
-                                </div>
+    <header id="navbar"
+        class="navbar-blur fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b dark:border-gray-700">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <img src="./image_d0f289.png" alt="Logo Akun Bareng" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-deep-blue dark:text-soft-blue">Akun Bareng</span>
+                </a>
+                <nav class="hidden md:flex space-x-6 items-center">
+                    <a href="index.html"
+                        class="group text-sm font-medium animated-hover-text text-text-primary dark:text-gray-100">
+                        Home
+                    </a>
+                    <a href="#"
+                        class="group text-sm font-medium animated-hover-text text-text-primary dark:text-gray-100">
+                        Produk
+                    </a>
+                    <a href="#"
+                        class="group text-sm font-medium animated-hover-text text-text-primary dark:text-gray-100">
+                        Testimoni
+                    </a>
+                    <a href="#"
+                        class="group text-sm font-medium animated-hover-text text-text-primary dark:text-gray-100">
+                        FAQ
+                    </a>
+                </nav>
 
-    </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle-desktop" onclick="toggleTheme()"
+                        class="p-2 rounded-full text-gray-500 hover:text-deep-blue dark:text-gray-400 dark:hover:text-soft-blue transition">
+                        <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
 
-        <div class="fixed bottom-0 left-0 right-0 z-50 p-4">
-        <nav class="bottom-menu-container">
-            <a href="index.html" class="bottom-menu-link" data-path="index.html">
-                <i data-lucide="home" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">Beranda</span>
-            </a>
+                    <div id="auth-links-desktop" class="hidden md:flex items-center space-x-3">
+                        <button onclick="showAuthModal('login')"
+                            class="px-4 py-2 text-sm font-medium rounded-lg text-white bg-deep-blue hover:bg-blue-700 transition">
+                            Login
+                        </button>
+                    </div>
 
-                        <a href="riwayat_pesanan.html" class="bottom-menu-link" data-path="riwayat_pesanan.html">
-                <i data-lucide="receipt-text" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">List Order</span>
-            </a>
+                    <button id="mobile-menu-button"
+                        class="p-2 rounded-full md:hidden text-gray-500 hover:text-deep-blue dark:text-gray-400 dark:hover:text-soft-blue transition">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="max-w-4xl mx-auto">
+            <h1
+                class="text-3xl sm:text-4xl font-extrabold text-center mb-10 text-text-primary dark:text-gray-50 scroll-appear">
+                Riwayat Pesanan Anda
+            </h1>
+            <p class="text-center text-gray-600 dark:text-gray-400 mb-8 scroll-appear" style="transition-delay: 0.2s;">
+                Lihat detail semua pesanan yang pernah Anda lakukan di Akun Bareng.
+            </p>
 
-                        <a href="akun.html" class="bottom-menu-link" data-path="akun.html">
-                <i data-lucide="user" class="bottom-menu-icon"></i>
-                <span class="bottom-menu-title">Akun</span>
-            </a>
+            <div id="loading-state" class="flex justify-center items-center py-20">
+                <svg class="loader w-16 h-16" viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="mainGradient" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#2563EB" />
+                            <stop offset="100%" stop-color="#3b82f6" />
+                        </linearGradient>
+                    </defs>
+                    <radialGradient id="ringGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                        <stop offset="0%" stop-color="#dbeafe" />
+                        <stop offset="100%" stop-color="#93c5fd" />
+                    </radialGradient>
+                    <circle class="loader-ring loader-ring-a" cx="100" cy="100" r="80" stroke-linecap="round" fill="none"
+                        stroke-width="20" stroke="url(#mainGradient)" stroke-dasharray="0 660" stroke-dashoffset="-330"></circle>
+                    <circle class="loader-ring loader-ring-b" cx="100" cy="100" r="80" stroke-linecap="round" fill="none"
+                        stroke-width="20" stroke="url(#mainGradient)" stroke-dasharray="0 660" stroke-dashoffset="-110"></circle>
+                    <circle class="loader-ring loader-ring-c" cx="100" cy="100" r="80" stroke-linecap="round" fill="none"
+                        stroke-width="20" stroke="url(#mainGradient)" stroke-dasharray="0 660" stroke-dashoffset="0"></circle>
+                    <circle class="loader-ring loader-ring-d" cx="100" cy="100" r="80" stroke-linecap="round" fill="none"
+                        stroke-width="20" stroke="url(#mainGradient)" stroke-dasharray="0 660" stroke-dashoffset="0"></circle>
+                </svg>
+            </div>
 
-                        <div id="integrated-fab-wrapper">
-                <button id="integrated-fab-toggle" class="bottom-menu-link active bg-accent-wa text-white" onclick="toggleFab(event)">
-                    <i data-lucide="message-square" class="bottom-menu-icon transition-transform"></i>
-                </button>
-                
-                                <a href="admin.html" class="fab-menu-item p-3 bg-blue-500 rounded-full shadow-lg text-white">
-                    <i data-lucide="shield"></i>
-                </a>
 
-                                <a href="https://wa.me/628123456789" target="_blank" class="fab-menu-item p-3 bg-accent-wa rounded-full shadow-lg text-white">
-                    <i data-lucide="whatsapp"></i>
-                </a>
-            </div>
-        </nav>
-    </div>
-    
-        <script>
-        // Logika untuk mengaktifkan Bottom Menu Bar yang sesuai
-        function initBottomMenu() {
-            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-            const links = document.querySelectorAll('.bottom-menu-link');
+            <div id="order-list-container" class="space-y-6 hidden">
+                </div>
 
-            links.forEach(link => {
-                link.classList.remove('active');
-                const linkPath = link.getAttribute('data-path');
+            <div id="empty-state" class="hidden text-center py-20 bg-gray-50 dark:bg-gray-800 rounded-xl shadow-inner mt-10" style="transition-delay: 0.3s;">
+                <i data-lucide="package-open" class="w-12 h-12 mx-auto text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-text-primary dark:text-gray-100 mb-2">Belum Ada Pesanan</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Anda belum memiliki riwayat pesanan. Mulai berbelanja sekarang!</p>
+                <a href="index.html" class="px-6 py-2 bg-deep-blue text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                    Lihat Produk
+                </a>
+            </div>
 
-                // Menghindari konflik dengan FAB/WA Button yang memiliki kelas 'active' bawaan
-                if (link.closest('#integrated-fab-wrapper')) {
-                    return; 
+        </div>
+    </main>
+
+    <footer class="bg-gray-100 dark:bg-gray-900 mt-16 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h5 class="text-lg font-bold text-text-primary dark:text-white mb-4">Akun Bareng</h5>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li><a href="index.html#home" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Home</a></li>
+                        <li><a href="index.html#products"
+                                class="hover:text-deep-blue dark:hover:text-soft-blue transition">Produk</a></li>
+                        <li><a href="index.html#testimonials"
+                                class="hover:text-deep-blue dark:hover:text-soft-blue transition">Testimoni</a></li>
+                        <li><a href="index.html#faq"
+                                class="hover:text-deep-blue dark:hover:text-soft-blue transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold text-text-primary dark:text-white mb-4">Layanan & Bantuan</h5>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li><a href="#" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Cara Order</a></li>
+                        <li><a href="#" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Kontak Kami</a></li>
+                        <li><a href="#" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold text-text-primary dark:text-white mb-4">Tautan Cepat</h5>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li><a href="listorder.html" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Riwayat Pesanan</a></li>
+                        <li><a href="admin.html" class="hover:text-deep-blue dark:hover:text-soft-blue transition">Admin Panel</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold text-text-primary dark:text-white mb-4">Ikuti Kami</h5>
+                    <div class="flex space-x-4">
+                        <a href="https://wa.me/628123456789" target="_blank"
+                            class="text-accent-wa hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 transition">
+                            <i data-lucide="message-square" class="w-6 h-6"></i>
+                        </a>
+                        <a href="https://twitter.com/contoh" target="_blank"
+                            class="text-accent-x hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300 transition">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </a>
+                        <a href="https://tiktok.com/contoh" target="_blank"
+                            class="text-accent-tiktok hover:text-pink-600 dark:text-pink-500 dark:hover:text-pink-400 transition">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 border-t pt-8 border-gray-300 dark:border-gray-700 text-center">
+                <p class="text-sm text-gray-500 dark:text-gray-400">&copy; 2024 Akun Bareng. All rights reserved.</p>
+                <div class="flex justify-center space-x-4 mt-2">
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Made with 💙 by Avee Developer</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="bottom-menu-bar"
+        class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 md:hidden transition-all duration-300 transform-gpu opacity-100 visible">
+        <div class="bottom-menu-container">
+            <a href="index.html" class="bottom-menu-link">
+                <i data-lucide="home" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Home</span>
+            </a>
+            <a href="listorder.html" class="bottom-menu-link active">
+                <i data-lucide="package" class="bottom-menu-icon"></i>
+                <span class="bottom-menu-title">Pesanan</span>
+            </a>
+
+            <div id="integrated-fab-wrapper">
+                <button id="integrated-fab-toggle" onclick="toggleFab(event)" class="bottom-menu-link !w-auto !px-4 !py-0 !h-12 !bg-deep-blue !text-white !justify-center hover:!bg-blue-700 transition">
+                    <i data-lucide="user" class="bottom-menu-icon !w-5 !h-5 !mr-2"></i>
+                    <span class="bottom-menu-title !text-base !font-semibold !opacity-100 !max-w-full !transition-none">Akun</span>
+                </button>
+                <div id="integrated-fab-menu" class="integrated-fab-menu-content">
+                    <a href="#" onclick="showAuthModal('login')" id="fab-login-btn"
+                        class="integrated-fab-item">
+                        <i data-lucide="log-in" class="w-5 h-5"></i> Login
+                    </a>
+                    <a href="listorder.html" class="integrated-fab-item hidden" id="fab-orders-btn">
+                        <i data-lucide="list-ordered" class="w-5 h-5"></i> Riwayat
+                    </a>
+                    <a href="admin.html" class="integrated-fab-item hidden" id="fab-admin-btn">
+                        <i data-lucide="shield" class="w-5 h-5"></i> Admin
+                    </a>
+                    <button onclick="handleLogout()" id="fab-logout-btn"
+                        class="integrated-fab-item hidden !text-red-500 hover:!bg-red-50 dark:hover:!bg-gray-700">
+                        <i data-lucide="log-out" class="w-5 h-5"></i> Logout
+                    </button>
+                </div>
+            </div>
+            <button onclick="toggleTheme()" class="bottom-menu-link">
+                <i data-lucide="moon" class="bottom-menu-icon dark:hidden"></i>
+                <i data-lucide="sun" class="bottom-menu-icon hidden dark:block"></i>
+                <span class="bottom-menu-title">Tema</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        /*
+         ==========================================================================
+         FUNGSI GLOBAL (SAMA DENGAN INDEX.HTML)
+         ==========================================================================
+        */
+
+        const USER_KEY = 'currentUser';
+        const TOKEN_KEY = 'userToken';
+
+        // --- 1. Simulasi Data ---
+        // ID pengguna dummy yang sedang login
+        const loggedInUserId = 'user-123'; // Ganti ini untuk simulasi user lain, atau null jika belum login
+        // Data pengguna dummy (Sama seperti di index.html)
+        const USERS = [
+            { id: 'user-123', email: 'user@example.com', role: 'user', name: 'Avee User' },
+            { id: 'admin-456', email: 'admin@example.com', role: 'admin', name: 'Avee Admin' }
+        ];
+
+        // Data pesanan dummy
+        const ORDERS = [
+            { id: 'ORD-94759', userId: 'user-123', product: 'Netflix Premium 1 Bulan', total: 50000, date: '2024-11-10', detail: 'Akun sharing, P1', status: 'completed' },
+            { id: 'ORD-88210', userId: 'user-123', product: 'Spotify Premium 3 Bulan', total: 75000, date: '2024-11-12', detail: 'Akun sendiri, Invite', status: 'processing' },
+            { id: 'ORD-75102', userId: 'user-123', product: 'Canva Pro 1 Tahun', total: 120000, date: '2024-11-14', detail: 'Via link, Email: user@example.com', status: 'pending' },
+            { id: 'ORD-60031', userId: 'user-123', product: 'Disney+ Hotstar 6 Bulan', total: 100000, date: '2024-11-05', detail: 'Akun sharing, P2', status: 'cancelled' },
+            { id: 'ORD-54321', userId: 'user-999', product: 'Viu Premium 1 Bulan', total: 20000, date: '2024-11-01', detail: 'Akun sharing, P1', status: 'completed' }, // Pesanan user lain
+        ];
+
+        // --- 2. Fungsi Helper UI ---
+
+        /**
+         * Mengubah angka menjadi format Rupiah.
+         * @param {number} number Angka yang akan diformat.
+         * @returns {string} String dalam format Rp X.XXX
+         */
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        }
+
+        /**
+         * Mengambil kelas CSS untuk styling status pesanan.
+         * @param {string} status Status pesanan ('pending', 'processing', 'completed', 'cancelled').
+         * @returns {string} Kelas CSS Tailwind.
+         */
+        function getStatusClass(status) {
+            switch (status) {
+                case 'pending':
+                    return 'status-pending';
+                case 'processing':
+                    return 'status-processing';
+                case 'completed':
+                    return 'status-completed';
+                case 'cancelled':
+                    return 'status-cancelled';
+                default:
+                    return 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200';
+            }
+        }
+
+        /**
+         * Fungsi untuk menyalin teks ke clipboard.
+         * @param {string} text Teks yang akan disalin.
+         */
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`ID Pesanan ${text} berhasil disalin!`);
+            }).catch(err => {
+                console.error('Gagal menyalin:', err);
+            });
+        }
+        window.copyToClipboard = copyToClipboard; // Daftarkan sebagai global
+
+        // --- 3. Fungsi Autentikasi dan Logout (Sama dengan index.html) ---
+
+        /**
+         * Memeriksa status otentikasi. Jika tidak ada token, paksa logout.
+         * @returns {object|null} Data user yang sedang login atau null.
+         */
+        function checkAuth() {
+            const token = localStorage.getItem(TOKEN_KEY);
+            const userJSON = localStorage.getItem(USER_KEY);
+            const user = userJSON ? JSON.parse(userJSON) : null;
+
+            // Simulasikan Auth Guard: Jika tidak ada token/user, redirect ke Home
+            if (!token || !user) {
+                alert('Anda harus login untuk melihat riwayat pesanan.');
+                window.location.href = 'index.html';
+                return null;
+            }
+
+            // Simulasikan validasi token (nyata): Cari user di data dummy
+            const validUser = USERS.find(u => u.id === user.id && u.email === user.email);
+
+            if (!validUser) {
+                handleLogout(); // Hapus token/data yang tidak valid
+                alert('Sesi tidak valid. Silakan login kembali.');
+                window.location.href = 'index.html';
+                return null;
+            }
+
+            return validUser;
+        }
+
+        /**
+         * Menangani proses logout.
+         */
+        function handleLogout() {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_KEY);
+            localStorage.removeItem('isAdmin');
+            // Arahkan ke halaman utama setelah logout
+            window.location.href = 'index.html';
+        }
+        window.handleLogout = handleLogout; // Daftarkan sebagai global
+
+        // Fungsi untuk mengaktifkan Dark Mode
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            lucide.createIcons(); // Re-render Lucide icons
+        }
+        window.toggleTheme = toggleTheme; // Daftarkan sebagai global
+
+        // --- 4. Fungsi Khusus Riwayat Pesanan ---
+
+        /**
+         * Memuat pesanan untuk pengguna yang sedang login.
+         */
+        function loadUserOrders() {
+            const user = checkAuth(); // Panggil Auth Guard
+
+            if (!user) {
+                return; // Berhenti jika gagal Auth
+            }
+
+            const loadingState = document.getElementById('loading-state');
+            const orderContainer = document.getElementById('order-list-container');
+            const emptyState = document.getElementById('empty-state');
+
+            // Tampilkan loading, sembunyikan container
+            loadingState.classList.remove('hidden');
+            orderContainer.classList.add('hidden');
+            emptyState.classList.add('hidden');
+
+            // Simulasi fetch data (delay 1 detik)
+            setTimeout(() => {
+                const userOrders = ORDERS.filter(order => order.userId === user.id);
+
+                loadingState.classList.add('hidden'); // Sembunyikan loading
+
+                if (userOrders.length === 0) {
+                    emptyState.classList.remove('hidden'); // Tampilkan empty state
+                } else {
+                    renderOrders(userOrders, orderContainer);
+                    orderContainer.classList.remove('hidden'); // Tampilkan order list
                 }
 
-                // Cek jika path link sama dengan path halaman saat ini
-                if (linkPath && linkPath === currentPath) {
-                    link.classList.add('active');
-                }
-            });
-        }
+                lucide.createIcons(); // Re-render Lucide icons setelah DOM diperbarui
+            }, 1000);
+        }
 
-        // Logika FAB/WA Button
-        function toggleFab(event) {
-            event.stopPropagation(); // Mencegah event klik menyebar
-            const fabWrapper = document.getElementById('integrated-fab-wrapper');
-            fabWrapper.classList.toggle('active');
-        }
+        /**
+         * Merender daftar pesanan ke dalam kontainer.
+         * @param {Array<Object>} orders Array objek pesanan.
+         * @param {HTMLElement} container Elemen DOM tempat pesanan akan ditampilkan.
+         */
+        function renderOrders(orders, container) {
+            let html = '';
+            orders.forEach(order => {
+                const statusClass = getStatusClass(order.status);
+                const statusText = order.status.charAt(0).toUpperCase() + order.status.slice(1); // Kapitalisasi
+                
+                // Tambahkan class border berdasarkan status
+                let borderClass = 'border-l-blue-500'; // Default
+                if (order.status === 'completed') borderClass = 'border-l-green-500';
+                else if (order.status === 'cancelled') borderClass = 'border-l-red-500';
+                else if (order.status === 'pending') borderClass = 'border-l-yellow-500';
+                
+                // Card untuk setiap pesanan
+                html += `
+                    <div class="order-card-container bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg dark:shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 ${borderClass}">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-3 dark:border-gray-700">
+                            <div class="flex items-center space-x-2 mb-2 sm:mb-0">
+                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">#${order.id}</span>
+                                <span class="order-status ${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="text-lg font-bold text-deep-blue dark:text-soft-blue">${formatRupiah(order.total)}</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <div>
+                                <span class="font-medium text-text-primary dark:text-gray-100">Produk:</span>
+                                ${order.product}
+                            </div>
+                            <div>
+                                <span class="font-medium text-text-primary dark:text-gray-100">Tanggal:</span>
+                                ${order.date}
+                            </div>
+                            <div class="col-span-2">
+                                <span class="font-medium text-text-primary dark:text-gray-100">Detail:</span>
+                                ${order.detail}
+                            </div>
+                        </div>
+                        <div class="flex justify-end mt-4 pt-4 border-t dark:border-gray-700">
+                            <button onclick="copyToClipboard('${order.id}')"
+                                class="text-sm text-deep-blue hover:text-blue-700 dark:text-soft-blue dark:hover:text-blue-400 transition flex items-center">
+                                <i data-lucide="copy" class="w-4 h-4 mr-1"></i>
+                                Salin ID
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
 
-        // Logika untuk menutup FAB saat mengklik di luar
-        function initFabMenuClose() {
-            const fabWrapper = document.getElementById('integrated-fab-wrapper');
-            document.addEventListener('click', (event) => {
-                // Cek apakah klik BUKAN di dalam wrapper FAB
-                if (fabWrapper && !fabWrapper.contains(event.target) && fabWrapper.classList.contains('active')) {
-                    fabWrapper.classList.remove('active');
-                }
-            });
-        }
+        // --- 5. Initialisasi Saat Halaman Dimuat (DOM Ready) ---
 
-        // --- INISIALISASI SAAT HALAMAN DIMUAT ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Panggil fungsi perbaikan navigasi
-            initBottomMenu();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Muat data pesanan pengguna (termasuk Auth Guard)
+            loadUserOrders();
 
-            // Panggil fungsi FAB
-            initFabMenuClose();
+            // Panggil fungsi-fungsi inisialisasi lain
+            initScrollAppear();
+            initNavbarBlur();
+            initTheme();
+            initFabLinks();
+            lucide.createIcons();
+        });
 
-            // Muat ikon Lucide
-            lucide.createIcons();
-        });
-    </script>
+        // --- 6. Fungsi Inisialisasi Lain (Dari Index.html) ---
 
+        function initNavbarBlur() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+            const toggleNavbarBlur = () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            };
+            window.addEventListener('scroll', toggleNavbarBlur);
+            toggleNavbarBlur();
+        }
+        
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function initScrollAppear() {
+            const elements = document.querySelectorAll('.scroll-appear');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            elements.forEach(element => observer.observe(element));
+        }
+
+        function toggleFab(event) {
+            event.stopPropagation();
+            const fabWrapper = document.getElementById('integrated-fab-wrapper');
+            fabWrapper.classList.toggle('active');
+        }
+        window.toggleFab = toggleFab;
+        
+        function closeFabMenu(event) {
+            const fabWrapper = document.getElementById('integrated-fab-wrapper');
+            if (fabWrapper && fabWrapper.classList.contains('active')) {
+                // Periksa apakah klik BUKAN di dalam wrapper FAB
+                if (!fabWrapper.contains(event.target)) {
+                    fabWrapper.classList.remove('active');
+                }
+            }
+        }
+        document.addEventListener('click', closeFabMenu);
+
+        function initFabLinks() {
+            const user = localStorage.getItem(USER_KEY) ? JSON.parse(localStorage.getItem(USER_KEY)) : null;
+            const token = localStorage.getItem(TOKEN_KEY);
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+
+            const loginBtn = document.getElementById('fab-login-btn');
+            const ordersBtn = document.getElementById('fab-orders-btn');
+            const adminBtn = document.getElementById('fab-admin-btn');
+            const logoutBtn = document.getElementById('fab-logout-btn');
+            const fabToggle = document.getElementById('integrated-fab-toggle');
+
+            if (user && token) {
+                // User is logged in
+                fabToggle.innerHTML = `<i data-lucide="user" class="bottom-menu-icon !w-5 !h-5 !mr-2"></i><span class="bottom-menu-title !text-base !font-semibold !opacity-100 !max-w-full !transition-none">${user.name.split(' ')[0]}</span>`;
+                fabToggle.onclick = toggleFab;
+
+                loginBtn.classList.add('hidden');
+                ordersBtn.classList.remove('hidden');
+                logoutBtn.classList.remove('hidden');
+
+                if (isAdmin) {
+                    adminBtn.classList.remove('hidden');
+                } else {
+                    adminBtn.classList.add('hidden');
+                }
+            } else {
+                // User is logged out
+                fabToggle.innerHTML = `<i data-lucide="log-in" class="bottom-menu-icon !w-5 !h-5 !mr-2"></i><span class="bottom-menu-title !text-base !font-semibold !opacity-100 !max-w-full !transition-none">Login</span>`;
+                fabToggle.onclick = () => window.location.href = 'index.html'; // Arahkan ke index untuk memunculkan modal login
+
+                loginBtn.classList.remove('hidden');
+                ordersBtn.classList.add('hidden');
+                adminBtn.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        // Daftarkan fungsi global yang dibutuhkan oleh HTML (hanya yang diperlukan di sini)
+        window.toggleTheme = toggleTheme;
+        window.handleLogout = handleLogout;
+        window.toggleFab = toggleFab;
+        window.closeFabMenu = closeFabMenu;
+    </script>
 </body>
 
 </html>

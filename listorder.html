@@ -1972,7 +1972,7 @@
                 <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md scroll-appear">
                     <div class="flex justify-between items-start mb-2 border-b dark:border-gray-700 pb-2">
                         <div>
-                            <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">ID Pesanan: #${order.id.substring(order.id.length - 8).toUpperCase()}</p>
+                            <p class="text-sm font-semibold text-gray-700 dark:text-gray-200">ID Pesanan: #${order.id.toString().substring(order.id.toString().length - 8).toUpperCase()}</p>
                             <p class="text-xs text-gray-500 dark:text-gray-400">${date}</p>
                         </div>
                         ${getStatusBadge(order.status)}

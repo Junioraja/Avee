@@ -1855,6 +1855,26 @@
 
         // --- [BARU] FUNGSI KHUSUS HALAMAN ORDER ---
 
+        // Tambahkan ini di awal tag <script> di listorder.html
+        function checkAuthAndLoad() {
+            // 1. Ambil data pengguna dari Local Storage
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+            // 2. Cek apakah ada token dan ID pengguna
+            if (!userInfo || !userInfo.token || !userInfo.userId) {
+                // Jika token tidak ada, redirect ke beranda (halaman login)
+                window.location.href = 'index.html';
+                return; // Hentikan eksekusi skrip selanjutnya
+            }
+
+            // 3. Jika token ada, kita asumsikan valid dan lanjutkan memuat riwayat pesanan
+            API_BASE_URL = 'http://localhost:5000'; // Pastikan URL ini benar
+            loadOrderHistory(userInfo.token);
+        }
+
+        // Panggil fungsi ini saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', checkAuthAndLoad);
+
         // 1. Memuat Riwayat Pesanan
         async function loadOrderHistory() {
             // Pastikan token diambil dari Local Storage
@@ -1872,30 +1892,44 @@
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Pastikan Baris ini ADA:
+                        // PASTIKAN HEADER AUTHORIZATION INI BENAR:
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                if (!response.ok) {
-                    throw new Error('Gagal mengambil riwayat pesanan.');
+
+                // Backend (server Node.js) akan merespons 401 jika token kedaluwarsa/invalid.
+                if (response.status === 401) {
+                    // Jika 401, redirect ke beranda (tapi tidak me-logout secara eksplisit)
+                    throw new Error('Unauthorized');
                 }
 
-                allOrders = await response.json();
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Gagal memuat data pesanan.');
+                }
 
-                // (Data Dummy jika API belum siap)
-                // allOrders = [
-                //     { id: 'ORD-001', order_date: new Date().toISOString(), payment_method: 'QRIS', total_amount: 15000, status: 'Selesai', items: [{product_name: 'Netflix Premium', duration: '1 Bulan', price: 15000}], account_email: 'akun@gmail.com', account_password: 'Password123', account_profile: 'Profil A', account_pin: '1234' },
-                //     { id: 'ORD-002', order_date: new Date().toISOString(), payment_method: 'Gopay', total_amount: 40000, status: 'Pending', items: [{product_name: 'Canva Pro', duration: '1 Tahun', price: 40000}]},
-                //     { id: 'ORD-003', order_date: new Date().toISOString(), payment_method: 'QRIS', total_amount: 10000, status: 'Dibatalkan', items: [{product_name: 'Vidio Diamond', duration: '1 Bulan', price: 10000}]},
-                // ];
-
-                renderOrderList(currentOrderFilter);
+                const orders = await response.json();
+                renderOrders(orders); // Fungsi untuk menampilkan data
 
             } catch (error) {
-                document.getElementById('order-list-container').innerHTML = `<div class="text-center py-16 text-red-500">${error.message}</div>`;
+                console.error('Error saat memuat riwayat pesanan:', error);
+
+                // JIKA 401, kita harus arahkan pengguna ke beranda
+                if (error.message.includes('Unauthorized')) {
+                    // Karena tidak ada logout() eksplisit, pengguna hanya kembali ke beranda
+                    // dan akan diarahkan ke modal login oleh kode di index.html.
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                // Tampilkan pesan error di UI
+                document.getElementById('orders-container').innerHTML = `
+            <div class="p-4 text-center text-red-600 bg-red-100 rounded-lg">
+                <strong>Gagal mengambil riwayat pesanan:</strong> ${error.message}
+            </div>
+        `;
             }
         }
-
         // 2. Render Daftar Pesanan
         function renderOrderList(filter = 'Semua') {
             const container = document.getElementById('order-list-container');

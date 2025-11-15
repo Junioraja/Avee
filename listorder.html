@@ -1702,21 +1702,7 @@
     <script>
 
         // Tambahkan ini di awal tag <script> di listorder.html
-        function checkAuthAndLoad() {
-            // 1. Ambil data pengguna dari Local Storage
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
-            // 2. Cek apakah ada token dan ID pengguna
-            if (!userInfo || !userInfo.token || !userInfo.userId) {
-                // Jika token tidak ada, redirect ke beranda (halaman login)
-                window.location.href = 'index.html';
-                return; // Hentikan eksekusi skrip selanjutnya
-            }
-
-            // 3. Jika token ada, kita asumsikan valid dan lanjutkan memuat riwayat pesanan
-            API_BASE_URL = 'http://localhost:5000'; // Pastikan URL ini benar
-            loadOrderHistory(userInfo.token);
-        }
+        
         // --- [SALIN SEMUA JS DARI index.html KE SINI] ---
         // (Saya akan menyertakan fungsi-fungsi UTAMA yang diperlukan agar halaman ini berfungsi)
 
@@ -1875,7 +1861,7 @@
         
 
         // Panggil fungsi ini saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', checkAuthAndLoad);
+        
 
         // 1. Memuat Riwayat Pesanan
         async function loadOrderHistory() {

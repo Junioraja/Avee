@@ -1700,177 +1700,177 @@
 
 
     <script>
-    // URL API Backend Anda (Sesuaikan dengan URL Backend Anda yang sesungguhnya)
-    const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api'; 
-    
-    // [BARU] Variabel global untuk menyimpan data pesanan
-    let allOrders = [];
-    let currentOrderFilter = 'Semua';
+        // URL API Backend Anda (Sesuaikan dengan URL Backend Anda yang sesungguhnya)
+        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
 
-    // ====================================================================
-    // --- HELPER FUNCTIONS (Disalin dari index.html) ---
-    // ====================================================================
+        // [BARU] Variabel global untuk menyimpan data pesanan
+        let allOrders = [];
+        let currentOrderFilter = 'Semua';
 
-    const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        // ====================================================================
+        // --- HELPER FUNCTIONS (Disalin dari index.html) ---
+        // ====================================================================
 
-    function showNotification(message, type = 'success') {
-        const container = document.getElementById('notification-container');
-        if (!container) return;
-        const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
-        const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
-        const toast = document.createElement('div');
-        toast.innerHTML = html;
-        const toastEl = toast.firstElementChild;
-        container.appendChild(toastEl);
-        setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
-        setTimeout(() => {
-            toastEl.classList.add('opacity-0', 'scale-90');
-            toastEl.addEventListener('transitionend', () => toastEl.remove());
-        }, 3000);
-    }
+        const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
 
-    // --- LOGIKA DARK MODE (Disalin) ---
-    function toggleTheme() {
-        const html = document.documentElement;
-        const isDark = html.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        lucide.createIcons();
-    }
-    function loadTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const html = document.documentElement;
-        if (savedTheme === 'dark') html.classList.add('dark');
-        else html.classList.remove('dark');
-    }
-
-    // --- ANIMASI BLUR HEADER (Disalin) ---
-    function toggleHeaderBlur() {
-        const header = document.getElementById('main-header');
-        if (!header) return;
-        const scrollThreshold = 50;
-        if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-    }
-
-    // --- ANIMASI UNDERLINE NAV (Disalin) ---
-    function initNavLinks() {
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.style.position = 'relative';
-            const underline = document.createElement('span');
-            underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
-            underline.style.width = '0%';
-            underline.style.transition = 'width 0.3s ease-out';
-            link.appendChild(underline);
-            link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
-            link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
-        });
-    }
-
-    // --- ANIMASI SCROLL-APPEAR (Disalin) ---
-    let staticObserver;
-    function initScrollAppear(reset = false) {
-        if (staticObserver && reset) staticObserver.disconnect();
-        const scrollAppearElements = document.querySelectorAll('.scroll-appear');
-        if (!staticObserver || reset) {
-            staticObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const target = entry.target;
-                    if (entry.isIntersecting) {
-                        target.classList.add('active');
-                        staticObserver.unobserve(target);
-                    }
-                });
-            }, { rootMargin: '0px', threshold: 0.1 });
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('notification-container');
+            if (!container) return;
+            const color = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            const html = `<div class="p-4 rounded-lg shadow-lg text-white font-medium ${color} transform transition duration-300 ease-in-out translate-x-full" id="toast-${Date.now()}">${message}</div>`;
+            const toast = document.createElement('div');
+            toast.innerHTML = html;
+            const toastEl = toast.firstElementChild;
+            container.appendChild(toastEl);
+            setTimeout(() => { toastEl.classList.remove('translate-x-full'); }, 10);
+            setTimeout(() => {
+                toastEl.classList.add('opacity-0', 'scale-90');
+                toastEl.addEventListener('transitionend', () => toastEl.remove());
+            }, 3000);
         }
-        scrollAppearElements.forEach(element => {
-            if (reset) element.classList.remove('active');
-            staticObserver.observe(element);
-        });
-    }
 
-    // --- LOGIKA AUTENTIKASI (Disalin, diperlukan untuk header) ---
-    function showAuthModal(mode = 'login') {
-        console.log("Membuka modal auth...");
-        // Di halaman listorder, cukup arahkan pengguna kembali ke index.html
-        alert("Silakan Login di halaman Beranda.");
-        window.location.href = 'index.html'; 
-    }
-    function closeAuthModal(event = null) { /* Modal tidak ada di halaman ini, jadi kosongkan atau salin dari index.html */ }
-    
-    function handleLogout() {
-        localStorage.removeItem('userInfo'); // Pastikan menghapus userInfo
-        localStorage.removeItem('token');
-        localStorage.removeItem('userRole');
-        showNotification('Anda telah Logout.', 'success');
-        // Update status UI sebelum redirect
-        updateAuthStatus(); 
-        // Redirect ke home setelah logout
-        window.location.href = 'index.html'; 
-    }
-    
-    function updateAuthStatus() {
-        // Cek token dari Local Storage
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const token = userInfo ? userInfo.token : null;
-        
-        const authLoggedOutDiv = document.getElementById('auth-logged-out');
-        const authLoggedInDiv = document.getElementById('auth-logged-in');
-        
-        if (!authLoggedOutDiv || !authLoggedInDiv) return;
-
-        if (token) {
-            authLoggedOutDiv.classList.add('hidden');
-            authLoggedInDiv.classList.remove('hidden');
-            authLoggedInDiv.classList.add('flex');
-            // Tampilkan nama/username jika ada
-            const userEmail = userInfo ? userInfo.email : 'Pengguna';
-            const usernameDisplay = document.getElementById('username-display');
-            if (usernameDisplay) usernameDisplay.textContent = userEmail.split('@')[0];
-        } else {
-            authLoggedOutDiv.classList.remove('hidden');
-            authLoggedInDiv.classList.add('hidden');
-            authLoggedInDiv.classList.remove('flex');
+        // --- LOGIKA DARK MODE (Disalin) ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
         }
-        lucide.createIcons();
-    }
-
-    // --- LOGIKA BOTTOM MENU BAR (Disalin) ---
-    function initBottomMenu() {
-        // ... (Fungsi initBottomMenu, initFabMenuClose)
-        // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
-    }
-
-    function initFabMenuClose() {
-        // ... (Fungsi initFabMenuClose)
-        // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
-    }
-
-    // ====================================================================
-    // --- FUNGSI KHUSUS HALAMAN ORDER (Diperbaiki) ---
-    // ====================================================================
-
-    // Fungsi untuk mengubah format status menjadi teks yang lebih baik
-    function getStatusBadge(status) {
-        switch (status) {
-            case 'MENUNGGU_PEMBAYARAN':
-                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Menunggu Pembayaran</span>';
-            case 'DIPROSES':
-                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Diproses</span>';
-            case 'SELESAI':
-                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Selesai</span>';
-            case 'DIBATALKAN':
-                return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Dibatalkan</span>';
-            default:
-                return status;
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+            if (savedTheme === 'dark') html.classList.add('dark');
+            else html.classList.remove('dark');
         }
-    }
 
-    // 1. Memuat Riwayat Pesanan
-    async function loadOrderHistory() {
-        // Tampilkan loading state
-        const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
-        if (container) {
-             container.innerHTML = `
+        // --- ANIMASI BLUR HEADER (Disalin) ---
+        function toggleHeaderBlur() {
+            const header = document.getElementById('main-header');
+            if (!header) return;
+            const scrollThreshold = 50;
+            if (window.scrollY > scrollThreshold) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        }
+
+        // --- ANIMASI UNDERLINE NAV (Disalin) ---
+        function initNavLinks() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.style.position = 'relative';
+                const underline = document.createElement('span');
+                underline.classList.add('absolute', 'bottom-0', 'left-1/2', 'transform', '-translate-x-1/2', 'h-[3px]', 'bg-blue-600', 'rounded-full');
+                underline.style.width = '0%';
+                underline.style.transition = 'width 0.3s ease-out';
+                link.appendChild(underline);
+                link.addEventListener('mouseenter', () => { underline.style.width = '100%'; });
+                link.addEventListener('mouseleave', () => { underline.style.width = '0%'; });
+            });
+        }
+
+        // --- ANIMASI SCROLL-APPEAR (Disalin) ---
+        let staticObserver;
+        function initScrollAppear(reset = false) {
+            if (staticObserver && reset) staticObserver.disconnect();
+            const scrollAppearElements = document.querySelectorAll('.scroll-appear');
+            if (!staticObserver || reset) {
+                staticObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const target = entry.target;
+                        if (entry.isIntersecting) {
+                            target.classList.add('active');
+                            staticObserver.unobserve(target);
+                        }
+                    });
+                }, { rootMargin: '0px', threshold: 0.1 });
+            }
+            scrollAppearElements.forEach(element => {
+                if (reset) element.classList.remove('active');
+                staticObserver.observe(element);
+            });
+        }
+
+        // --- LOGIKA AUTENTIKASI (Disalin, diperlukan untuk header) ---
+        function showAuthModal(mode = 'login') {
+            console.log("Membuka modal auth...");
+            // Di halaman listorder, cukup arahkan pengguna kembali ke index.html
+            alert("Silakan Login di halaman Beranda.");
+            window.location.href = 'index.html';
+        }
+        function closeAuthModal(event = null) { /* Modal tidak ada di halaman ini, jadi kosongkan atau salin dari index.html */ }
+
+        function handleLogout() {
+            localStorage.removeItem('userInfo'); // Pastikan menghapus userInfo
+            localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+            showNotification('Anda telah Logout.', 'success');
+            // Update status UI sebelum redirect
+            updateAuthStatus();
+            // Redirect ke home setelah logout
+            window.location.href = 'index.html';
+        }
+
+        function updateAuthStatus() {
+            // Cek token dari Local Storage
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            const token = userInfo ? userInfo.token : null;
+
+            const authLoggedOutDiv = document.getElementById('auth-logged-out');
+            const authLoggedInDiv = document.getElementById('auth-logged-in');
+
+            if (!authLoggedOutDiv || !authLoggedInDiv) return;
+
+            if (token) {
+                authLoggedOutDiv.classList.add('hidden');
+                authLoggedInDiv.classList.remove('hidden');
+                authLoggedInDiv.classList.add('flex');
+                // Tampilkan nama/username jika ada
+                const userEmail = userInfo ? userInfo.email : 'Pengguna';
+                const usernameDisplay = document.getElementById('username-display');
+                if (usernameDisplay) usernameDisplay.textContent = userEmail.split('@')[0];
+            } else {
+                authLoggedOutDiv.classList.remove('hidden');
+                authLoggedInDiv.classList.add('hidden');
+                authLoggedInDiv.classList.remove('flex');
+            }
+            lucide.createIcons();
+        }
+
+        // --- LOGIKA BOTTOM MENU BAR (Disalin) ---
+        function initBottomMenu() {
+            // ... (Fungsi initBottomMenu, initFabMenuClose)
+            // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
+        }
+
+        function initFabMenuClose() {
+            // ... (Fungsi initFabMenuClose)
+            // Salin seluruh isi dari fungsi ini dari index.html jika diperlukan
+        }
+
+        // ====================================================================
+        // --- FUNGSI KHUSUS HALAMAN ORDER (Diperbaiki) ---
+        // ====================================================================
+
+        // Fungsi untuk mengubah format status menjadi teks yang lebih baik
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'MENUNGGU_PEMBAYARAN':
+                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Menunggu Pembayaran</span>';
+                case 'DIPROSES':
+                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">Diproses</span>';
+                case 'SELESAI':
+                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Selesai</span>';
+                case 'DIBATALKAN':
+                    return '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Dibatalkan</span>';
+                default:
+                    return status;
+            }
+        }
+
+        // 1. Memuat Riwayat Pesanan
+        async function loadOrderHistory() {
+            // Tampilkan loading state
+            const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
+            if (container) {
+                container.innerHTML = `
                 <div class="flex justify-center items-center py-10">
                     <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -1879,96 +1879,107 @@
                     Memuat riwayat pesanan...
                 </div>
             `;
-        }
-        
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const token = userInfo ? userInfo.token : null;
+            }
 
-        // **PERBAIKAN UTAMA**: Jika token tidak ada, JANGAN REDIRECT CEPAT
-        if (!token) {
-            if (container) {
-                container.innerHTML = `
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            const token = userInfo ? userInfo.token : null;
+
+            // **PERBAIKAN UTAMA**: Jika token tidak ada, JANGAN REDIRECT CEPAT
+            if (!token) {
+                if (container) {
+                    container.innerHTML = `
                     <div class="text-center py-16 text-gray-500 dark:text-gray-400">
                         <p class="mb-4 text-lg font-semibold">Anda harus login untuk melihat riwayat pesanan.</p>
                         <a href="index.html" class="text-blue-600 hover:underline font-medium">Klik di sini untuk Login/Kembali ke Beranda</a>
                     </div>
                 `;
-            }
-            // Nonaktifkan tombol filter karena tidak ada data
-            document.querySelectorAll('.filter-button').forEach(btn => btn.disabled = true);
-            return;
-        }
-        // Aktifkan kembali tombol filter
-        document.querySelectorAll('.filter-button').forEach(btn => btn.disabled = false);
-
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/orders/myhistory`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 }
-            });
-
-            if (response.status === 401) {
-                // Token kedaluwarsa, paksa redirect ke login
-                throw new Error('Unauthorized');
+                // Nonaktifkan tombol filter karena tidak ada data
+                document.querySelectorAll('.filter-button').forEach(btn => btn.disabled = true);
+                return;
             }
+            // Aktifkan kembali tombol filter
+            document.querySelectorAll('.filter-button').forEach(btn => btn.disabled = false);
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Gagal memuat data pesanan.');
-            }
 
-            const data = await response.json();
-            allOrders = data.orders || []; // Asumsi data.orders berisi array pesanan
-            
-            // Inisialisasi tampilan pesanan
-            filterOrders(currentOrderFilter);
+            try {
+                const response = await fetch(`${API_BASE_URL}/orders/myhistory`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
 
-        } catch (error) {
-        console.error('Error saat memuat riwayat pesanan:', error);
+                if (response.status === 401) {
+                    // Token kedaluwarsa, paksa redirect ke login
+                    throw new Error('Unauthorized');
+                }
 
-        // UBAH LOGIKA 401 INI UNTUK DEBUGGING:
-        if (error.message.includes('Unauthorized')) {
-            // JANGAN LAKUKAN REDIRECT DAN PENGHAPUSAN TOKEN
-            // Cukup tampilkan notifikasi error
-            
-            const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
-            if (container) {
-                container.innerHTML = `
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Gagal memuat data pesanan.');
+                }
+
+                const data = await response.json();
+                allOrders = data.orders || []; // Asumsi data.orders berisi array pesanan
+
+                // Inisialisasi tampilan pesanan
+                filterOrders(currentOrderFilter);
+
+            } catch (error) {
+                console.error('Error saat memuat riwayat pesanan:', error);
+
+                // UBAH LOGIKA 401 INI UNTUK DEBUGGING:
+                if (error.message.includes('Unauthorized')) {
+                    // JANGAN LAKUKAN REDIRECT DAN PENGHAPUSAN TOKEN
+                    // Cukup tampilkan notifikasi error
+
+                    const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
+                    if (container) {
+                        container.innerHTML = `
                     <div class="p-4 text-center text-red-600 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-300">
                         <strong>GAGAL OAUTH:</strong> Token Anda ditolak oleh server. Harap coba login kembali.
                         <p class="text-sm mt-2">(${error.message})</p>
                     </div>
                 `;
+                    }
+                    showNotification('Gagal memuat. Token ditolak server (401).', 'error');
+                    return; // Hentikan eksekusi
+                }
             }
-            showNotification('Gagal memuat. Token ditolak server (401).', 'error');
-            return; // Hentikan eksekusi
         }
-        }
-    }
 
-    // 2. Render Pesanan
-    function renderOrders(ordersToRender) {
-        const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
-        if (!container) return;
+        // 2. Render Pesanan
+        function renderOrders(ordersToRender) {
+            const container = document.getElementById('orders-container') || document.getElementById('order-list-container');
+            if (!container) return;
 
-        if (ordersToRender.length === 0) {
-            container.innerHTML = `
+            if (ordersToRender.length === 0) {
+                container.innerHTML = `
                 <div class="text-center py-10 text-gray-500 dark:text-gray-400">
                     <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-3"></i>
                     <p>Tidak ada riwayat pesanan untuk status "${currentOrderFilter}".</p>
                 </div>
             `;
-            lucide.createIcons();
-            return;
-        }
+                lucide.createIcons();
+                return;
+            }
 
-        const html = ordersToRender.map(order => {
-            const date = new Date(order.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-            return `
+            const html = ordersToRender.map(order => {
+
+                // --- [PERBAIKAN] ---
+                // 1. Ambil data dari backend dengan nama yang benar
+                const date = new Date(order.order_date).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const total = order.total_amount || 0;
+
+                // 2. Ambil data produk dari dalam array 'items'
+                const firstItem = (order.items && order.items.length > 0) ? order.items[0] : {};
+                const productName = firstItem.product_name || 'Produk Tidak Diketahui';
+                const duration = firstItem.duration || '-';
+                // --- [AKHIR PERBAIKAN] ---
+
+                return `
                 <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md scroll-appear">
                     <div class="flex justify-between items-start mb-2 border-b dark:border-gray-700 pb-2">
                         <div>
@@ -1978,12 +1989,12 @@
                         ${getStatusBadge(order.status)}
                     </div>
                     <div class="mb-3">
-                        <p class="text-base font-bold text-text-primary dark:text-white">${order.productName || 'Produk Tidak Diketahui'}</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Durasi: ${order.duration || '-'}</p>
+                        <p class="text-base font-bold text-text-primary dark:text-white">${productName}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Durasi: ${duration}</p>
                     </div>
                     <div class="flex justify-between items-center pt-2 border-t dark:border-gray-700">
                         <span class="text-sm text-gray-700 dark:text-gray-300">Total Pembayaran:</span>
-                        <span class="text-base font-bold text-red-600 dark:text-red-400">${formatRupiah(order.totalPrice || 0)}</span>
+                        <span class="text-base font-bold text-red-600 dark:text-red-400">${formatRupiah(total)}</span>
                     </div>
                     <div class="mt-3 text-right">
                         <button onclick="openDetailModal('${order.id}')" class="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500">
@@ -1992,59 +2003,59 @@
                     </div>
                 </div>
             `;
-        }).join('');
+            }).join('');
 
-        container.innerHTML = html;
-        lucide.createIcons();
-        initScrollAppear(true); // Re-initialize scroll-appear for new elements
-    }
+            container.innerHTML = html;
+            lucide.createIcons();
+            initScrollAppear(true); // Re-initialize scroll-appear for new elements
+        }
 
-    // 3. Filter Pesanan
-    function filterOrders(status) {
-        currentOrderFilter = status;
+        // 3. Filter Pesanan
+        function filterOrders(status) {
+            currentOrderFilter = status;
 
-        // Update tampilan tombol filter
-        document.querySelectorAll('.filter-button').forEach(btn => {
-            if (btn.textContent.trim() === status) {
-                btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
-                btn.classList.remove('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
-            } else {
-                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
-                btn.classList.add('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
+            // Update tampilan tombol filter
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                if (btn.textContent.trim() === status) {
+                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
+                } else {
+                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-300');
+                }
+            });
+
+            let filtered = allOrders;
+            if (status !== 'Semua') {
+                // Mapping dari label UI ke status API
+                let apiStatus = status.toUpperCase().replace(/\s/g, '_');
+                // Menyesuaikan status yang lebih panjang
+                if (apiStatus === 'MENUNGGU_PEMBAYARAN') apiStatus = 'MENUNGGU_PEMBAYARAN';
+
+                filtered = allOrders.filter(order => order.status === apiStatus);
             }
-        });
-        
-        let filtered = allOrders;
-        if (status !== 'Semua') {
-            // Mapping dari label UI ke status API
-            let apiStatus = status.toUpperCase().replace(/\s/g, '_');
-            // Menyesuaikan status yang lebih panjang
-            if(apiStatus === 'MENUNGGU_PEMBAYARAN') apiStatus = 'MENUNGGU_PEMBAYARAN';
-            
-            filtered = allOrders.filter(order => order.status === apiStatus);
+
+            renderOrders(filtered);
         }
 
-        renderOrders(filtered);
-    }
+        // 4. Modal Detail Pesanan (Implementasi Sederhana)
+        function openDetailModal(orderId) {
+            const order = allOrders.find(o => o.id === parseInt(orderId));
+            if (!order) {
+                showNotification('Detail pesanan tidak ditemukan.', 'error');
+                return;
+            }
 
-    // 4. Modal Detail Pesanan (Implementasi Sederhana)
-    function openDetailModal(orderId) {
-        const order = allOrders.find(o => o.id === parseInt(orderId));
-        if (!order) {
-            showNotification('Detail pesanan tidak ditemukan.', 'error');
-            return;
-        }
+            // Tampilkan Detail Modal di sini (Anda harus memiliki elemen modal di HTML)
+            const modal = document.getElementById('order-detail-modal');
+            const content = document.getElementById('order-detail-content');
+            if (!modal || !content) {
+                alert(`Detail Pesanan:\nID: #${order._id.substring(order._id.length - 8).toUpperCase()}\nProduk: ${order.productName}\nStatus: ${order.status}\nTotal: ${formatRupiah(order.totalPrice)}`);
+                return;
+            }
 
-        // Tampilkan Detail Modal di sini (Anda harus memiliki elemen modal di HTML)
-        const modal = document.getElementById('order-detail-modal');
-        const content = document.getElementById('order-detail-content');
-        if (!modal || !content) {
-             alert(`Detail Pesanan:\nID: #${order._id.substring(order._id.length - 8).toUpperCase()}\nProduk: ${order.productName}\nStatus: ${order.status}\nTotal: ${formatRupiah(order.totalPrice)}`);
-             return;
-        }
-
-        // Contoh rendering konten modal
-        content.innerHTML = `
+            // Contoh rendering konten modal
+            content.innerHTML = `
             <h3 class="text-xl font-bold mb-4 text-text-primary dark:text-white">Detail Pesanan #${order._id.substring(order._id.length - 8).toUpperCase()}</h3>
             <div class="space-y-3">
                 <p class="flex justify-between border-b pb-1 dark:border-gray-700"><span class="font-medium">Status:</span> ${getStatusBadge(order.status)}</p>
@@ -2055,100 +2066,100 @@
                 <p class="flex justify-between border-b pb-1 dark:border-gray-700 text-lg font-bold text-red-600 dark:text-red-400"><span class="font-bold text-text-primary dark:text-white">Total Bayar:</span> ${formatRupiah(order.totalPrice)}</p>
             </div>
             
-            ${order.status === 'MENUNGGU_PEMBAYARAN' ? 
-                `<div class="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-yellow-800 dark:text-yellow-300">
+            ${order.status === 'MENUNGGU_PEMBAYARAN' ?
+                    `<div class="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-yellow-800 dark:text-yellow-300">
                     <p class="font-semibold">Instruksi Pembayaran:</p>
                     <p>Silakan segera lakukan pembayaran ke rekening yang telah ditentukan.</p>
                 </div>
                 <button onclick="openAccountModal('${orderId}')" class="w-full mt-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
                     Lihat Info Pembayaran
-                </button>` 
-                : ''}
+                </button>`
+                    : ''}
             
-            ${order.status === 'SELESAI' && order.accountData ? 
-                `<button onclick="copyAccountDetail('${order.accountData}')" class="w-full mt-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+            ${order.status === 'SELESAI' && order.accountData ?
+                    `<button onclick="copyAccountDetail('${order.accountData}')" class="w-full mt-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
                     Salin Detail Akun
                 </button>`
-                : ''}
+                    : ''}
         `;
 
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function closeDetailModal() {
-        const modal = document.getElementById('order-detail-modal');
-        if (modal) modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    }
-
-    function copyAccountDetail(accountDetail) {
-        navigator.clipboard.writeText(accountDetail).then(() => {
-            showNotification('Detail akun berhasil disalin!', 'success');
-        }).catch(err => {
-            showNotification('Gagal menyalin detail akun.', 'error');
-            console.error('Gagal menyalin:', err);
-        });
-    }
-
-    function openAccountModal(orderId) {
-        // Logika untuk menampilkan rekening/metode pembayaran
-        // ... (Ini hanya contoh. Sesuaikan dengan data rekening Anda)
-        alert("Silakan transfer ke rekening Bank BCA xxxx a.n. Avee sebesar Total Pembayaran. Konfirmasi via WhatsApp.");
-    }
-    
-    function closeAccountModal() {
-        // Logika untuk menutup modal rekening
-    }
-    
-    // ====================================================================
-    // --- MAIN INITIALIZATION ---
-    // ====================================================================
-
-    document.addEventListener('DOMContentLoaded', () => {
-        loadTheme();
-        lucide.createIcons();
-        initScrollAppear();
-        toggleHeaderBlur();
-        window.addEventListener('scroll', toggleHeaderBlur);
-        initNavLinks();
-        
-        // Panggil status autentikasi untuk header
-        updateAuthStatus(); 
-        
-        // Panggil inisialisasi menu bar bawah
-        initBottomMenu();
-        initFabMenuClose();
-
-        // Muat data khusus halaman ini
-        loadOrderHistory();
-
-        // Atur active state menu bar bawah
-        document.querySelectorAll('#bottom-bar .bottom-menu-link').forEach(link => {
-            link.classList.remove('active');
-        });
-        const orderLink = document.querySelector('a[href="listorder.html"].bottom-menu-link');
-        if (orderLink) {
-            orderLink.classList.add('active');
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
         }
-    });
 
-    // Daftarkan fungsi global
-    window.toggleTheme = toggleTheme;
-    window.handleLogout = handleLogout;
-    window.showAuthModal = showAuthModal;
-    window.closeAuthModal = closeAuthModal;
-    // window.initBottomMenu = initBottomMenu; // Sudah ada
-    // window.initFabMenuClose = initFabMenuClose; // Sudah ada
+        function closeDetailModal() {
+            const modal = document.getElementById('order-detail-modal');
+            if (modal) modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
 
-    // Daftarkan fungsi baru halaman ini
-    window.filterOrders = filterOrders;
-    window.openDetailModal = openDetailModal;
-    window.closeDetailModal = closeDetailModal;
-    window.openAccountModal = openAccountModal;
-    window.closeAccountModal = closeAccountModal;
-    window.copyAccountDetail = copyAccountDetail;
-</script>
+        function copyAccountDetail(accountDetail) {
+            navigator.clipboard.writeText(accountDetail).then(() => {
+                showNotification('Detail akun berhasil disalin!', 'success');
+            }).catch(err => {
+                showNotification('Gagal menyalin detail akun.', 'error');
+                console.error('Gagal menyalin:', err);
+            });
+        }
+
+        function openAccountModal(orderId) {
+            // Logika untuk menampilkan rekening/metode pembayaran
+            // ... (Ini hanya contoh. Sesuaikan dengan data rekening Anda)
+            alert("Silakan transfer ke rekening Bank BCA xxxx a.n. Avee sebesar Total Pembayaran. Konfirmasi via WhatsApp.");
+        }
+
+        function closeAccountModal() {
+            // Logika untuk menutup modal rekening
+        }
+
+        // ====================================================================
+        // --- MAIN INITIALIZATION ---
+        // ====================================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            lucide.createIcons();
+            initScrollAppear();
+            toggleHeaderBlur();
+            window.addEventListener('scroll', toggleHeaderBlur);
+            initNavLinks();
+
+            // Panggil status autentikasi untuk header
+            updateAuthStatus();
+
+            // Panggil inisialisasi menu bar bawah
+            initBottomMenu();
+            initFabMenuClose();
+
+            // Muat data khusus halaman ini
+            loadOrderHistory();
+
+            // Atur active state menu bar bawah
+            document.querySelectorAll('#bottom-bar .bottom-menu-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            const orderLink = document.querySelector('a[href="listorder.html"].bottom-menu-link');
+            if (orderLink) {
+                orderLink.classList.add('active');
+            }
+        });
+
+        // Daftarkan fungsi global
+        window.toggleTheme = toggleTheme;
+        window.handleLogout = handleLogout;
+        window.showAuthModal = showAuthModal;
+        window.closeAuthModal = closeAuthModal;
+        // window.initBottomMenu = initBottomMenu; // Sudah ada
+        // window.initFabMenuClose = initFabMenuClose; // Sudah ada
+
+        // Daftarkan fungsi baru halaman ini
+        window.filterOrders = filterOrders;
+        window.openDetailModal = openDetailModal;
+        window.closeDetailModal = closeDetailModal;
+        window.openAccountModal = openAccountModal;
+        window.closeAccountModal = closeAccountModal;
+        window.copyAccountDetail = copyAccountDetail;
+    </script>
 </body>
 
 </html>

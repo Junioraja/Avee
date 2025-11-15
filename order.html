@@ -636,7 +636,10 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima Terima kasih!
 
             // 1. Baca URL Parameters
             const params = new URLSearchParams(window.location.search);
-            const itemCode = params.get('id'); // Ini harus berisi product_code dari index.html
+            const itemCode = params.get('id'); // MENGAMBIL KODE PRODUK (e.g., NETFLIX-6M)
+
+            // --- PERBAIKAN 1: AMBIL NAMA APLIKASI DARI PARAMETER 'app' ---
+            const appNameFromUrl = params.get('app');
 
             if (!itemCode) {
                 document.getElementById('product-name').textContent = "Error: Kode Produk Tidak Ditemukan";
@@ -644,7 +647,7 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima Terima kasih!
                 return;
             }
 
-            // 2. Ambil data dari API menggunakan Kode Produk
+            // 2. Ambil data dari API
             selectedItem = await fetchProductDetails(itemCode);
 
             if (!selectedItem) {
@@ -653,8 +656,9 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima Terima kasih!
                 return;
             }
 
-            // 3. Isi variabel global dari data API
-            selectedApp = selectedItem.app_name;
+            // --- PERBAIKAN 2: SET selectedApp ---
+            // Gunakan appName dari URL (lebih cepat) atau dari data API
+            selectedApp = appNameFromUrl || selectedItem.app_name;
             // Ambil warna (jika Anda mendefinisikannya di tailwind.config di order.html)
             // Jika tidak, gunakan warna default atau dari data API
             const brandColor = tailwind.config.theme.extend.colors[`brand-${selectedApp.toLowerCase().replace('+', '').replace(' ', '')}`] || '#2563EB';

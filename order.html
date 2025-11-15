@@ -363,7 +363,7 @@
         let selectedItem = null; // Ini akan menampung objek produk lengkap dari API
         let currentQuantity = 1;
         let selectedPaymentMethod = 'QRIS'; // Default
-        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app';
+        const API_BASE_URL = 'https://avee-backend-production-69b5.up.railway.app/api';
 
         // --- Fungsi Helper ---
         const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
@@ -710,3 +710,4 @@ Mohon info ketersediaan dan instruksi pembayarannya. Terima Terima kasih!
 </body>
 
 </html>
+

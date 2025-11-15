@@ -3235,7 +3235,7 @@
 
                     // 1. Buat Objek userInfo Lengkap (Memastikan ID/Email/Token ada)
                     const userInfo = {
-                        userId: data.user._id || 'unknown', // Ambil ID user dari respons
+                        userId: data.user.id || 'unknown', // Ambil ID user dari respons
                         token: data.token,                  // TOKEN UTAMA yang dibutuhkan listorder.html
                         role: data.user.role,               // Role
                         email: data.user.email,             // Email
